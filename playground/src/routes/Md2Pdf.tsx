@@ -1,31 +1,31 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import type { Template } from '@pdfme/common';
-import { md2pdf } from '@pdfme/converter/md2pdf';
-import { Viewer } from '@pdfme/ui';
-import { Copy, ExternalLink, Save } from 'lucide-react';
-import { toast } from 'react-toastify';
-import { generatePDF, getFontsData } from '../helper';
-import { getPlugins } from '../plugins';
-import CodeEditor from '../components/CodeEditor';
-import PlaygroundButton from '../components/PlaygroundButton';
-import ProjectSavedToast from '../components/ProjectSavedToast';
-import { useRefreshCollapsedPreview } from './useRefreshCollapsedPreview';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import type { Template } from "@pdfme/common";
+import { md2pdf } from "@pdfme/converter/md2pdf";
+import { Viewer } from "@pdfme/ui";
+import { Copy, ExternalLink, Save } from "lucide-react";
+import { toast } from "react-toastify";
+import { generatePDF, getFontsData } from "../helper";
+import { getPlugins } from "../plugins";
+import CodeEditor from "../components/CodeEditor";
+import PlaygroundButton from "../components/PlaygroundButton";
+import ProjectSavedToast from "../components/ProjectSavedToast";
+import { useRefreshCollapsedPreview } from "./useRefreshCollapsedPreview";
 import {
   loadAuthoringStarters,
   loadAuthoringStarterSource,
   type AuthoringStarter,
-} from '../lib/authoringStarters';
-import { getErrorMessage } from '../lib/errors';
+} from "../lib/authoringStarters";
+import { getErrorMessage } from "../lib/errors";
 import {
   getPlaygroundProject,
   savePlaygroundProject,
   type PlaygroundProject,
-} from '../lib/playgroundProjects';
-import { createTemplateThumbnailDataUrl } from '../lib/templateThumbnails';
+} from "../lib/playgroundProjects";
+import { createTemplateThumbnailDataUrl } from "../lib/templateThumbnails";
 
-const MD2PDF_DOCS_URL = 'https://pdfme.com/docs/converter#md2pdf-beta';
-const FALLBACK_MARKDOWN = '# md2pdf playground\n\nWrite Markdown on the left to preview a PDF.';
+const MD2PDF_DOCS_URL = "https://pdfme.com/docs/converter#md2pdf-beta";
+const FALLBACK_MARKDOWN = "# md2pdf playground\n\nWrite Markdown on the left to preview a PDF.";
 
 export default function Md2Pdf() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +35,7 @@ export default function Md2Pdf() {
   const projectRef = useRef<PlaygroundProject | null>(null);
   const didLoadInitialStarterRef = useRef(false);
   const [presets, setPresets] = useState<AuthoringStarter[]>([]);
-  const [selectedPresetId, setSelectedPresetId] = useState('');
+  const [selectedPresetId, setSelectedPresetId] = useState("");
   const [markdown, setMarkdown] = useState(FALLBACK_MARKDOWN);
   const [template, setTemplate] = useState<Template | null>(null);
   const [inputs, setInputs] = useState<Record<string, string>[]>([{}]);
@@ -45,11 +45,11 @@ export default function Md2Pdf() {
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [viewerRefreshKey, setViewerRefreshKey] = useState(0);
   const selectedPreset = presets.find((preset) => preset.id === selectedPresetId);
-  const sourceTitle = projectRef.current?.title ?? selectedPreset?.label ?? 'Custom Markdown';
+  const sourceTitle = projectRef.current?.title ?? selectedPreset?.label ?? "Custom Markdown";
 
   useEffect(() => {
     let cancelled = false;
-    void loadAuthoringStarters('md2pdf')
+    void loadAuthoringStarters("md2pdf")
       .then((starters) => {
         if (cancelled) return;
         setPresets(starters);
@@ -65,8 +65,8 @@ export default function Md2Pdf() {
   }, []);
 
   useEffect(() => {
-    const projectId = searchParams.get('project');
-    const presetId = searchParams.get('preset');
+    const projectId = searchParams.get("project");
+    const presetId = searchParams.get("preset");
     if (!projectId && !presetId && didLoadInitialStarterRef.current) return;
     if (presets.length === 0 && !projectId) return;
 
@@ -74,8 +74,8 @@ export default function Md2Pdf() {
 
     const consumeQuery = () => {
       const nextSearchParams = new URLSearchParams(searchParams);
-      nextSearchParams.delete('project');
-      nextSearchParams.delete('preset');
+      nextSearchParams.delete("project");
+      nextSearchParams.delete("preset");
       setSearchParams(nextSearchParams, { replace: true });
     };
 
@@ -94,14 +94,14 @@ export default function Md2Pdf() {
 
     if (projectId) {
       const project = getPlaygroundProject(projectId);
-      if (!project || project.kind !== 'md2pdf' || !project.source) {
-        toast.error('md2pdf project not found');
+      if (!project || project.kind !== "md2pdf" || !project.source) {
+        toast.error("md2pdf project not found");
         return;
       }
 
       consumeQuery();
       projectRef.current = project;
-      setSelectedPresetId(project.source.presetId ?? '');
+      setSelectedPresetId(project.source.presetId ?? "");
       setMarkdown(project.source.content);
       setTemplate(project.template);
       setInputs(project.inputs);
@@ -113,7 +113,7 @@ export default function Md2Pdf() {
       ? presets.find((item) => item.id === presetId || item.assetName === presetId)
       : presets[0];
     if (!preset) {
-      if (presetId) toast.error('md2pdf starter not found');
+      if (presetId) toast.error("md2pdf starter not found");
       return;
     }
 
@@ -134,7 +134,7 @@ export default function Md2Pdf() {
       try {
         const result = await md2pdf(markdown, {
           style: {
-            fontName: 'NotoSansJP',
+            fontName: "NotoSansJP",
             lineHeight: 1.3,
           },
         });
@@ -169,10 +169,10 @@ export default function Md2Pdf() {
         inputs,
         options: {
           font: getFontsData(),
-          lang: 'en',
+          lang: "en",
           theme: {
             token: {
-              colorPrimary: '#25c2a0',
+              colorPrimary: "#25c2a0",
             },
           },
         },
@@ -224,8 +224,8 @@ export default function Md2Pdf() {
 
     const currentTitle = projectRef.current?.title ?? `md2pdf - ${sourceTitle}`;
     const title = saveAs
-      ? (window.prompt('Save as', `${currentTitle} Copy`) ?? '')
-      : (projectRef.current?.title ?? window.prompt('Project name', currentTitle) ?? '');
+      ? (window.prompt("Save as", `${currentTitle} Copy`) ?? "")
+      : (projectRef.current?.title ?? window.prompt("Project name", currentTitle) ?? "");
     if (!title.trim()) return;
 
     try {
@@ -235,12 +235,12 @@ export default function Md2Pdf() {
       const savedProject = savePlaygroundProject({
         id: saveAs ? undefined : projectRef.current?.id,
         inputs,
-        kind: 'md2pdf',
+        kind: "md2pdf",
         source: {
           content: markdown,
-          language: 'markdown',
+          language: "markdown",
           presetId: selectedPresetId,
-          route: '/md2pdf',
+          route: "/md2pdf",
         },
         template,
         thumbnail,
@@ -274,7 +274,7 @@ export default function Md2Pdf() {
           </div>
           <p className="mt-1 break-words text-xs text-gray-500">
             {sourceTitle}
-            {selectedPreset?.description ? ` - ${selectedPreset.description}` : ''}
+            {selectedPreset?.description ? ` - ${selectedPreset.description}` : ""}
           </p>
           <p className="mt-1 break-words text-xs text-gray-500">
             GFM support is intentionally partial: complex table/list content and remote images are
@@ -301,7 +301,7 @@ export default function Md2Pdf() {
             onClick={onGeneratePdf}
             className="col-span-2 sm:col-span-1"
           >
-            {isGeneratingPdf ? 'Generating...' : 'Generate PDF'}
+            {isGeneratingPdf ? "Generating..." : "Generate PDF"}
           </PlaygroundButton>
         </div>
       </div>

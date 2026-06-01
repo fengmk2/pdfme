@@ -1,11 +1,11 @@
 /// <reference types="vite/client" />
 
 interface FileSystemHandlePermissionDescriptor {
-  mode?: 'read' | 'readwrite';
+  mode?: "read" | "readwrite";
 }
 
 interface FileSystemHandle {
-  readonly kind: 'directory' | 'file';
+  readonly kind: "directory" | "file";
   readonly name: string;
   isSameEntry?(other: FileSystemHandle): Promise<boolean>;
   queryPermission?(descriptor?: FileSystemHandlePermissionDescriptor): Promise<PermissionState>;
@@ -18,13 +18,13 @@ interface FileSystemWritableFileStream extends WritableStream {
 }
 
 interface FileSystemFileHandle extends FileSystemHandle {
-  readonly kind: 'file';
+  readonly kind: "file";
   createWritable(): Promise<FileSystemWritableFileStream>;
   getFile(): Promise<File>;
 }
 
 interface FileSystemDirectoryHandle extends FileSystemHandle {
-  readonly kind: 'directory';
+  readonly kind: "directory";
   entries(): AsyncIterableIterator<[string, FileSystemDirectoryHandle | FileSystemFileHandle]>;
   getDirectoryHandle(
     name: string,
@@ -46,6 +46,6 @@ interface Window {
     callback: (records: unknown[], observer: FileSystemObserver) => void,
   ) => FileSystemObserver;
   showDirectoryPicker?: (options?: {
-    mode?: 'read' | 'readwrite';
+    mode?: "read" | "readwrite";
   }) => Promise<FileSystemDirectoryHandle>;
 }

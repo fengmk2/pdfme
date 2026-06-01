@@ -1,5 +1,5 @@
-import { getFallbackFontName, mm2pt, pt2mm, type Font } from '@pdfme/common';
-import type { Font as FontKitFont } from 'fontkit';
+import { getFallbackFontName, mm2pt, pt2mm, type Font } from "@pdfme/common";
+import type { Font as FontKitFont } from "fontkit";
 import {
   DEFAULT_CHARACTER_SPACING,
   DEFAULT_DYNAMIC_FIT,
@@ -16,11 +16,11 @@ import {
   SYNTHETIC_BOLD_PDF_EXTRA_DRAWS,
   SYNTHETIC_ITALIC_SKEW_DEGREES,
   TEXT_FORMAT_INLINE_MARKDOWN,
-} from './constants.js';
-import { getFontKitFont, heightOfFontAtSize, widthOfTextAtSize } from './helper.js';
-import { parseInlineMarkdown } from './inlineMarkdown.js';
-import type { RichTextRun, TextSchema } from './types.js';
-import { getBoxContentArea } from '../box.js';
+} from "./constants.js";
+import { getFontKitFont, heightOfFontAtSize, widthOfTextAtSize } from "./helper.js";
+import { parseInlineMarkdown } from "./inlineMarkdown.js";
+import type { RichTextRun, TextSchema } from "./types.js";
+import { getBoxContentArea } from "../box.js";
 
 export type ResolvedRichTextRun = RichTextRun & {
   fontName: string;
@@ -50,8 +50,8 @@ type RichTextRunPiece = {
   text: string;
 };
 
-const richTextWordSegmenter = new Intl.Segmenter(undefined, { granularity: 'word' });
-const richTextGraphemeSegmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+const richTextWordSegmenter = new Intl.Segmenter(undefined, { granularity: "word" });
+const richTextGraphemeSegmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
 
 const getBaseFontName = (schema: TextSchema, font: Font) =>
   schema.fontName && font[schema.fontName] ? schema.fontName : getFallbackFontName(font);
@@ -61,7 +61,7 @@ const getLoadedFontName = (font: Font, fontName?: string) =>
 
 export const isInlineMarkdownTextSchema = (schema: TextSchema) =>
   schema.textFormat === TEXT_FORMAT_INLINE_MARKDOWN &&
-  !(schema.type === 'text' && schema.readOnly !== true);
+  !(schema.type === "text" && schema.readOnly !== true);
 
 export const resolveFontVariant = (
   run: RichTextRun,
@@ -266,7 +266,7 @@ const segmentRunPiecesByWord = (
   const flushParagraph = () => {
     if (paragraphPieces.length === 0) return;
 
-    const paragraphText = paragraphPieces.map((piece) => piece.text).join('');
+    const paragraphText = paragraphPieces.map((piece) => piece.text).join("");
     Array.from(richTextWordSegmenter.segment(paragraphText), ({ segment, index }) => {
       const pieces = sliceRunPieces(paragraphPieces, index, index + segment.length);
       if (pieces.length > 0) onSegment(pieces);
@@ -276,7 +276,7 @@ const segmentRunPiecesByWord = (
 
   runs.forEach((run) => {
     run.text.split(/(\r\n|\r|\n)/).forEach((part) => {
-      if (part === '\r\n' || part === '\r' || part === '\n') {
+      if (part === "\r\n" || part === "\r" || part === "\n") {
         flushParagraph();
         onHardBreak();
         return;
@@ -293,10 +293,10 @@ const splitIntoGraphemes = (value: string) =>
   Array.from(richTextGraphemeSegmenter.segment(value), ({ segment }) => segment);
 
 export const countRichTextLineGraphemes = (line: RichTextLine) =>
-  splitIntoGraphemes(line.runs.map((run) => run.text).join('')).length;
+  splitIntoGraphemes(line.runs.map((run) => run.text).join("")).length;
 
 export const getRichTextLineText = (line: RichTextLine) =>
-  line.runs.map((run) => run.text).join('');
+  line.runs.map((run) => run.text).join("");
 
 export const layoutRichTextLines = (arg: {
   runs: ResolvedRichTextRun[];
@@ -342,7 +342,7 @@ export const layoutRichTextLines = (arg: {
       }
 
       const graphemes = splitIntoGraphemes(remainingText);
-      let fittingText = '';
+      let fittingText = "";
       let fittingLength = 0;
 
       for (const grapheme of graphemes) {
@@ -417,7 +417,7 @@ const measureParagraphWidths = (
 
   runs.forEach((run) => {
     run.text.split(/(\r\n|\r|\n)/).forEach((part) => {
-      if (part === '\r\n' || part === '\r' || part === '\n') {
+      if (part === "\r\n" || part === "\r" || part === "\n") {
         pushWidth();
         return;
       }

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { checkTemplate, getInputFromTemplate, type Template } from '@pdfme/common';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { checkTemplate, getInputFromTemplate, type Template } from "@pdfme/common";
 import {
   ChevronDown,
   Code2,
@@ -15,11 +15,11 @@ import {
   PencilRuler,
   Trash2,
   Upload,
-} from 'lucide-react';
-import { toast } from 'react-toastify';
-import { downloadJsonFile, readFile } from '../helper';
-import PlaygroundButton from '../components/PlaygroundButton';
-import { getAuthoringStarterId, type AuthoringStarterKind } from '../lib/authoringStarters';
+} from "lucide-react";
+import { toast } from "react-toastify";
+import { downloadJsonFile, readFile } from "../helper";
+import PlaygroundButton from "../components/PlaygroundButton";
+import { getAuthoringStarterId, type AuthoringStarterKind } from "../lib/authoringStarters";
 import {
   deletePlaygroundProject,
   duplicatePlaygroundProject,
@@ -31,9 +31,9 @@ import {
   setActivePlaygroundProjectId,
   setPlaygroundProjectThumbnail,
   type PlaygroundProject,
-} from '../lib/playgroundProjects';
-import { createTemplateFromPdfFile, getPdfTemplateTitle } from '../lib/pdfTemplate';
-import { createTemplateThumbnailDataUrl } from '../lib/templateThumbnails';
+} from "../lib/playgroundProjects";
+import { createTemplateFromPdfFile, getPdfTemplateTitle } from "../lib/pdfTemplate";
+import { createTemplateThumbnailDataUrl } from "../lib/templateThumbnails";
 import {
   clearPersistedFileWorkspace,
   createBlankTemplateEntry,
@@ -53,7 +53,7 @@ import {
   type FileWorkspaceSourceInput,
   type FileWorkspaceTemplateEntry,
   type SourceKind,
-} from '../lib/fileWorkspace';
+} from "../lib/fileWorkspace";
 
 declare global {
   interface Window {
@@ -74,14 +74,14 @@ type TemplateData = {
   hasCJK?: boolean;
   pageCount?: number;
   schemaTypes?: string[];
-  sourceKind: Exclude<GenerationFilter, 'all'>;
+  sourceKind: Exclude<GenerationFilter, "all">;
   sourcePath?: string;
   tags: string[];
   title: string;
 };
 
-type UIType = 'designer' | 'form-viewer';
-type GenerationFilter = 'all' | 'designer' | 'jsx' | 'md2pdf';
+type UIType = "designer" | "form-viewer";
+type GenerationFilter = "all" | "designer" | "jsx" | "md2pdf";
 type MountedCollectionWriteRunner = <T>(write: () => Promise<T>) => Promise<T>;
 
 type AuthoringPreset = {
@@ -91,47 +91,47 @@ type AuthoringPreset = {
 };
 
 // Constants
-const DEVIN_AI_AUTHOR = 'Devin AI';
-const DEVIN_INVITE_URL = 'https://app.devin.ai/invite/KyOTXVPrlFl2TjcT';
+const DEVIN_AI_AUTHOR = "Devin AI";
+const DEVIN_INVITE_URL = "https://app.devin.ai/invite/KyOTXVPrlFl2TjcT";
 const tagSortOrder = [
-  'Invoice',
-  'Quote',
-  'Business',
-  'Form',
-  'Report',
-  'Markdown',
-  'CJK',
-  'Certificate',
-  'Labels',
-  'QR',
-  'Table',
-  'Visual',
-  'Image',
-  'MVT',
-  'Government',
-  'Brochure',
-  'Blank',
+  "Invoice",
+  "Quote",
+  "Business",
+  "Form",
+  "Report",
+  "Markdown",
+  "CJK",
+  "Certificate",
+  "Labels",
+  "QR",
+  "Table",
+  "Visual",
+  "Image",
+  "MVT",
+  "Government",
+  "Brochure",
+  "Blank",
 ];
 
 const generationFilters: Array<{ label: string; value: GenerationFilter }> = [
-  { label: 'All', value: 'all' },
-  { label: 'Designer', value: 'designer' },
-  { label: 'JSX', value: 'jsx' },
-  { label: 'md2pdf', value: 'md2pdf' },
+  { label: "All", value: "all" },
+  { label: "Designer", value: "designer" },
+  { label: "JSX", value: "jsx" },
+  { label: "md2pdf", value: "md2pdf" },
 ];
 
-const getTemplateGeneration = (template: TemplateData): Exclude<GenerationFilter, 'all'> =>
+const getTemplateGeneration = (template: TemplateData): Exclude<GenerationFilter, "all"> =>
   template.sourceKind;
 
-const getGenerationLabel = (generation: Exclude<GenerationFilter, 'all'>) => {
-  if (generation === 'jsx') return 'JSX';
-  if (generation === 'md2pdf') return 'md2pdf';
-  return 'Designer';
+const getGenerationLabel = (generation: Exclude<GenerationFilter, "all">) => {
+  if (generation === "jsx") return "JSX";
+  if (generation === "md2pdf") return "md2pdf";
+  return "Designer";
 };
 
 const getAuthoringPreset = (template: TemplateData): AuthoringPreset | null => {
   const kind = getTemplateGeneration(template);
-  if ((kind !== 'jsx' && kind !== 'md2pdf') || !template.sourcePath) return null;
+  if ((kind !== "jsx" && kind !== "md2pdf") || !template.sourcePath) return null;
   return {
     assetName: template.name,
     id: getAuthoringStarterId(template.name, kind),
@@ -186,7 +186,7 @@ const ProjectThumbnailImage = ({
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : 'Failed to create thumbnail');
+        setError(err instanceof Error ? err.message : "Failed to create thumbnail");
       });
 
     return () => {
@@ -231,7 +231,7 @@ const MountedThumbnailImage = ({
       })
       .catch((err) => {
         if (cancelled) return;
-        setError(err instanceof Error ? err.message : 'Failed to create thumbnail');
+        setError(err instanceof Error ? err.message : "Failed to create thumbnail");
       });
 
     return () => {
@@ -320,7 +320,7 @@ const ProjectMenuItem = ({
     type="button"
     role="menuitem"
     className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition ${
-      danger ? 'text-red-600 hover:bg-red-50' : 'text-gray-700 hover:bg-gray-50'
+      danger ? "text-red-600 hover:bg-red-50" : "text-gray-700 hover:bg-gray-50"
     }`}
     onClick={onClick}
   >
@@ -351,14 +351,14 @@ function ProjectMoreActions({
     firstMenuItemRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
+      if (event.key !== "Escape") return;
       event.preventDefault();
       setOpen(false);
       triggerRef.current?.focus();
     };
 
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
   return (
@@ -453,14 +453,14 @@ const TemplateCreateMenu = ({
     firstMenuItemRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
+      if (event.key !== "Escape") return;
       event.preventDefault();
       setOpen(false);
       triggerRef.current?.focus();
     };
 
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
   return (
@@ -474,7 +474,7 @@ const TemplateCreateMenu = ({
         variant="primary"
       >
         <PencilRuler className="size-4" />
-        {busy ? 'Creating...' : label}
+        {busy ? "Creating..." : label}
         <ChevronDown className="size-3.5" />
       </PlaygroundButton>
       {open && !isDisabled && (
@@ -507,16 +507,16 @@ const TemplateCreateMenu = ({
 const parseTagInput = (value: string) => [
   ...new Set(
     value
-      .split(',')
+      .split(",")
       .map((tag) => tag.trim())
       .filter(Boolean),
   ),
 ];
 
 const getProjectSourceKind = (project: PlaygroundProject): SourceKind => {
-  if (project.kind === 'jsx') return 'jsx';
-  if (project.kind === 'md2pdf') return 'md2pdf';
-  return 'designer';
+  if (project.kind === "jsx") return "jsx";
+  if (project.kind === "md2pdf") return "md2pdf";
+  return "designer";
 };
 
 const getProjectSourceInput = (project: PlaygroundProject): FileWorkspaceSourceInput | undefined =>
@@ -540,8 +540,8 @@ const MountedMetadataDialog = ({
   ) => Promise<void>;
 }) => {
   const [title, setTitle] = useState(entry.title);
-  const [description, setDescription] = useState(entry.description ?? '');
-  const [tags, setTags] = useState(entry.tags.join(', '));
+  const [description, setDescription] = useState(entry.description ?? "");
+  const [tags, setTags] = useState(entry.tags.join(", "));
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const titleInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -552,19 +552,19 @@ const MountedMetadataDialog = ({
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape' || isSaving) return;
+      if (event.key !== "Escape" || isSaving) return;
       event.preventDefault();
       onClose();
     };
 
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [isSaving, onClose]);
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!title.trim()) {
-      setError('Title is required.');
+      setError("Title is required.");
       return;
     }
 
@@ -578,7 +578,7 @@ const MountedMetadataDialog = ({
       });
     } catch (saveError) {
       console.error(saveError);
-      setError(saveError instanceof Error ? saveError.message : 'Failed to save metadata.');
+      setError(saveError instanceof Error ? saveError.message : "Failed to save metadata.");
     } finally {
       setIsSaving(false);
     }
@@ -653,7 +653,7 @@ const MountedMetadataDialog = ({
             Cancel
           </PlaygroundButton>
           <PlaygroundButton disabled={isSaving} type="submit" variant="primary">
-            {isSaving ? 'Saving...' : 'Save Metadata'}
+            {isSaving ? "Saving..." : "Save Metadata"}
           </PlaygroundButton>
         </div>
       </form>
@@ -708,8 +708,8 @@ function TemplatesApp() {
   const [isCreatingLocalPdfTemplate, setIsCreatingLocalPdfTemplate] = useState(false);
   const [isCreatingMountedPdfTemplate, setIsCreatingMountedPdfTemplate] = useState(false);
   const [isOpeningFolder, setIsOpeningFolder] = useState(false);
-  const [generationFilter, setGenerationFilter] = useState<GenerationFilter>('all');
-  const [tagFilter, setTagFilter] = useState('all');
+  const [generationFilter, setGenerationFilter] = useState<GenerationFilter>("all");
+  const [tagFilter, setTagFilter] = useState("all");
 
   const refreshProjects = useCallback(() => setProjects(readPlaygroundProjects()), []);
   const runMountedCollectionWrite = useCallback(async <T,>(write: () => Promise<T>) => {
@@ -738,7 +738,7 @@ function TemplatesApp() {
       })
       .catch((error) => {
         console.error(error);
-        toast.error(error instanceof Error ? error.message : 'Failed to refresh folder');
+        toast.error(error instanceof Error ? error.message : "Failed to refresh folder");
       });
   }, []);
 
@@ -760,26 +760,26 @@ function TemplatesApp() {
     () =>
       templates.filter((template) => {
         const generation = getTemplateGeneration(template);
-        if (generationFilter !== 'all' && generation !== generationFilter) {
+        if (generationFilter !== "all" && generation !== generationFilter) {
           return false;
         }
 
-        return tagFilter === 'all' || getTemplateTags(template).includes(tagFilter);
+        return tagFilter === "all" || getTemplateTags(template).includes(tagFilter);
       }),
     [generationFilter, tagFilter, templates],
   );
 
-  const hasActiveTemplateFilter = generationFilter !== 'all' || tagFilter !== 'all';
+  const hasActiveTemplateFilter = generationFilter !== "all" || tagFilter !== "all";
 
   const clearTemplateFilters = () => {
-    setGenerationFilter('all');
-    setTagFilter('all');
+    setGenerationFilter("all");
+    setTagFilter("all");
   };
 
   useEffect(() => {
     refreshProjects();
-    window.addEventListener('focus', refreshProjects);
-    return () => window.removeEventListener('focus', refreshProjects);
+    window.addEventListener("focus", refreshProjects);
+    return () => window.removeEventListener("focus", refreshProjects);
   }, [refreshProjects]);
 
   useEffect(() => {
@@ -788,12 +788,12 @@ function TemplatesApp() {
     let cancelled = false;
     void restorePersistedTemplateCollection().then((result) => {
       if (cancelled) return;
-      if (result.status === 'mounted') {
+      if (result.status === "mounted") {
         setMountedCollection(result.collection);
         setLastFolderName(result.collection.rootName);
-      } else if (result.status === 'permission-needed') {
+      } else if (result.status === "permission-needed") {
         setLastFolderName(result.rootName);
-      } else if (result.status === 'error') {
+      } else if (result.status === "error") {
         setLastFolderName(result.rootName ?? null);
         console.error(result.error);
       }
@@ -830,7 +830,7 @@ function TemplatesApp() {
 
   // Fetch templates and author avatars
   useEffect(() => {
-    fetch('/template-assets/index.json')
+    fetch("/template-assets/index.json")
       .then((response) => response.json())
       .then((data: TemplateData[]) => {
         setTemplates(data);
@@ -841,7 +841,7 @@ function TemplatesApp() {
         Promise.all(
           Array.from(authors).map((author) => {
             if (author === DEVIN_AI_AUTHOR) {
-              avatarUrlMap[author] = '/imgs/devin.svg';
+              avatarUrlMap[author] = "/imgs/devin.svg";
               return Promise.resolve();
             } else {
               return fetch(`https://api.github.com/users/${author}`)
@@ -859,27 +859,27 @@ function TemplatesApp() {
 
   // Load ethical ads
   useEffect(() => {
-    if (window.ethicalads && typeof window.ethicalads.load === 'function') {
+    if (window.ethicalads && typeof window.ethicalads.load === "function") {
       window.ethicalads.load();
     } else {
-      console.warn('EthicalAds script is not loaded yet.');
+      console.warn("EthicalAds script is not loaded yet.");
     }
   }, [templates]);
 
   // Unified navigation function
   const navigateTo = (name: string, ui: UIType) => {
-    const path = ui === 'designer' ? '/designer' : '/form-viewer';
+    const path = ui === "designer" ? "/designer" : "/form-viewer";
     navigate(`${path}?template=${name}`);
   };
 
-  const navigateToProject = (project: PlaygroundProject, target: UIType | 'source') => {
+  const navigateToProject = (project: PlaygroundProject, target: UIType | "source") => {
     setActivePlaygroundProjectId(project.id);
-    if (target === 'source') {
+    if (target === "source") {
       navigate(getProjectAuthoringPath(project));
       return;
     }
 
-    const path = target === 'designer' ? '/designer' : '/form-viewer';
+    const path = target === "designer" ? "/designer" : "/form-viewer";
     navigate(`${path}?project=${encodeURIComponent(project.id)}`);
   };
 
@@ -889,12 +889,12 @@ function TemplatesApp() {
     ui: UIType,
   ) => {
     await setSelectedFileWorkspaceTemplateName(collection.rootHandle, entry.name);
-    const path = ui === 'designer' ? '/designer' : '/form-viewer';
+    const path = ui === "designer" ? "/designer" : "/form-viewer";
     navigate(`${path}?workspace=${encodeURIComponent(entry.name)}`);
   };
 
   const navigateToAuthoringPreset = (preset: AuthoringPreset) => {
-    const route = preset.kind === 'jsx' ? '/jsx' : '/md2pdf';
+    const route = preset.kind === "jsx" ? "/jsx" : "/md2pdf";
     navigate(`${route}?preset=${encodeURIComponent(preset.id)}`);
   };
 
@@ -928,7 +928,7 @@ function TemplatesApp() {
       };
     });
     setMountedCollection(nextCollection);
-    await navigateToMountedTemplate(nextCollection, nextEntry, 'designer');
+    await navigateToMountedTemplate(nextCollection, nextEntry, "designer");
   };
 
   const onOpenFolder = async () => {
@@ -936,9 +936,9 @@ function TemplatesApp() {
     try {
       await mountCollection(await openTemplateCollectionDirectory());
     } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') return;
+      if (error instanceof DOMException && error.name === "AbortError") return;
       console.error(error);
-      toast.error(error instanceof Error ? error.message : 'Failed to open folder');
+      toast.error(error instanceof Error ? error.message : "Failed to open folder");
     } finally {
       setIsOpeningFolder(false);
     }
@@ -948,17 +948,17 @@ function TemplatesApp() {
     setIsOpeningFolder(true);
     try {
       const result = await restorePersistedTemplateCollection({ requestPermission: true });
-      if (result.status === 'mounted') {
+      if (result.status === "mounted") {
         await mountCollection(result.collection);
-      } else if (result.status === 'permission-needed') {
+      } else if (result.status === "permission-needed") {
         setLastFolderName(result.rootName);
-        toast.error('Folder permission was not granted');
-      } else if (result.status === 'none') {
+        toast.error("Folder permission was not granted");
+      } else if (result.status === "none") {
         setLastFolderName(null);
-        toast.info('No previous folder was found');
+        toast.info("No previous folder was found");
       } else {
         console.error(result.error);
-        toast.error('Failed to reopen folder');
+        toast.error("Failed to reopen folder");
       }
     } finally {
       setIsOpeningFolder(false);
@@ -969,14 +969,14 @@ function TemplatesApp() {
     await clearPersistedFileWorkspace();
     setMountedCollection(null);
     setLastFolderName(null);
-    toast.info('Disconnected mounted folder');
+    toast.info("Disconnected mounted folder");
   };
 
   const onCreateMountedTemplate = async () => {
     const collection = mountedCollectionRef.current;
     if (!collection) return;
 
-    const title = window.prompt('Template name', 'Untitled Template') ?? '';
+    const title = window.prompt("Template name", "Untitled Template") ?? "";
     if (!title.trim()) return;
 
     try {
@@ -994,21 +994,21 @@ function TemplatesApp() {
       });
       setMountedCollection(nextCollection);
       setLastFolderName(nextCollection.rootName);
-      await navigateToMountedTemplate(nextCollection, nextEntry, 'designer');
+      await navigateToMountedTemplate(nextCollection, nextEntry, "designer");
     } catch (error) {
       console.error(error);
-      toast.error(error instanceof Error ? error.message : 'Failed to create template');
+      toast.error(error instanceof Error ? error.message : "Failed to create template");
     }
   };
 
   const onCreateLocalTemplateFromPdf = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    event.target.value = '';
+    event.target.value = "";
     if (!file) return;
 
     setIsCreatingLocalPdfTemplate(true);
     try {
-      const title = window.prompt('Template name', getPdfTemplateTitle(file)) ?? '';
+      const title = window.prompt("Template name", getPdfTemplateTitle(file)) ?? "";
       if (!title.trim()) return;
 
       const draft = await createTemplateFromPdfFile(file);
@@ -1018,7 +1018,7 @@ function TemplatesApp() {
       );
       const project = savePlaygroundProject({
         inputs,
-        kind: 'template',
+        kind: "template",
         template: draft.template,
         thumbnail,
         title,
@@ -1026,15 +1026,15 @@ function TemplatesApp() {
 
       refreshProjects();
       toast.success(`Created "${project.title}" from ${draft.fileName}`);
-      navigateToProject(project, 'designer');
+      navigateToProject(project, "designer");
     } catch (error) {
       console.error(error);
       toast.error(
-        error instanceof DOMException && error.name === 'QuotaExceededError'
-          ? 'PDF is too large to save in Browser Projects. Try a mounted folder instead.'
+        error instanceof DOMException && error.name === "QuotaExceededError"
+          ? "PDF is too large to save in Browser Projects. Try a mounted folder instead."
           : error instanceof Error
             ? error.message
-            : 'Failed to create template from PDF',
+            : "Failed to create template from PDF",
       );
     } finally {
       setIsCreatingLocalPdfTemplate(false);
@@ -1043,35 +1043,30 @@ function TemplatesApp() {
 
   const onCreateMountedTemplateFromPdf = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    event.target.value = '';
+    event.target.value = "";
     if (!file) return;
 
     const collection = mountedCollectionRef.current;
     if (!collection) {
-      toast.error('Open a mounted folder first');
+      toast.error("Open a mounted folder first");
       return;
     }
 
     setIsCreatingMountedPdfTemplate(true);
     try {
-      const title = window.prompt('Template name', getPdfTemplateTitle(file)) ?? '';
+      const title = window.prompt("Template name", getPdfTemplateTitle(file)) ?? "";
       if (!title.trim()) return;
 
       const draft = await createTemplateFromPdfFile(file);
       const thumbnail = await createTemplateThumbnailDataUrl(draft.template).catch(() => undefined);
       const { nextCollection, nextEntry } = await runMountedCollectionWrite(async () => {
-        const entry = await createTemplateEntryFromTemplate(
-          collection,
-          draft.template,
-          title,
-          {
-            description: `A template created from ${draft.fileName}.`,
-            sourceKind: 'designer',
-            sourcePdf: file,
-            tags: ['PDF', 'Designer'],
-            thumbnailDataUrl: thumbnail,
-          },
-        );
+        const entry = await createTemplateEntryFromTemplate(collection, draft.template, title, {
+          description: `A template created from ${draft.fileName}.`,
+          sourceKind: "designer",
+          sourcePdf: file,
+          tags: ["PDF", "Designer"],
+          thumbnailDataUrl: thumbnail,
+        });
         const collectionAfterCreate = await refreshTemplateCollection({
           ...collection,
           selectedTemplateName: entry.name,
@@ -1086,10 +1081,10 @@ function TemplatesApp() {
       setMountedCollection(nextCollection);
       setLastFolderName(nextCollection.rootName);
       toast.success(`Created "${nextEntry.title}" from ${draft.fileName}`);
-      await navigateToMountedTemplate(nextCollection, nextEntry, 'designer');
+      await navigateToMountedTemplate(nextCollection, nextEntry, "designer");
     } catch (error) {
       console.error(error);
-      toast.error(error instanceof Error ? error.message : 'Failed to create template from PDF');
+      toast.error(error instanceof Error ? error.message : "Failed to create template from PDF");
     } finally {
       setIsCreatingMountedPdfTemplate(false);
     }
@@ -1100,7 +1095,7 @@ function TemplatesApp() {
     metadata: EditableFileWorkspaceMetadata,
   ) => {
     const collection = mountedCollectionRef.current;
-    if (!collection) throw new Error('Mounted folder is not available.');
+    if (!collection) throw new Error("Mounted folder is not available.");
 
     const { nextCollection, updatedEntry } = await runMountedCollectionWrite(async () => {
       const updatedEntry = await writeTemplateMetadata(collection, entry, metadata);
@@ -1120,7 +1115,7 @@ function TemplatesApp() {
   const onCopyProjectToMountedFolder = async (project: PlaygroundProject) => {
     const collection = mountedCollectionRef.current;
     if (!collection) {
-      toast.error('Open a mounted folder first');
+      toast.error("Open a mounted folder first");
       return;
     }
 
@@ -1132,7 +1127,7 @@ function TemplatesApp() {
           project.template,
           project.title,
           {
-            description: 'A template copied from Browser Projects.',
+            description: "A template copied from Browser Projects.",
             source: getProjectSourceInput(project),
             sourceKind,
             tags: [getGenerationLabel(sourceKind)],
@@ -1151,28 +1146,28 @@ function TemplatesApp() {
       toast.success(`Copied "${project.title}" to ${nextCollection.rootName}`);
     } catch (error) {
       console.error(error);
-      toast.error(error instanceof Error ? error.message : 'Failed to copy project');
+      toast.error(error instanceof Error ? error.message : "Failed to copy project");
     }
   };
 
   const onImportTemplateJson = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    e.target.value = '';
+    e.target.value = "";
     if (!file) return;
 
     try {
-      const rawJson = await readFile(file, 'text');
+      const rawJson = await readFile(file, "text");
       const template = JSON.parse(rawJson as string) as Template;
       checkTemplate(template);
 
-      const title = file.name.replace(/\.json$/i, '').trim() || 'Imported Template';
+      const title = file.name.replace(/\.json$/i, "").trim() || "Imported Template";
       const inputs = getInputFromTemplate(template);
       const thumbnail = await createTemplateThumbnailDataUrl(template, inputs).catch(
         () => undefined,
       );
       const project = savePlaygroundProject({
         inputs,
-        kind: 'template',
+        kind: "template",
         template,
         thumbnail,
         title,
@@ -1181,7 +1176,7 @@ function TemplatesApp() {
       toast.success(`Imported "${project.title}" into My Workspace`);
     } catch (err) {
       console.error(err);
-      toast.error(err instanceof Error ? err.message : 'Invalid template JSON');
+      toast.error(err instanceof Error ? err.message : "Invalid template JSON");
     }
   };
 
@@ -1193,12 +1188,12 @@ function TemplatesApp() {
   };
 
   const onRenameProject = (project: PlaygroundProject) => {
-    const title = window.prompt('Project name', project.title) ?? '';
+    const title = window.prompt("Project name", project.title) ?? "";
     if (!title.trim()) return;
 
     const renamedProject = renamePlaygroundProject(project.id, title);
     if (!renamedProject) {
-      toast.error('Project not found');
+      toast.error("Project not found");
       return;
     }
 
@@ -1207,12 +1202,12 @@ function TemplatesApp() {
   };
 
   const onDuplicateProject = (project: PlaygroundProject) => {
-    const title = window.prompt('Duplicate as', `${project.title} Copy`) ?? '';
+    const title = window.prompt("Duplicate as", `${project.title} Copy`) ?? "";
     if (!title.trim()) return;
 
     const duplicatedProject = duplicatePlaygroundProject(project.id, title);
     if (!duplicatedProject) {
-      toast.error('Project not found');
+      toast.error("Project not found");
       return;
     }
 
@@ -1221,7 +1216,7 @@ function TemplatesApp() {
   };
 
   const onDownloadProjectTemplate = (project: PlaygroundProject) => {
-    const fileName = project.title.trim().replace(/[\\/:*?"<>|]+/g, '-') || 'template';
+    const fileName = project.title.trim().replace(/[\\/:*?"<>|]+/g, "-") || "template";
     downloadJsonFile(project.template, fileName);
   };
 
@@ -1271,7 +1266,7 @@ function TemplatesApp() {
                 <TemplateCreateMenu
                   busy={isCreatingLocalPdfTemplate}
                   label="New Local Template"
-                  onBlank={() => navigate('/designer?new=1')}
+                  onBlank={() => navigate("/designer?new=1")}
                   onPdf={() => localPdfTemplateInputRef.current?.click()}
                 />
               </div>
@@ -1296,7 +1291,7 @@ function TemplatesApp() {
                       <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2">
                         <PlaygroundButton
                           onClick={() =>
-                            navigateToProject(project, project.source ? 'source' : 'designer')
+                            navigateToProject(project, project.source ? "source" : "designer")
                           }
                         >
                           {project.source ? (
@@ -1311,12 +1306,12 @@ function TemplatesApp() {
                             </>
                           )}
                         </PlaygroundButton>
-                        <PlaygroundButton onClick={() => navigateToProject(project, 'form-viewer')}>
+                        <PlaygroundButton onClick={() => navigateToProject(project, "form-viewer")}>
                           Preview
                         </PlaygroundButton>
                         <ProjectMoreActions
                           project={project}
-                          onOpenDesigner={(item) => navigateToProject(item, 'designer')}
+                          onOpenDesigner={(item) => navigateToProject(item, "designer")}
                           onRenameProject={onRenameProject}
                           onDuplicateProject={onDuplicateProject}
                           onCopyToMountedFolder={
@@ -1354,7 +1349,7 @@ function TemplatesApp() {
                     variant="primary"
                   >
                     <FolderOpen className="size-4" />
-                    {isOpeningFolder ? 'Opening...' : 'Open Folder'}
+                    {isOpeningFolder ? "Opening..." : "Open Folder"}
                   </PlaygroundButton>
                 )}
                 {!mountedCollection && lastFolderName && (
@@ -1405,7 +1400,7 @@ function TemplatesApp() {
                   <span className="font-semibold">{mountedCollection.rootName}</span>
                   <span className="text-green-700">
                     {mountedCollection.entries.length} template
-                    {mountedCollection.entries.length === 1 ? '' : 's'}
+                    {mountedCollection.entries.length === 1 ? "" : "s"}
                   </span>
                   {mountedCollection.invalidEntries.length > 0 && (
                     <span className="rounded border border-yellow-300 bg-yellow-50 px-2 py-0.5 text-xs font-medium text-yellow-800">
@@ -1444,7 +1439,7 @@ function TemplatesApp() {
                             <PlaygroundButton
                               fullWidth
                               onClick={() =>
-                                void navigateToMountedTemplate(mountedCollection, entry, 'designer')
+                                void navigateToMountedTemplate(mountedCollection, entry, "designer")
                               }
                             >
                               <PencilRuler className="size-4" />
@@ -1456,7 +1451,7 @@ function TemplatesApp() {
                                 void navigateToMountedTemplate(
                                   mountedCollection,
                                   entry,
-                                  'form-viewer',
+                                  "form-viewer",
                                 )
                               }
                             >
@@ -1485,7 +1480,7 @@ function TemplatesApp() {
             )}
             {!mountedCollection && fileWorkspaceSupported && !lastFolderName && (
               <div className="mt-4 rounded-md border border-dashed border-green-300 bg-white px-4 py-4 text-sm text-green-900">
-                Open a folder that contains directories like{' '}
+                Open a folder that contains directories like{" "}
                 <code className="rounded bg-green-100 px-1">invoice/template.json</code>.
               </div>
             )}
@@ -1512,7 +1507,7 @@ function TemplatesApp() {
                       <PlaygroundButton
                         key={filter.value}
                         className="px-2 py-1 text-xs sm:px-2"
-                        variant={generationFilter === filter.value ? 'primary' : 'secondary'}
+                        variant={generationFilter === filter.value ? "primary" : "secondary"}
                         onClick={() => setGenerationFilter(filter.value)}
                       >
                         {filter.label}
@@ -1527,8 +1522,8 @@ function TemplatesApp() {
                   <div className="flex flex-wrap gap-2">
                     <PlaygroundButton
                       className="px-2 py-1 text-xs sm:px-2"
-                      variant={tagFilter === 'all' ? 'primary' : 'secondary'}
-                      onClick={() => setTagFilter('all')}
+                      variant={tagFilter === "all" ? "primary" : "secondary"}
+                      onClick={() => setTagFilter("all")}
                     >
                       All
                     </PlaygroundButton>
@@ -1536,7 +1531,7 @@ function TemplatesApp() {
                       <PlaygroundButton
                         key={tag}
                         className="px-2 py-1 text-xs sm:px-2"
-                        variant={tagFilter === tag ? 'primary' : 'secondary'}
+                        variant={tagFilter === tag ? "primary" : "secondary"}
                         onClick={() => setTagFilter(tag)}
                       >
                         {tag}
@@ -1559,7 +1554,7 @@ function TemplatesApp() {
               const title = template.title;
               const generation = getTemplateGeneration(template);
               const tag = getGenerationLabel(generation);
-              const Icon = generation === 'md2pdf' ? FileText : Code2;
+              const Icon = generation === "md2pdf" ? FileText : Code2;
               const tags = getTemplateTags(template);
 
               return (
@@ -1568,7 +1563,7 @@ function TemplatesApp() {
                     <div
                       data-ea-publisher="pdfmecom"
                       data-ea-type="image"
-                      style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                      style={{ width: "100%", display: "flex", justifyContent: "center" }}
                     />
                   )}
                   <GalleryCard
@@ -1579,7 +1574,7 @@ function TemplatesApp() {
                       <div className="space-y-3">
                         <p>{template.description}</p>
                         <p className="flex items-center gap-2 text-xs text-gray-500">
-                          by{' '}
+                          by{" "}
                           {avatarUrlMap[author] && (
                             <img
                               src={avatarUrlMap[author]}
@@ -1597,7 +1592,7 @@ function TemplatesApp() {
                         onClick={() =>
                           authoringPreset
                             ? navigateToAuthoringPreset(authoringPreset)
-                            : navigateTo(name, 'designer')
+                            : navigateTo(name, "designer")
                         }
                         alt={title}
                         src={`/template-assets/${name}/thumbnail.png`}
@@ -1615,13 +1610,13 @@ function TemplatesApp() {
                         </PlaygroundButton>
                       ) : (
                         <div className="space-y-2">
-                          <PlaygroundButton fullWidth onClick={() => navigateTo(name, 'designer')}>
+                          <PlaygroundButton fullWidth onClick={() => navigateTo(name, "designer")}>
                             <PencilRuler className="size-4" />
                             Designer
                           </PlaygroundButton>
                           <PlaygroundButton
                             fullWidth
-                            onClick={() => navigateTo(name, 'form-viewer')}
+                            onClick={() => navigateTo(name, "form-viewer")}
                           >
                             <Eye className="size-4" />
                             Form/Viewer

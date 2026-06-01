@@ -4,11 +4,11 @@
 
 ## 破壊的変更
 
-| 変更                        | 影響を受けるユーザー                                                         | 必要な対応                               |
-| --------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- |
-| `ESM-only` パッケージ       | `require('@pdfme/...')` を使っているユーザー                                 | `import` / `export` 構文へ移行           |
-| `Node 20+` 最低要件         | Node 16 / 18 ユーザー                                                        | Node 20 LTS 以降へ更新                   |
-| 内部 `dist/*` import 廃止   | `@pdfme/*/dist/...` や `@pdfme/*/cjs/src/...` を直接 import しているユーザー | package root の public export のみを使用 |
+| 変更                      | 影響を受けるユーザー                                                         | 必要な対応                               |
+| ------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- |
+| `ESM-only` パッケージ     | `require('@pdfme/...')` を使っているユーザー                                 | `import` / `export` 構文へ移行           |
+| `Node 20+` 最低要件       | Node 16 / 18 ユーザー                                                        | Node 20 LTS 以降へ更新                   |
+| 内部 `dist/*` import 廃止 | `@pdfme/*/dist/...` や `@pdfme/*/cjs/src/...` を直接 import しているユーザー | package root の public export のみを使用 |
 
 ## サポートポリシー
 
@@ -25,23 +25,23 @@
 変更前:
 
 ```js
-const { BLANK_PDF } = require('@pdfme/common');
-const { generate } = require('@pdfme/generator');
+const { BLANK_PDF } = require("@pdfme/common");
+const { generate } = require("@pdfme/generator");
 ```
 
 変更後:
 
 ```ts
-import { BLANK_PDF } from '@pdfme/common';
-import { generate } from '@pdfme/generator';
+import { BLANK_PDF } from "@pdfme/common";
+import { generate } from "@pdfme/generator";
 ```
 
 Node.js で ESM からファイルを書き出す場合は、`__dirname` の代わりに `fileURLToPath(import.meta.url)` を使います。
 
 ```ts
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,15 +52,15 @@ const __dirname = path.dirname(__filename);
 変更前:
 
 ```ts
-import { generate } from '@pdfme/generator/cjs/src/index.js';
-import { pdf2img } from '@pdfme/converter/cjs/src/index.node.js';
+import { generate } from "@pdfme/generator/cjs/src/index.js";
+import { pdf2img } from "@pdfme/converter/cjs/src/index.node.js";
 ```
 
 変更後:
 
 ```ts
-import { generate } from '@pdfme/generator';
-import { pdf2img } from '@pdfme/converter';
+import { generate } from "@pdfme/generator";
+import { pdf2img } from "@pdfme/converter";
 ```
 
 ### Node 20+

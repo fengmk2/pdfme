@@ -8,9 +8,9 @@ import React, {
   useEffect,
   forwardRef,
   useCallback,
-} from 'react';
-import { theme, Button } from 'antd';
-import MoveableComponent, { OnDrag, OnRotate, OnResize } from 'react-moveable';
+} from "react";
+import { theme, Button } from "antd";
+import MoveableComponent, { OnDrag, OnRotate, OnResize } from "react-moveable";
 import {
   ZOOM,
   SchemaForUI,
@@ -19,27 +19,27 @@ import {
   BasePdf,
   isBlankPdf,
   replacePlaceholders,
-} from '@pdfme/common';
-import { PluginsRegistry } from '../../../contexts.js';
-import { X } from 'lucide-react';
-import { RULER_HEIGHT, RIGHT_SIDEBAR_WIDTH, DESIGNER_CLASSNAME } from '../../../constants.js';
-import { usePrevious } from '../../../hooks.js';
-import { round, flatten, uuid } from '../../../helper.js';
-import Paper from '../../Paper.js';
-import Renderer from '../../Renderer.js';
-import Selecto from './Selecto.js';
-import Moveable from './Moveable.js';
-import Guides from './Guides.js';
-import Mask from './Mask.js';
-import Padding from './Padding.js';
-import StaticSchema from '../../StaticSchema.js';
+} from "@pdfme/common";
+import { PluginsRegistry } from "../../../contexts.js";
+import { X } from "lucide-react";
+import { RULER_HEIGHT, RIGHT_SIDEBAR_WIDTH, DESIGNER_CLASSNAME } from "../../../constants.js";
+import { usePrevious } from "../../../hooks.js";
+import { round, flatten, uuid } from "../../../helper.js";
+import Paper from "../../Paper.js";
+import Renderer from "../../Renderer.js";
+import Selecto from "./Selecto.js";
+import Moveable from "./Moveable.js";
+import Guides from "./Guides.js";
+import Mask from "./Mask.js";
+import Padding from "./Padding.js";
+import StaticSchema from "../../StaticSchema.js";
 
 const mm2px = (mm: number) => mm * 3.7795275591;
 
 const DELETE_BTN_ID = uuid();
-const fmt4Num = (prop: string) => Number(prop.replace('px', ''));
+const fmt4Num = (prop: string) => Number(prop.replace("px", ""));
 const fmt = (prop: string) => round(fmt4Num(prop) / ZOOM, 2);
-const isTopLeftResize = (d: string) => d === '-1,-1' || d === '-1,0' || d === '0,-1';
+const isTopLeftResize = (d: string) => d === "-1,-1" || d === "-1,0" || d === "0,-1";
 const normalizeRotate = (angle: number) => ((angle % 360) + 360) % 360;
 
 const DeleteButton = ({ activeElements: aes }: { activeElements: HTMLElement[] }) => {
@@ -52,24 +52,24 @@ const DeleteButton = ({ activeElements: aes }: { activeElements: HTMLElement[] }
   return (
     <Button
       id={DELETE_BTN_ID}
-      className={DESIGNER_CLASSNAME + 'delete-button'}
+      className={DESIGNER_CLASSNAME + "delete-button"}
       style={{
-        position: 'absolute',
+        position: "absolute",
         zIndex: 1,
         top,
         left,
         width: size,
         height: size,
         padding: 2,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         borderRadius: token.borderRadius,
         color: token.colorWhite,
         background: token.colorPrimary,
       }}
     >
-      <X style={{ pointerEvents: 'none' }} />
+      <X style={{ pointerEvents: "none" }} />
     </Button>
   );
 };
@@ -134,18 +134,18 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
     if (e.shiftKey) setIsPressShiftKey(true);
   };
   const onKeyup = (e: KeyboardEvent) => {
-    if (e.key === 'Shift' || !e.shiftKey) setIsPressShiftKey(false);
-    if (e.key === 'Escape' || e.key === 'Esc') setEditing(false);
+    if (e.key === "Shift" || !e.shiftKey) setIsPressShiftKey(false);
+    if (e.key === "Escape" || e.key === "Esc") setEditing(false);
   };
 
   const initEvents = useCallback(() => {
-    window.addEventListener('keydown', onKeydown);
-    window.addEventListener('keyup', onKeyup);
+    window.addEventListener("keydown", onKeydown);
+    window.addEventListener("keyup", onKeyup);
   }, []);
 
   const destroyEvents = useCallback(() => {
-    window.removeEventListener('keydown', onKeydown);
-    window.removeEventListener('keyup', onKeyup);
+    window.removeEventListener("keydown", onKeydown);
+    window.removeEventListener("keyup", onKeyup);
   }, []);
 
   useEffect(() => {
@@ -204,15 +204,15 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
   const onDragEnd = ({ target }: { target: HTMLElement | SVGElement }) => {
     const { top, left } = target.style;
     changeSchemas([
-      { key: 'position.y', value: fmt(top), schemaId: target.id },
-      { key: 'position.x', value: fmt(left), schemaId: target.id },
+      { key: "position.y", value: fmt(top), schemaId: target.id },
+      { key: "position.x", value: fmt(left), schemaId: target.id },
     ]);
   };
 
   const onDragEnds = ({ targets }: { targets: (HTMLElement | SVGElement)[] }) => {
     const arg = targets.map(({ style: { top, left }, id }) => [
-      { key: 'position.y', value: fmt(top), schemaId: id },
-      { key: 'position.x', value: fmt(left), schemaId: id },
+      { key: "position.y", value: fmt(top), schemaId: id },
+      { key: "position.x", value: fmt(left), schemaId: id },
     ]);
     changeSchemas(flatten(arg));
   };
@@ -223,16 +223,16 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
 
   const onRotateEnd = ({ target }: { target: HTMLElement | SVGElement }) => {
     const { transform } = target.style;
-    const rotate = Number(transform.replace('rotate(', '').replace('deg)', ''));
+    const rotate = Number(transform.replace("rotate(", "").replace("deg)", ""));
     const normalizedRotate = normalizeRotate(rotate);
-    changeSchemas([{ key: 'rotate', value: normalizedRotate, schemaId: target.id }]);
+    changeSchemas([{ key: "rotate", value: normalizedRotate, schemaId: target.id }]);
   };
 
   const onRotateEnds = ({ targets }: { targets: (HTMLElement | SVGElement)[] }) => {
     const arg = targets.map(({ style: { transform }, id }) => {
-      const rotate = Number(transform.replace('rotate(', '').replace('deg)', ''));
+      const rotate = Number(transform.replace("rotate(", "").replace("deg)", ""));
       const normalizedRotate = normalizeRotate(rotate);
-      return [{ key: 'rotate', value: normalizedRotate, schemaId: id }];
+      return [{ key: "rotate", value: normalizedRotate, schemaId: id }];
     });
     changeSchemas(flatten(arg));
   };
@@ -241,10 +241,10 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
     const { id, style } = target;
     const { width, height, top, left } = style;
     changeSchemas([
-      { key: 'position.x', value: fmt(left), schemaId: id },
-      { key: 'position.y', value: fmt(top), schemaId: id },
-      { key: 'width', value: fmt(width), schemaId: id },
-      { key: 'height', value: fmt(height), schemaId: id },
+      { key: "position.x", value: fmt(left), schemaId: id },
+      { key: "position.y", value: fmt(top), schemaId: id },
+      { key: "width", value: fmt(width), schemaId: id },
+      { key: "height", value: fmt(height), schemaId: id },
     ]);
 
     const targetSchema = schemasList[pageCursor].find((schema) => schema.id === id);
@@ -259,10 +259,10 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
 
   const onResizeEnds = ({ targets }: { targets: (HTMLElement | SVGElement)[] }) => {
     const arg = targets.map(({ style: { width, height, top, left }, id }) => [
-      { key: 'width', value: fmt(width), schemaId: id },
-      { key: 'height', value: fmt(height), schemaId: id },
-      { key: 'position.y', value: fmt(top), schemaId: id },
-      { key: 'position.x', value: fmt(left), schemaId: id },
+      { key: "width", value: fmt(width), schemaId: id },
+      { key: "height", value: fmt(height), schemaId: id },
+      { key: "position.y", value: fmt(top), schemaId: id },
+      { key: "position.x", value: fmt(left), schemaId: id },
     ]);
     changeSchemas(flatten(arg));
   };
@@ -310,9 +310,9 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
     if (isTopLeftResize(d)) {
       obj.top = `${newTop}px`;
       obj.left = `${newLeft}px`;
-    } else if (d === '1,-1') {
+    } else if (d === "1,-1") {
       obj.top = `${newTop}px`;
-    } else if (d === '-1,1') {
+    } else if (d === "-1,1") {
       obj.left = `${newLeft}px`;
     }
     Object.assign(s, obj);
@@ -344,17 +344,17 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
 
     // Check if all schema types have rotate property
     return uniqueSchemaTypes.every((type) => {
-      const matchingSchema = defaultSchemas.find((ds) => ds && 'type' in ds && ds.type === type);
-      return matchingSchema && 'rotate' in matchingSchema;
+      const matchingSchema = defaultSchemas.find((ds) => ds && "type" in ds && ds.type === type);
+      return matchingSchema && "rotate" in matchingSchema;
     });
   }, [activeElements, pageCursor, schemasList, pluginsRegistry]);
 
   return (
     <div
-      className={DESIGNER_CLASSNAME + 'canvas'}
+      className={DESIGNER_CLASSNAME + "canvas"}
       style={{
-        position: 'relative',
-        overflow: 'auto',
+        position: "relative",
+        overflow: "auto",
         marginRight: sidebarOpen ? RIGHT_SIDEBAR_WIDTH : 0,
         ...size,
       }}
@@ -369,7 +369,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
           const target = inputEvent.target as Element | null;
           const isMoveableElement = moveable.current?.isMoveableElement(target as Element);
 
-          if ((inputEvent.type === 'touchstart' && e.isTrusted) || isMoveableElement) {
+          if ((inputEvent.type === "touchstart" && e.isTrusted) || isMoveableElement) {
             e.stop();
           }
 
@@ -390,7 +390,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
           const removed = e.removed as HTMLElement[];
           const selected = e.selected as HTMLElement[];
 
-          const isClick = inputEvent.type === 'mousedown';
+          const isClick = inputEvent.type === "mousedown";
           let newActiveElements: HTMLElement[] = isClick ? selected : [];
 
           if (!isClick && added.length > 0) {
@@ -407,7 +407,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
 
           // For MacOS CMD+SHIFT+3/4 screenshots where the keydown event is never received, check mouse too
           const mouseEvent = inputEvent as MouseEvent;
-          if (mouseEvent && typeof mouseEvent.shiftKey === 'boolean' && !mouseEvent.shiftKey) {
+          if (mouseEvent && typeof mouseEvent.shiftKey === "boolean" && !mouseEvent.shiftKey) {
             setIsPressShiftKey(false);
           }
         }}
@@ -429,7 +429,7 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
             <StaticSchema
               template={{ schemas: schemasList, basePdf }}
               input={Object.fromEntries(
-                schemasList.flat().map(({ name, content = '' }) => [name, content]),
+                schemasList.flat().map(({ name, content = "" }) => [name, content]),
               )}
               scale={scale}
               totalPages={schemasList.length}
@@ -477,17 +477,17 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
         renderSchema={({ schema, index }) => {
           const mode =
             editing && activeElements.map((ae) => ae.id).includes(schema.id)
-              ? 'designer'
-              : 'viewer';
+              ? "designer"
+              : "viewer";
 
-          const content = schema.content || '';
+          const content = schema.content || "";
           let value = content;
 
-          if (mode !== 'designer' && schema.readOnly) {
+          if (mode !== "designer" && schema.readOnly) {
             const variables = {
               ...schemasList.flat().reduce(
                 (acc, currSchema) => {
-                  acc[currSchema.name] = currSchema.content || '';
+                  acc[currSchema.name] = currSchema.content || "";
                   return acc;
                 },
                 {} as Record<string, string>,
@@ -520,9 +520,9 @@ const Canvas = (props: Props, ref: Ref<HTMLDivElement>) => {
                   : undefined
               }
               stopEditing={() => setEditing(false)}
-              outline={`1px ${hoveringSchemaId === schema.id ? 'solid' : 'dashed'} ${
+              outline={`1px ${hoveringSchemaId === schema.id ? "solid" : "dashed"} ${
                 schema.readOnly && hoveringSchemaId !== schema.id
-                  ? 'transparent'
+                  ? "transparent"
                   : token.colorPrimary
               }`}
               scale={scale}

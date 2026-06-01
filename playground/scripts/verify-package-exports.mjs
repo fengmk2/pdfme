@@ -1,26 +1,26 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const playgroundRoot = path.resolve(__dirname, '..');
+const playgroundRoot = path.resolve(__dirname, "..");
 
 const trackedSpecifiers = [
-  '@pdfme/common',
-  '@pdfme/converter',
-  '@pdfme/generator',
-  '@pdfme/manipulator',
-  '@pdfme/schemas',
-  '@pdfme/schemas/builtins',
-  '@pdfme/schemas/tables',
-  '@pdfme/schemas/utils',
-  '@pdfme/ui',
+  "@pdfme/common",
+  "@pdfme/converter",
+  "@pdfme/generator",
+  "@pdfme/manipulator",
+  "@pdfme/schemas",
+  "@pdfme/schemas/builtins",
+  "@pdfme/schemas/tables",
+  "@pdfme/schemas/utils",
+  "@pdfme/ui",
 ];
 
-const trackedDirs = ['src', 'scripts', 'e2e', 'node-playground'];
-const trackedExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.json']);
-const forbiddenSegments = ['/src/', '/cjs/src/', '/esm/src/', '/dist/cjs/src/', '/dist/esm/src/'];
+const trackedDirs = ["src", "scripts", "e2e", "node-playground"];
+const trackedExtensions = new Set([".ts", ".tsx", ".js", ".mjs", ".json"]);
+const forbiddenSegments = ["/src/", "/cjs/src/", "/esm/src/", "/dist/cjs/src/", "/dist/esm/src/"];
 const forbiddenImportPatterns = [
   /['"]@pdfme\/[^'"]+\/dist\//,
   /['"]@pdfme\/[^'"]+\/cjs\//,
@@ -44,7 +44,7 @@ function collectFiles(dirPath) {
 
 const filesToCheck = trackedDirs.flatMap((dir) => collectFiles(path.join(playgroundRoot, dir)));
 const importViolations = filesToCheck.flatMap((filePath) => {
-  const content = fs.readFileSync(filePath, 'utf8');
+  const content = fs.readFileSync(filePath, "utf8");
   return forbiddenImportPatterns.flatMap((pattern) => {
     if (!pattern.test(content)) {
       return [];
@@ -54,7 +54,7 @@ const importViolations = filesToCheck.flatMap((filePath) => {
 });
 
 if (importViolations.length > 0) {
-  console.error('Found legacy @pdfme deep imports in playground files:');
+  console.error("Found legacy @pdfme deep imports in playground files:");
   for (const filePath of [...new Set(importViolations)]) {
     console.error(`- ${filePath}`);
   }
@@ -64,7 +64,7 @@ if (importViolations.length > 0) {
 for (const specifier of trackedSpecifiers) {
   const resolved = await import.meta.resolve(specifier);
   const resolvedPath = new URL(resolved).pathname;
-  if (!resolvedPath.includes('/dist/')) {
+  if (!resolvedPath.includes("/dist/")) {
     console.error(`${specifier} did not resolve to a dist export: ${resolved}`);
     process.exit(1);
   }
@@ -74,4 +74,4 @@ for (const specifier of trackedSpecifiers) {
   }
 }
 
-console.log('Verified playground @pdfme imports and package exports.');
+console.log("Verified playground @pdfme imports and package exports.");

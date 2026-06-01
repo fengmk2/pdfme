@@ -1,18 +1,18 @@
-import PDFDocument from '../PDFDocument';
-import PDFPage from '../PDFPage';
-import PDFFont from '../PDFFont';
-import PDFImage from '../PDFImage';
-import PDFField, { FieldAppearanceOptions, assertFieldAppearanceOptions } from './PDFField';
+import PDFDocument from "../PDFDocument";
+import PDFPage from "../PDFPage";
+import PDFFont from "../PDFFont";
+import PDFImage from "../PDFImage";
+import PDFField, { FieldAppearanceOptions, assertFieldAppearanceOptions } from "./PDFField";
 import {
   AppearanceProviderFor,
   normalizeAppearance,
   defaultTextFieldAppearanceProvider,
-} from './appearances';
-import { rgb } from '../colors';
-import { degrees } from '../rotations';
-import { RichTextFieldReadError, ExceededMaxLengthError, InvalidMaxLengthError } from '../errors';
-import { ImageAlignment } from '../image/alignment';
-import { TextAlignment } from '../text/alignment';
+} from "./appearances";
+import { rgb } from "../colors";
+import { degrees } from "../rotations";
+import { RichTextFieldReadError, ExceededMaxLengthError, InvalidMaxLengthError } from "../errors";
+import { ImageAlignment } from "../image/alignment";
+import { TextAlignment } from "../text/alignment";
 
 import {
   PDFHexString,
@@ -21,14 +21,14 @@ import {
   PDFAcroText,
   AcroTextFlags,
   PDFWidgetAnnotation,
-} from '../../core';
+} from "../../core";
 import {
   assertIs,
   assertIsOneOf,
   assertOrUndefined,
   assertPositive,
   assertRangeOrUndefined,
-} from '../../utils';
+} from "../../utils";
 
 /**
  * Represents a text field of a [[PDFForm]].
@@ -60,7 +60,7 @@ export default class PDFTextField extends PDFField {
   private constructor(acroText: PDFAcroText, ref: PDFRef, doc: PDFDocument) {
     super(acroText, ref, doc);
 
-    assertIs(acroText, 'acroText', [[PDFAcroText, 'PDFAcroText']]);
+    assertIs(acroText, "acroText", [[PDFAcroText, "PDFAcroText"]]);
 
     this.acroField = acroText;
   }
@@ -140,7 +140,7 @@ export default class PDFTextField extends PDFField {
    * @param text The text this field should contain.
    */
   setText(text: string | undefined) {
-    assertOrUndefined(text, 'text', ['string']);
+    assertOrUndefined(text, "text", ["string"]);
 
     const maxLength = this.getMaxLength();
     if (maxLength !== undefined && text && text.length > maxLength) {
@@ -203,7 +203,7 @@ export default class PDFTextField extends PDFField {
    * @param alignment The alignment for this text field.
    */
   setAlignment(alignment: TextAlignment) {
-    assertIsOneOf(alignment, 'alignment', TextAlignment);
+    assertIsOneOf(alignment, "alignment", TextAlignment);
     this.markAsDirty();
     this.acroField.setQuadding(alignment);
   }
@@ -246,7 +246,7 @@ export default class PDFTextField extends PDFField {
    *                  `undefined` to remove the limit.
    */
   setMaxLength(maxLength?: number) {
-    assertRangeOrUndefined(maxLength, 'maxLength', 0, Number.MAX_SAFE_INTEGER);
+    assertRangeOrUndefined(maxLength, "maxLength", 0, Number.MAX_SAFE_INTEGER);
 
     this.markAsDirty();
 
@@ -326,7 +326,7 @@ export default class PDFTextField extends PDFField {
    * @param fontSize The font size to be used when rendering text in this field.
    */
   setFontSize(fontSize: number) {
-    assertPositive(fontSize, 'fontSize');
+    assertPositive(fontSize, "fontSize");
     this.acroField.setFontSize(fontSize);
     this.markAsDirty();
   }
@@ -697,15 +697,15 @@ export default class PDFTextField extends PDFField {
    * @param options The options to be used when adding this text field widget.
    */
   addToPage(page: PDFPage, options?: FieldAppearanceOptions) {
-    assertIs(page, 'page', [[PDFPage, 'PDFPage']]);
+    assertIs(page, "page", [[PDFPage, "PDFPage"]]);
     assertFieldAppearanceOptions(options);
 
     if (!options) options = {};
 
-    if (!('textColor' in options)) options.textColor = rgb(0, 0, 0);
-    if (!('backgroundColor' in options)) options.backgroundColor = rgb(1, 1, 1);
-    if (!('borderColor' in options)) options.borderColor = rgb(0, 0, 0);
-    if (!('borderWidth' in options)) options.borderWidth = 1;
+    if (!("textColor" in options)) options.textColor = rgb(0, 0, 0);
+    if (!("backgroundColor" in options)) options.backgroundColor = rgb(1, 1, 1);
+    if (!("borderColor" in options)) options.borderColor = rgb(0, 0, 0);
+    if (!("borderWidth" in options)) options.borderWidth = 1;
 
     // Create a widget for this text field
     const widget = this.createWidget({
@@ -767,7 +767,7 @@ export default class PDFTextField extends PDFField {
    * @param font The font to be used for creating the appearance streams.
    */
   defaultUpdateAppearances(font: PDFFont) {
-    assertIs(font, 'font', [[PDFFont, 'PDFFont']]);
+    assertIs(font, "font", [[PDFFont, "PDFFont"]]);
     this.updateAppearances(font);
   }
 
@@ -788,8 +788,8 @@ export default class PDFTextField extends PDFField {
    *                 generating the contents of the appearance streams.
    */
   updateAppearances(font: PDFFont, provider?: AppearanceProviderFor<PDFTextField>) {
-    assertIs(font, 'font', [[PDFFont, 'PDFFont']]);
-    assertOrUndefined(provider, 'provider', [Function]);
+    assertIs(font, "font", [[PDFFont, "PDFFont"]]);
+    assertOrUndefined(provider, "provider", [Function]);
 
     const widgets = this.acroField.getWidgets();
     for (let idx = 0, len = widgets.length; idx < len; idx++) {

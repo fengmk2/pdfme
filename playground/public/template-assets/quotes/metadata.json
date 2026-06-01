@@ -2,11 +2,6 @@
   "title": "Quotes",
   "description": "A quote document layout for proposals, estimates, and short commercial offers.",
   "sourceKind": "designer",
-  "tags": [
-    "Quote",
-    "Business",
-    "Table",
-    "Visual"
-  ],
+  "tags": ["Quote", "Business", "Table", "Visual"],
   "order": 100
 }

@@ -1,5 +1,5 @@
-import { PDFDocument } from '@pdfme/pdf-lib';
-import { pdf2img } from '@pdfme/converter';
+import { PDFDocument } from "@pdfme/pdf-lib";
+import { pdf2img } from "@pdfme/converter";
 
 export const createTestPDF = async (pageCount: number): Promise<Uint8Array> => {
   const pdfDoc = await PDFDocument.create();
@@ -15,7 +15,7 @@ export const createTestPDF = async (pageCount: number): Promise<Uint8Array> => {
 };
 
 export const pdfToImages = async (pdf: ArrayBuffer | Uint8Array): Promise<Buffer[]> => {
-  const arrayBuffers = await pdf2img(pdf, { imageType: 'png' });
+  const arrayBuffers = await pdf2img(pdf, { imageType: "png" });
   return arrayBuffers.map((buf) => Buffer.from(new Uint8Array(buf)));
 };
 

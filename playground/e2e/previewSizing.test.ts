@@ -1,7 +1,7 @@
-import { shouldRefreshCollapsedPreviewSnapshot } from '../src/routes/previewSizing';
+import { shouldRefreshCollapsedPreviewSnapshot } from "../src/routes/previewSizing";
 
-describe('preview sizing helpers', () => {
-  it('refreshes when a visible preview rendered much smaller than its container', () => {
+describe("preview sizing helpers", () => {
+  it("refreshes when a visible preview rendered much smaller than its container", () => {
     expect(
       shouldRefreshCollapsedPreviewSnapshot({
         containerBottom: 800,
@@ -21,7 +21,7 @@ describe('preview sizing helpers', () => {
     ).toBe(true);
   });
 
-  it('does not refresh when the visible area is too small or the preview is not collapsed', () => {
+  it("does not refresh when the visible area is too small or the preview is not collapsed", () => {
     expect(
       shouldRefreshCollapsedPreviewSnapshot({
         containerBottom: 220,

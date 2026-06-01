@@ -1,5 +1,5 @@
-import { MultiVariableTextSchema } from './types.js';
-import { escapeInlineMarkdown } from '../text/inlineMarkdown.js';
+import { MultiVariableTextSchema } from "./types.js";
+import { escapeInlineMarkdown } from "../text/inlineMarkdown.js";
 
 export const substituteVariables = (
   text: string,
@@ -7,7 +7,7 @@ export const substituteVariables = (
   valueMapper: (value: string, variableName: string) => string = (value) => value,
 ): string => {
   if (!text) {
-    return '';
+    return "";
   }
 
   let substitutedText = text;
@@ -16,8 +16,8 @@ export const substituteVariables = (
     let variables: Record<string, string>;
     try {
       variables =
-        typeof variablesIn === 'string'
-          ? (JSON.parse(variablesIn || '{}') as Record<string, string>)
+        typeof variablesIn === "string"
+          ? (JSON.parse(variablesIn || "{}") as Record<string, string>)
           : variablesIn;
     } catch {
       throw new SyntaxError(`[@pdfme/schemas] MVT: invalid JSON string '${variablesIn as string}'`);
@@ -25,8 +25,8 @@ export const substituteVariables = (
 
     Object.keys(variables).forEach((variableName) => {
       // handle special characters in variable name
-      const variableForRegex = variableName.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
-      const regex = new RegExp('\\{' + variableForRegex + '\\}', 'g');
+      const variableForRegex = variableName.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
+      const regex = new RegExp("\\{" + variableForRegex + "\\}", "g");
       substitutedText = substitutedText.replace(
         regex,
         valueMapper(variables[variableName], variableName),
@@ -35,7 +35,7 @@ export const substituteVariables = (
   }
 
   // Remove any variables that were not substituted from inputs
-  substitutedText = substitutedText.replace(/{[^{}]+}/g, '');
+  substitutedText = substitutedText.replace(/{[^{}]+}/g, "");
 
   return substitutedText;
 };

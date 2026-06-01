@@ -1,4 +1,4 @@
-import { checkTemplate, type Font } from '@pdfme/common';
+import { checkTemplate, type Font } from "@pdfme/common";
 import {
   Absolute,
   Box,
@@ -23,35 +23,35 @@ import {
   renderToTemplate,
   type PdfJsxChild,
   type RenderResult,
-} from '@pdfme/jsx';
-import { Fragment, jsx } from '@pdfme/jsx/jsx-runtime';
-import { transform } from 'sucrase';
+} from "@pdfme/jsx";
+import { Fragment, jsx } from "@pdfme/jsx/jsx-runtime";
+import { transform } from "sucrase";
 
 const RESTRICTED_GLOBALS = [
-  'caches',
-  'document',
-  'eval',
-  'fetch',
-  'Function',
-  'globalThis',
-  'importScripts',
-  'indexedDB',
-  'localStorage',
-  'location',
-  'navigator',
-  'opener',
-  'parent',
-  'postMessage',
-  'self',
-  'sessionStorage',
-  'top',
-  'WebSocket',
-  'window',
-  'XMLHttpRequest',
+  "caches",
+  "document",
+  "eval",
+  "fetch",
+  "Function",
+  "globalThis",
+  "importScripts",
+  "indexedDB",
+  "localStorage",
+  "location",
+  "navigator",
+  "opener",
+  "parent",
+  "postMessage",
+  "self",
+  "sessionStorage",
+  "top",
+  "WebSocket",
+  "window",
+  "XMLHttpRequest",
 ];
 
 const IMPORT_EXPORT_PATTERN = /^\s*(import|export)\b/m;
-const RESTRICTED_GLOBAL_PATTERN = new RegExp(`\\b(${RESTRICTED_GLOBALS.join('|')})\\b`);
+const RESTRICTED_GLOBAL_PATTERN = new RegExp(`\\b(${RESTRICTED_GLOBALS.join("|")})\\b`);
 const JS_COMMENT_OR_STRING_PATTERN =
   /\/\*[\s\S]*?\*\/|\/\/[^\r\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g;
 
@@ -85,7 +85,7 @@ const createElement = (
 ): PdfJsxChild => {
   const nextProps = { ...props };
   const key =
-    typeof nextProps.key === 'string' || typeof nextProps.key === 'number' ? nextProps.key : null;
+    typeof nextProps.key === "string" || typeof nextProps.key === "number" ? nextProps.key : null;
   delete nextProps.key;
   if (children.length > 0) {
     nextProps.children = children.length === 1 ? children[0] : children;
@@ -94,12 +94,12 @@ const createElement = (
 };
 
 const stripCommentsAndQuotedStrings = (source: string) =>
-  source.replace(JS_COMMENT_OR_STRING_PATTERN, '');
+  source.replace(JS_COMMENT_OR_STRING_PATTERN, "");
 
 const assertNoImportExport = (source: string) => {
   if (IMPORT_EXPORT_PATTERN.test(source)) {
     throw new Error(
-      'The JSX playground beta does not support import/export. Use a function body that returns <Document> or <Page> nodes.',
+      "The JSX playground beta does not support import/export. Use a function body that returns <Document> or <Page> nodes.",
     );
   }
 };
@@ -119,11 +119,11 @@ export const compileJsxFunctionBody = (source: string) => {
 
   try {
     const compiled = transform(source, {
-      filePath: 'playground.tsx',
-      jsxFragmentPragma: 'Fragment',
-      jsxPragma: 'createElement',
+      filePath: "playground.tsx",
+      jsxFragmentPragma: "Fragment",
+      jsxPragma: "createElement",
       production: true,
-      transforms: ['typescript', 'jsx'],
+      transforms: ["typescript", "jsx"],
     }).code;
     assertNoRestrictedGlobals(compiled);
     return compiled;

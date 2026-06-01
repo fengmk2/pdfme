@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, ReactNode, useRef, useMemo } from 'react';
+import React, { useEffect, useContext, ReactNode, useRef, useMemo } from "react";
 import {
   Mode,
   ZOOM,
@@ -9,14 +9,14 @@ import {
   Plugin,
   UIOptions,
   cloneDeep,
-} from '@pdfme/common';
-import { theme as antdTheme } from 'antd';
-import { SELECTABLE_CLASSNAME } from '../constants.js';
-import { PluginsRegistry, OptionsContext, I18nContext, CacheContext } from '../contexts.js';
+} from "@pdfme/common";
+import { theme as antdTheme } from "antd";
+import { SELECTABLE_CLASSNAME } from "../constants.js";
+import { PluginsRegistry, OptionsContext, I18nContext, CacheContext } from "../contexts.js";
 
 type RendererProps = Omit<
   UIRenderProps<Schema>,
-  'schema' | 'rootElement' | 'options' | 'theme' | 'i18n' | '_cache'
+  "schema" | "rootElement" | "options" | "theme" | "i18n" | "_cache"
 > & {
   basePdf: BasePdf;
   schema: SchemaForUI;
@@ -41,13 +41,13 @@ const useRenderKey = (arg: ReRenderCheckProps) => {
   const _options = cloneDeep(options);
   if (_options.font) {
     Object.values(_options.font).forEach((fontObj) => {
-      (fontObj as { data: string }).data = '...';
+      (fontObj as { data: string }).data = "...";
     });
   }
   const optionStr = JSON.stringify(_options);
 
   return useMemo(() => {
-    if (plugin?.uninterruptedEditMode && mode === 'designer') {
+    if (plugin?.uninterruptedEditMode && mode === "designer") {
       return mode;
     } else {
       return JSON.stringify([value, mode, scale, schema, optionStr]);
@@ -66,11 +66,11 @@ const Wrapper = ({
     title={schema.name}
     onMouseEnter={() => onChangeHoveringSchemaId && onChangeHoveringSchemaId(schema.id)}
     onMouseLeave={() => onChangeHoveringSchemaId && onChangeHoveringSchemaId(null)}
-    className={selectable ? SELECTABLE_CLASSNAME : ''}
+    className={selectable ? SELECTABLE_CLASSNAME : ""}
     id={schema.id}
     style={{
-      position: 'absolute',
-      cursor: schema.readOnly ? 'initial' : 'pointer',
+      position: "absolute",
+      cursor: schema.readOnly ? "initial" : "pointer",
       height: schema.height * ZOOM,
       width: schema.width * ZOOM,
       top: schema.position.y * ZOOM,
@@ -83,8 +83,8 @@ const Wrapper = ({
     {schema.required && (
       <span
         style={{
-          color: 'red',
-          position: 'absolute',
+          color: "red",
+          position: "absolute",
           top: -12,
           left: -12,
           fontSize: 18,
@@ -159,8 +159,8 @@ const Renderer = (props: RendererProps) => {
     if (!renderArgs.plugin?.ui || !element || !schema.type) return;
 
     let cancelled = false;
-    element.innerHTML = '';
-    element.dataset.pdfmeRenderReady = 'false';
+    element.innerHTML = "";
+    element.dataset.pdfmeRenderReady = "false";
     const render = renderArgs.plugin.ui;
 
     void Promise.resolve(
@@ -182,15 +182,15 @@ const Renderer = (props: RendererProps) => {
       }),
     ).finally(() => {
       if (!cancelled) {
-        element.dataset.pdfmeRenderReady = 'true';
+        element.dataset.pdfmeRenderReady = "true";
       }
     });
 
     return () => {
       cancelled = true;
       if (element) {
-        element.dispatchEvent(new Event('beforeRemove'));
-        element.innerHTML = '';
+        element.dispatchEvent(new Event("beforeRemove"));
+        element.innerHTML = "";
         delete element.dataset.pdfmeRenderReady;
       }
     };
@@ -204,7 +204,7 @@ Check this document: https://pdfme.com/docs/custom-schemas`);
 
   return (
     <Wrapper {...props}>
-      <div style={{ height: '100%', width: '100%' }} ref={ref} />
+      <div style={{ height: "100%", width: "100%" }} ref={ref} />
     </Wrapper>
   );
 };

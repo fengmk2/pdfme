@@ -3,21 +3,21 @@ import {
   checkTemplate,
   getInputFromTemplate,
   type Template,
-} from '@pdfme/common';
-import { createTemplateThumbnailDataUrl } from './templateThumbnails';
+} from "@pdfme/common";
+import { createTemplateThumbnailDataUrl } from "./templateThumbnails";
 
-const DB_NAME = 'pdfme-playground-file-workspace';
+const DB_NAME = "pdfme-playground-file-workspace";
 const DB_VERSION = 1;
-const STORE_NAME = 'workspace';
-const ACTIVE_STATE_KEY = 'active';
+const STORE_NAME = "workspace";
+const ACTIVE_STATE_KEY = "active";
 const DEFAULT_COLLECTION_POLLING_INTERVAL_MS = 4000;
 const DEFAULT_ENTRY_POLLING_INTERVAL_MS = 1500;
 
-export type SourceKind = 'designer' | 'jsx' | 'md2pdf';
+export type SourceKind = "designer" | "jsx" | "md2pdf";
 
 export type FileWorkspaceSourceInput = {
   content: string;
-  language: 'jsx' | 'markdown';
+  language: "jsx" | "markdown";
 };
 
 export type FileWorkspaceMetadata = {
@@ -69,10 +69,10 @@ type PersistedFileWorkspaceState = {
 };
 
 type RestoreResult =
-  | { status: 'mounted'; collection: FileWorkspaceCollection }
-  | { status: 'none' }
-  | { rootName: string; selectedTemplateName?: string; status: 'permission-needed' }
-  | { error: unknown; rootName?: string; status: 'error' };
+  | { status: "mounted"; collection: FileWorkspaceCollection }
+  | { status: "none" }
+  | { rootName: string; selectedTemplateName?: string; status: "permission-needed" }
+  | { error: unknown; rootName?: string; status: "error" };
 
 type FileWorkspaceSubscriptionOptions = {
   intervalMs?: number;
@@ -102,7 +102,7 @@ export type EditableFileWorkspaceMetadata = {
 export class FileWorkspaceTemplateDeletedError extends Error {
   constructor(name: string) {
     super(`Template "${name}" was deleted from disk.`);
-    this.name = 'FileWorkspaceTemplateDeletedError';
+    this.name = "FileWorkspaceTemplateDeletedError";
   }
 }
 
@@ -112,46 +112,46 @@ export class FileWorkspaceTemplateInvalidError extends Error {
     readonly cause?: unknown,
   ) {
     super(message);
-    this.name = 'FileWorkspaceTemplateInvalidError';
+    this.name = "FileWorkspaceTemplateInvalidError";
   }
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 const titleFromDirectoryName = (name: string) =>
   name
-    .split('-')
+    .split("-")
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ') || name;
+    .join(" ") || name;
 
 const inferSourceKind = (name: string): SourceKind => {
-  if (name.startsWith('jsx-')) return 'jsx';
-  if (name.startsWith('md2pdf-')) return 'md2pdf';
-  return 'designer';
+  if (name.startsWith("jsx-")) return "jsx";
+  if (name.startsWith("md2pdf-")) return "md2pdf";
+  return "designer";
 };
 
 const normalizeMetadata = (value: unknown, name: string): FileWorkspaceMetadata => {
   if (!isRecord(value)) return { sourceKind: inferSourceKind(name), tags: [] };
 
-  const sourceKind = ['designer', 'jsx', 'md2pdf'].includes(String(value.sourceKind))
+  const sourceKind = ["designer", "jsx", "md2pdf"].includes(String(value.sourceKind))
     ? (value.sourceKind as SourceKind)
     : inferSourceKind(name);
 
   return {
-    description: typeof value.description === 'string' ? value.description : undefined,
+    description: typeof value.description === "string" ? value.description : undefined,
     order:
-      typeof value.order === 'number' && Number.isFinite(value.order) ? value.order : undefined,
+      typeof value.order === "number" && Number.isFinite(value.order) ? value.order : undefined,
     sourceKind,
     tags: Array.isArray(value.tags)
       ? [
           ...new Set(
-            value.tags.filter((tag): tag is string => typeof tag === 'string' && !!tag.trim()),
+            value.tags.filter((tag): tag is string => typeof tag === "string" && !!tag.trim()),
           ),
         ]
       : [],
-    title: typeof value.title === 'string' ? value.title : undefined,
+    title: typeof value.title === "string" ? value.title : undefined,
   };
 };
 
@@ -160,9 +160,9 @@ const normalizeTags = (tags: string[]) => [
 ];
 
 const getSourceKindLabel = (sourceKind: SourceKind) => {
-  if (sourceKind === 'jsx') return 'JSX';
-  if (sourceKind === 'md2pdf') return 'md2pdf';
-  return 'Designer';
+  if (sourceKind === "jsx") return "JSX";
+  if (sourceKind === "md2pdf") return "md2pdf";
+  return "Designer";
 };
 
 const hashText = (value: string) => {
@@ -179,8 +179,8 @@ const getDiskVersion = (file: File, rawJson: string) =>
 const blobToDataUrl = (blob: Blob) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
-    reader.addEventListener('load', () => resolve(String(reader.result)));
-    reader.addEventListener('error', () => reject(reader.error));
+    reader.addEventListener("load", () => resolve(String(reader.result)));
+    reader.addEventListener("error", () => reject(reader.error));
     reader.readAsDataURL(blob);
   });
 
@@ -193,7 +193,7 @@ const writeBlob = async (fileHandle: FileSystemFileHandle, blob: Blob) => {
 const writeText = async (
   fileHandle: FileSystemFileHandle,
   text: string,
-  type = 'application/json',
+  type = "application/json",
 ) => {
   await writeBlob(fileHandle, new Blob([text], { type }));
 };
@@ -220,7 +220,7 @@ const readMetadata = async (
   directoryHandle: FileSystemDirectoryHandle,
   name: string,
 ): Promise<FileWorkspaceMetadata> => {
-  const handle = await getFileHandleIfExists(directoryHandle, 'metadata.json');
+  const handle = await getFileHandleIfExists(directoryHandle, "metadata.json");
   if (!handle) return normalizeMetadata(undefined, name);
 
   try {
@@ -233,7 +233,7 @@ const readMetadata = async (
 };
 
 const readRawMetadata = async (directoryHandle: FileSystemDirectoryHandle) => {
-  const handle = await getFileHandleIfExists(directoryHandle, 'metadata.json');
+  const handle = await getFileHandleIfExists(directoryHandle, "metadata.json");
   if (!handle) return {};
 
   try {
@@ -241,20 +241,20 @@ const readRawMetadata = async (directoryHandle: FileSystemDirectoryHandle) => {
     const parsed = JSON.parse(raw);
     return isRecord(parsed) ? parsed : {};
   } catch (error) {
-    console.warn('Failed to parse metadata.json', error);
+    console.warn("Failed to parse metadata.json", error);
     return {};
   }
 };
 
 const readThumbnail = async (directoryHandle: FileSystemDirectoryHandle) => {
-  const handle = await getFileHandleIfExists(directoryHandle, 'thumbnail.png');
+  const handle = await getFileHandleIfExists(directoryHandle, "thumbnail.png");
   if (!handle) return {};
 
   try {
     const file = await handle.getFile();
     return { thumbnailDataUrl: await blobToDataUrl(file) };
   } catch (error) {
-    console.warn('Failed to read template thumbnail', error);
+    console.warn("Failed to read template thumbnail", error);
     return {};
   }
 };
@@ -269,18 +269,18 @@ const getDirectoryEntries = async (directoryHandle: FileSystemDirectoryHandle) =
 
 const getChildDirectoryNames = async (directoryHandle: FileSystemDirectoryHandle) => {
   const entries = await getDirectoryEntries(directoryHandle);
-  return entries.filter(([, handle]) => handle.kind === 'directory').map(([name]) => name);
+  return entries.filter(([, handle]) => handle.kind === "directory").map(([name]) => name);
 };
 
 const toDirectoryName = (value: string) => {
   const normalized = value
     .trim()
     .toLowerCase()
-    .replace(/['"]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
-  return normalized || 'untitled-template';
+  return normalized || "untitled-template";
 };
 
 const createUniqueDirectoryName = async (
@@ -305,7 +305,7 @@ const copyDirectoryContents = async (
   targetDirectoryHandle: FileSystemDirectoryHandle,
 ) => {
   for (const [name, handle] of await getDirectoryEntries(sourceDirectoryHandle)) {
-    if (handle.kind === 'directory') {
+    if (handle.kind === "directory") {
       const childTargetHandle = await targetDirectoryHandle.getDirectoryHandle(name, {
         create: true,
       });
@@ -331,52 +331,52 @@ export const getBlankFileWorkspaceTemplate = (): Template => ({
 });
 
 export const isFileWorkspaceSupported = () =>
-  typeof window !== 'undefined' &&
+  typeof window !== "undefined" &&
   window.isSecureContext &&
-  typeof window.showDirectoryPicker === 'function' &&
-  typeof indexedDB !== 'undefined';
+  typeof window.showDirectoryPicker === "function" &&
+  typeof indexedDB !== "undefined";
 
 const queryFileWorkspacePermission = async (
   handle: FileSystemHandle,
-  mode: 'read' | 'readwrite' = 'readwrite',
+  mode: "read" | "readwrite" = "readwrite",
 ) => {
-  if (!handle.queryPermission) return 'granted' as PermissionState;
+  if (!handle.queryPermission) return "granted" as PermissionState;
   return handle.queryPermission({ mode });
 };
 
 const requestFileWorkspacePermission = async (
   handle: FileSystemHandle,
-  mode: 'read' | 'readwrite' = 'readwrite',
+  mode: "read" | "readwrite" = "readwrite",
 ) => {
-  if (!handle.requestPermission) return 'granted' as PermissionState;
+  if (!handle.requestPermission) return "granted" as PermissionState;
   return handle.requestPermission({ mode });
 };
 
 const openWorkspaceDb = () =>
   new Promise<IDBDatabase>((resolve, reject) => {
-    if (typeof indexedDB === 'undefined') {
-      reject(new Error('IndexedDB is not available.'));
+    if (typeof indexedDB === "undefined") {
+      reject(new Error("IndexedDB is not available."));
       return;
     }
 
     const request = indexedDB.open(DB_NAME, DB_VERSION);
-    request.addEventListener('upgradeneeded', () => {
+    request.addEventListener("upgradeneeded", () => {
       request.result.createObjectStore(STORE_NAME);
     });
-    request.addEventListener('success', () => resolve(request.result));
-    request.addEventListener('error', () => reject(request.error));
+    request.addEventListener("success", () => resolve(request.result));
+    request.addEventListener("error", () => reject(request.error));
   });
 
 const idbRequest = <T>(request: IDBRequest<T>) =>
   new Promise<T>((resolve, reject) => {
-    request.addEventListener('success', () => resolve(request.result));
-    request.addEventListener('error', () => reject(request.error));
+    request.addEventListener("success", () => resolve(request.result));
+    request.addEventListener("error", () => reject(request.error));
   });
 
 const idbGet = async <T>(key: string) => {
   const db = await openWorkspaceDb();
   try {
-    const transaction = db.transaction(STORE_NAME, 'readonly');
+    const transaction = db.transaction(STORE_NAME, "readonly");
     return await idbRequest<T | undefined>(transaction.objectStore(STORE_NAME).get(key));
   } finally {
     db.close();
@@ -386,7 +386,7 @@ const idbGet = async <T>(key: string) => {
 const idbSet = async (key: string, value: unknown) => {
   const db = await openWorkspaceDb();
   try {
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     await idbRequest(transaction.objectStore(STORE_NAME).put(value, key));
   } finally {
     db.close();
@@ -396,7 +396,7 @@ const idbSet = async (key: string, value: unknown) => {
 const idbDelete = async (key: string) => {
   const db = await openWorkspaceDb();
   try {
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     await idbRequest(transaction.objectStore(STORE_NAME).delete(key));
   } finally {
     db.close();
@@ -427,11 +427,11 @@ export const setSelectedFileWorkspaceTemplateName = async (
 export const clearPersistedFileWorkspace = () => idbDelete(ACTIVE_STATE_KEY);
 
 export const readTemplateEntry = async (
-  entry: Pick<FileWorkspaceTemplateEntry, 'name' | 'templateDirectoryHandle'>,
+  entry: Pick<FileWorkspaceTemplateEntry, "name" | "templateDirectoryHandle">,
 ): Promise<FileWorkspaceTemplateRead> => {
   let templateFileHandle: FileSystemFileHandle;
   try {
-    templateFileHandle = await entry.templateDirectoryHandle.getFileHandle('template.json');
+    templateFileHandle = await entry.templateDirectoryHandle.getFileHandle("template.json");
   } catch {
     throw new FileWorkspaceTemplateDeletedError(entry.name);
   }
@@ -487,16 +487,16 @@ export const scanTemplateCollection = async (
   const directoryEntries = await getDirectoryEntries(rootHandle);
 
   for (const [name, handle] of directoryEntries) {
-    if (handle.kind !== 'directory' || name.startsWith('.')) continue;
+    if (handle.kind !== "directory" || name.startsWith(".")) continue;
 
-    const templateFileHandle = await getFileHandleIfExists(handle, 'template.json');
+    const templateFileHandle = await getFileHandleIfExists(handle, "template.json");
     if (!templateFileHandle) continue;
 
     try {
       entries.push(await buildTemplateEntry(name, handle));
     } catch (error) {
       invalidEntries.push({
-        error: error instanceof Error ? error.message : 'Invalid template.json',
+        error: error instanceof Error ? error.message : "Invalid template.json",
         name,
       });
       console.warn(`Skipped invalid template directory "${name}"`, error);
@@ -519,13 +519,13 @@ export const scanTemplateCollection = async (
 
 export const openTemplateCollectionDirectory = async () => {
   if (!window.showDirectoryPicker) {
-    throw new Error('Directory picker is not supported in this browser.');
+    throw new Error("Directory picker is not supported in this browser.");
   }
 
-  const rootHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+  const rootHandle = await window.showDirectoryPicker({ mode: "readwrite" });
   const permission = await requestFileWorkspacePermission(rootHandle);
-  if (permission !== 'granted') {
-    throw new Error('Read/write permission was not granted for this folder.');
+  if (permission !== "granted") {
+    throw new Error("Read/write permission was not granted for this folder.");
   }
 
   const collection = await scanTemplateCollection(rootHandle);
@@ -539,18 +539,18 @@ export const restorePersistedTemplateCollection = async ({
   requestPermission?: boolean;
 } = {}): Promise<RestoreResult> => {
   const persisted = await getPersistedFileWorkspaceState();
-  if (!persisted) return { status: 'none' };
+  if (!persisted) return { status: "none" };
 
   try {
     let permission = await queryFileWorkspacePermission(persisted.rootHandle);
-    if (permission !== 'granted' && requestPermission) {
+    if (permission !== "granted" && requestPermission) {
       permission = await requestFileWorkspacePermission(persisted.rootHandle);
     }
-    if (permission !== 'granted') {
+    if (permission !== "granted") {
       return {
         rootName: persisted.rootHandle.name,
         selectedTemplateName: persisted.selectedTemplateName,
-        status: 'permission-needed',
+        status: "permission-needed",
       };
     }
 
@@ -558,12 +558,12 @@ export const restorePersistedTemplateCollection = async ({
       persisted.rootHandle,
       persisted.selectedTemplateName,
     );
-    return { collection, status: 'mounted' };
+    return { collection, status: "mounted" };
   } catch (error) {
     return {
       error,
       rootName: persisted.rootHandle.name,
-      status: 'error',
+      status: "error",
     };
   }
 };
@@ -575,13 +575,13 @@ const subscribeFileSystemObserver = (
   handle: FileSystemHandle,
   callback: () => void | Promise<void>,
 ) => {
-  if (typeof window === 'undefined' || !window.FileSystemObserver) return undefined;
+  if (typeof window === "undefined" || !window.FileSystemObserver) return undefined;
 
   const observer = new window.FileSystemObserver(() => {
     void callback();
   });
   void observer.observe(handle).catch((error) => {
-    console.warn('Failed to observe file workspace changes', error);
+    console.warn("Failed to observe file workspace changes", error);
   });
   return () => observer.disconnect();
 };
@@ -591,7 +591,7 @@ export const subscribeTemplateCollectionChanges = (
   listener: (collection: FileWorkspaceCollection) => void,
   options: FileWorkspaceCollectionSubscriptionOptions = {},
 ) => {
-  if (typeof window === 'undefined') return () => undefined;
+  if (typeof window === "undefined") return () => undefined;
 
   let disposed = false;
   let checking = false;
@@ -629,7 +629,7 @@ export const subscribeTemplateEntryChanges = (
   listener: (readResult: FileWorkspaceTemplateRead) => void,
   options: FileWorkspaceSubscriptionOptions = {},
 ) => {
-  if (typeof window === 'undefined') return () => undefined;
+  if (typeof window === "undefined") return () => undefined;
 
   let disposed = false;
   let checking = false;
@@ -669,14 +669,14 @@ export const subscribeTemplateEntryChanges = (
 
 export const createBlankTemplateEntry = async (
   rootHandle: FileSystemDirectoryHandle,
-  title = 'Untitled Template',
+  title = "Untitled Template",
 ) => {
   const name = await createUniqueDirectoryName(rootHandle, title);
   const directoryHandle = await rootHandle.getDirectoryHandle(name, { create: true });
-  const templateFileHandle = await directoryHandle.getFileHandle('template.json', {
+  const templateFileHandle = await directoryHandle.getFileHandle("template.json", {
     create: true,
   });
-  const metadataFileHandle = await directoryHandle.getFileHandle('metadata.json', {
+  const metadataFileHandle = await directoryHandle.getFileHandle("metadata.json", {
     create: true,
   });
   const template = getBlankFileWorkspaceTemplate();
@@ -686,9 +686,9 @@ export const createBlankTemplateEntry = async (
     metadataFileHandle,
     `${JSON.stringify(
       {
-        description: 'A blank template created from the pdfme Playground.',
-        sourceKind: 'designer',
-        tags: ['Blank', 'Starter'],
+        description: "A blank template created from the pdfme Playground.",
+        sourceKind: "designer",
+        tags: ["Blank", "Starter"],
         title: title.trim() || titleFromDirectoryName(name),
       },
       null,
@@ -710,13 +710,13 @@ export const createTemplateEntryFromTemplate = async (
   checkTemplate(template);
   const name = await createUniqueDirectoryName(collection.rootHandle, title);
   const directoryHandle = await collection.rootHandle.getDirectoryHandle(name, { create: true });
-  const templateFileHandle = await directoryHandle.getFileHandle('template.json', {
+  const templateFileHandle = await directoryHandle.getFileHandle("template.json", {
     create: true,
   });
-  const metadataFileHandle = await directoryHandle.getFileHandle('metadata.json', {
+  const metadataFileHandle = await directoryHandle.getFileHandle("metadata.json", {
     create: true,
   });
-  const sourceKind = options.sourceKind ?? 'designer';
+  const sourceKind = options.sourceKind ?? "designer";
   const resolvedTitle = title.trim() || titleFromDirectoryName(name);
 
   await writeText(templateFileHandle, serializeTemplateForFileWorkspace(template));
@@ -724,7 +724,7 @@ export const createTemplateEntryFromTemplate = async (
     metadataFileHandle,
     `${JSON.stringify(
       {
-        description: options.description ?? 'A template saved from the pdfme Playground.',
+        description: options.description ?? "A template saved from the pdfme Playground.",
         sourceKind,
         tags: normalizeTags(options.tags ?? [getSourceKindLabel(sourceKind)]),
         title: resolvedTitle,
@@ -735,24 +735,24 @@ export const createTemplateEntryFromTemplate = async (
   );
 
   if (options.source) {
-    const sourceFileName = options.source.language === 'markdown' ? 'source.md' : 'source.tsx';
+    const sourceFileName = options.source.language === "markdown" ? "source.md" : "source.tsx";
     const sourceFileHandle = await directoryHandle.getFileHandle(sourceFileName, { create: true });
-    await writeText(sourceFileHandle, options.source.content, 'text/plain');
+    await writeText(sourceFileHandle, options.source.content, "text/plain");
   }
 
   if (options.sourcePdf) {
-    const sourcePdfHandle = await directoryHandle.getFileHandle('source.pdf', { create: true });
+    const sourcePdfHandle = await directoryHandle.getFileHandle("source.pdf", { create: true });
     await writeBlob(sourcePdfHandle, options.sourcePdf);
   }
 
   if (options.thumbnailDataUrl) {
     try {
-      const thumbnailFileHandle = await directoryHandle.getFileHandle('thumbnail.png', {
+      const thumbnailFileHandle = await directoryHandle.getFileHandle("thumbnail.png", {
         create: true,
       });
       await writeBlob(thumbnailFileHandle, await dataUrlToBlob(options.thumbnailDataUrl));
     } catch (error) {
-      console.warn('Failed to copy template thumbnail', error);
+      console.warn("Failed to copy template thumbnail", error);
     }
   }
 
@@ -762,7 +762,7 @@ export const createTemplateEntryFromTemplate = async (
 };
 
 export const writeTemplateMetadata = async (
-  collection: Pick<FileWorkspaceCollection, 'rootHandle'>,
+  collection: Pick<FileWorkspaceCollection, "rootHandle">,
   entry: FileWorkspaceTemplateEntry,
   metadata: EditableFileWorkspaceMetadata,
 ): Promise<FileWorkspaceTemplateEntry> => {
@@ -794,7 +794,7 @@ export const writeTemplateMetadata = async (
     ...restMetadata,
   };
 
-  const metadataFileHandle = await targetDirectoryHandle.getFileHandle('metadata.json', {
+  const metadataFileHandle = await targetDirectoryHandle.getFileHandle("metadata.json", {
     create: true,
   });
   await writeText(metadataFileHandle, `${JSON.stringify(nextMetadata, null, 2)}\n`);
@@ -812,7 +812,7 @@ export const writeTemplateEntry = async (
   template: Template,
 ): Promise<FileWorkspaceTemplateEntry> => {
   checkTemplate(template);
-  const templateFileHandle = await entry.templateDirectoryHandle.getFileHandle('template.json', {
+  const templateFileHandle = await entry.templateDirectoryHandle.getFileHandle("template.json", {
     create: true,
   });
   await writeText(templateFileHandle, serializeTemplateForFileWorkspace(template));
@@ -833,7 +833,7 @@ export const writeTemplateThumbnail = async (
 ) => {
   const thumbnailDataUrl = await createTemplateThumbnailDataUrl(template, inputs);
   const thumbnail = await dataUrlToBlob(thumbnailDataUrl);
-  const thumbnailFileHandle = await entry.templateDirectoryHandle.getFileHandle('thumbnail.png', {
+  const thumbnailFileHandle = await entry.templateDirectoryHandle.getFileHandle("thumbnail.png", {
     create: true,
   });
   await writeBlob(thumbnailFileHandle, thumbnail);

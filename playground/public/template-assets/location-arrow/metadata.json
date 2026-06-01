@@ -2,8 +2,5 @@
   "title": "Location Arrow",
   "description": "A location marker template that highlights points with arrow indicators.",
   "sourceKind": "designer",
-  "tags": [
-    "Map",
-    "Visual"
-  ]
+  "tags": ["Map", "Visual"]
 }

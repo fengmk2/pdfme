@@ -1,14 +1,14 @@
-import PDFCrossRefSection from '../document/PDFCrossRefSection';
-import PDFHeader from '../document/PDFHeader';
-import PDFTrailer from '../document/PDFTrailer';
-import PDFTrailerDict from '../document/PDFTrailerDict';
-import PDFDict from '../objects/PDFDict';
-import PDFObject from '../objects/PDFObject';
-import PDFRef from '../objects/PDFRef';
-import PDFContext from '../PDFContext';
-import PDFObjectStream from '../structures/PDFObjectStream';
-import CharCodes from '../syntax/CharCodes';
-import { copyStringIntoBuffer, waitForTick } from '../../utils';
+import PDFCrossRefSection from "../document/PDFCrossRefSection";
+import PDFHeader from "../document/PDFHeader";
+import PDFTrailer from "../document/PDFTrailer";
+import PDFTrailerDict from "../document/PDFTrailerDict";
+import PDFDict from "../objects/PDFDict";
+import PDFObject from "../objects/PDFObject";
+import PDFRef from "../objects/PDFRef";
+import PDFContext from "../PDFContext";
+import PDFObjectStream from "../structures/PDFObjectStream";
+import CharCodes from "../syntax/CharCodes";
+import { copyStringIntoBuffer, waitForTick } from "../../utils";
 
 export interface SerializationInfo {
   size: number;

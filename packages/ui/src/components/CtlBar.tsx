@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { Size } from '@pdfme/common';
+import React, { useContext } from "react";
+import { Size } from "@pdfme/common";
 // Import icons from lucide-react
 // Note: In tests, these are replaced via the Vitest lucide-react mock.
-import { Plus, Minus, ChevronLeft, ChevronRight, Ellipsis } from 'lucide-react';
+import { Plus, Minus, ChevronLeft, ChevronRight, Ellipsis } from "lucide-react";
 
-import type { MenuProps } from 'antd';
-import { theme, Typography, Button, Dropdown } from 'antd';
-import { I18nContext } from '../contexts.js';
-import { useMaxZoom } from '../helper.js';
-import { UI_CLASSNAME } from '../constants.js';
+import type { MenuProps } from "antd";
+import { theme, Typography, Button, Dropdown } from "antd";
+import { I18nContext } from "../contexts.js";
+import { useMaxZoom } from "../helper.js";
+import { UI_CLASSNAME } from "../constants.js";
 
 const { Text } = Typography;
 
@@ -28,9 +28,9 @@ const Zoom = ({ zoomLevel, setZoomLevel, style }: ZoomProps) => {
   const nextZoomIn = zoomLevel + zoomStep;
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <Button
-        className={UI_CLASSNAME + 'zoom-out'}
+        className={UI_CLASSNAME + "zoom-out"}
         type="text"
         disabled={minZoom >= nextZoomOut}
         onClick={() => setZoomLevel(nextZoomOut)}
@@ -40,7 +40,7 @@ const Zoom = ({ zoomLevel, setZoomLevel, style }: ZoomProps) => {
         {Math.round(zoomLevel * 100)}%
       </Text>
       <Button
-        className={UI_CLASSNAME + 'zoom-in'}
+        className={UI_CLASSNAME + "zoom-in"}
         type="text"
         disabled={maxZoom < nextZoomIn}
         onClick={() => setZoomLevel(nextZoomIn)}
@@ -59,9 +59,9 @@ type PagerProps = {
 
 const Pager = ({ pageCursor, pageNum, setPageCursor, style }: PagerProps) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <Button
-        className={UI_CLASSNAME + 'page-prev'}
+        className={UI_CLASSNAME + "page-prev"}
         type="text"
         disabled={pageCursor <= 0}
         onClick={() => setPageCursor(pageCursor - 1)}
@@ -72,7 +72,7 @@ const Pager = ({ pageCursor, pageNum, setPageCursor, style }: PagerProps) => {
         {pageCursor + 1}/{pageNum}
       </Text>
       <Button
-        className={UI_CLASSNAME + 'page-next'}
+        className={UI_CLASSNAME + "page-next"}
         type="text"
         disabled={pageCursor + 1 >= pageNum}
         onClick={() => setPageCursor(pageCursor + 1)}
@@ -84,12 +84,12 @@ const Pager = ({ pageCursor, pageNum, setPageCursor, style }: PagerProps) => {
 };
 
 type ContextMenuProps = {
-  items: MenuProps['items'];
+  items: MenuProps["items"];
   style: { textStyle: TextStyle };
 };
 const ContextMenu = ({ items, style }: ContextMenuProps) => (
-  <Dropdown menu={{ items }} placement="top" arrow trigger={['click']}>
-    <Button className={UI_CLASSNAME + 'context-menu'} type="text">
+  <Dropdown menu={{ items }} placement="top" arrow trigger={["click"]}>
+    <Button className={UI_CLASSNAME + "context-menu"} type="text">
       <Ellipsis size={16} color={style.textStyle.color} />
     </Button>
   </Dropdown>
@@ -121,17 +121,17 @@ const CtlBar = (props: CtlBarProps) => {
     removePage,
   } = props;
 
-  const contextMenuItems: MenuProps['items'] = [];
+  const contextMenuItems: MenuProps["items"] = [];
   if (addPageAfter) {
     contextMenuItems.push({
-      key: '1',
-      label: <div onClick={addPageAfter}>{i18n('addPageAfter')}</div>,
+      key: "1",
+      label: <div onClick={addPageAfter}>{i18n("addPageAfter")}</div>,
     });
   }
   if (removePage && pageNum > 1 && pageCursor !== 0) {
     contextMenuItems.push({
-      key: '2',
-      label: <div onClick={removePage}>{i18n('removePage')}</div>,
+      key: "2",
+      label: <div onClick={removePage}>{i18n("removePage")}</div>,
     });
   }
 
@@ -146,26 +146,26 @@ const CtlBar = (props: CtlBarProps) => {
   };
 
   return (
-    <div style={{ position: 'absolute', top: 'auto', bottom: '6%', width: size.width }}>
+    <div style={{ position: "absolute", top: "auto", bottom: "6%", width: size.width }}>
       <div
-        className={UI_CLASSNAME + 'control-bar'}
+        className={UI_CLASSNAME + "control-bar"}
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-          position: 'relative',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          position: "relative",
           zIndex: 1,
           left: `calc(50% - ${width / 2}px)`,
           width,
           height: 40,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           padding: token.paddingSM,
           borderRadius: token.borderRadius,
           backgroundColor: token.colorBgMask,
         }}
       >
         {pageNum > 1 && (
-          <div className={UI_CLASSNAME + 'pager'}>
+          <div className={UI_CLASSNAME + "pager"}>
             <Pager
               style={{ textStyle }}
               pageCursor={pageCursor}
@@ -174,7 +174,7 @@ const CtlBar = (props: CtlBarProps) => {
             />
           </div>
         )}
-        <div className={UI_CLASSNAME + 'zoom'}>
+        <div className={UI_CLASSNAME + "zoom"}>
           <Zoom style={{ textStyle }} zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
         </div>
         {contextMenuItems.length > 0 && (

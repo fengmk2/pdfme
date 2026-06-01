@@ -1,20 +1,20 @@
-import multiVariableText from './multiVariableText/index.js';
-import text from './text/index.js';
-import list from './list/index.js';
-import image from './graphics/image.js';
-import signature from './graphics/signature.js';
-import svg from './graphics/svg.js';
-import barcodes from './barcodes/index.js';
-import line from './shapes/line.js';
-import table from './tables/index.js';
-import { rectangle, ellipse } from './shapes/rectAndEllipse.js';
-import dateTime from './date/dateTime.js';
-import date from './date/date.js';
-import time from './date/time.js';
-import select from './select/index.js';
-import radioGroup from './radioGroup/index.js';
-import checkbox from './checkbox/index.js';
-export { builtInPlugins } from './builtins.js';
+import multiVariableText from "./multiVariableText/index.js";
+import text from "./text/index.js";
+import list from "./list/index.js";
+import image from "./graphics/image.js";
+import signature from "./graphics/signature.js";
+import svg from "./graphics/svg.js";
+import barcodes from "./barcodes/index.js";
+import line from "./shapes/line.js";
+import table from "./tables/index.js";
+import { rectangle, ellipse } from "./shapes/rectAndEllipse.js";
+import dateTime from "./date/dateTime.js";
+import date from "./date/date.js";
+import time from "./date/time.js";
+import select from "./select/index.js";
+import radioGroup from "./radioGroup/index.js";
+import checkbox from "./checkbox/index.js";
+export { builtInPlugins } from "./builtins.js";
 
 export {
   // schemas
@@ -38,8 +38,8 @@ export {
 };
 
 // Export utility functions
-export { getDynamicHeightsForTable, getDynamicLayoutForTable } from './tables.js';
-export { getDynamicLayoutForList } from './lists.js';
+export { getDynamicHeightsForTable, getDynamicLayoutForTable } from "./tables.js";
+export { getDynamicLayoutForList } from "./lists.js";
 export {
   BUILT_IN_DYNAMIC_LAYOUT_SPLIT_UNITS,
   LIST_ITEM_SPLIT_UNIT,
@@ -52,4 +52,4 @@ export {
   getTableBodyRange,
   getTextLineRange,
   type BuiltInDynamicLayoutSplitUnit,
-} from './splitRange.js';
+} from "./splitRange.js";

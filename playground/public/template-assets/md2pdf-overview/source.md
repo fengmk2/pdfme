@@ -5,7 +5,7 @@ Markdown becomes a pdfme Template. Japanese text also works when you choose a CJ
 ## Blocks
 
 - Paragraph
-- **Bold**, *italic*, ~~strike~~, `inline code`
+- **Bold**, _italic_, ~~strike~~, `inline code`
 - [pdfme](https://pdfme.com)
 
 ---
@@ -17,7 +17,7 @@ const result = await md2pdf(markdown);
 const pdf = await generate(result);
 ```
 
-| Feature | Status |
-| --- | --- |
-| Table grid | Supported |
+| Feature      | Status        |
+| ------------ | ------------- |
+| Table grid   | Supported     |
 | Remote image | Link fallback |

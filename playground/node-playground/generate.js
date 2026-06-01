@@ -1,8 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { BLANK_PDF } from '@pdfme/common';
-import { generate } from '@pdfme/generator';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { BLANK_PDF } from "@pdfme/common";
+import { generate } from "@pdfme/generator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,22 +12,22 @@ const template = {
   schemas: [
     [
       {
-        name: 'a',
-        type: 'text',
+        name: "a",
+        type: "text",
         position: { x: 0, y: 0 },
         width: 10,
         height: 10,
       },
       {
-        name: 'b',
-        type: 'text',
+        name: "b",
+        type: "text",
         position: { x: 10, y: 10 },
         width: 10,
         height: 10,
       },
       {
-        name: 'c',
-        type: 'text',
+        name: "c",
+        type: "text",
         position: { x: 20, y: 20 },
         width: 10,
         height: 10,
@@ -36,8 +36,8 @@ const template = {
   ],
 };
 
-const inputs = [{ a: 'a1', b: 'b1', c: 'c1' }];
+const inputs = [{ a: "a1", b: "b1", c: "c1" }];
 
 const pdf = await generate({ template, inputs });
 console.log(pdf);
-fs.writeFileSync(path.join(__dirname, 'test-generate.pdf'), pdf);
+fs.writeFileSync(path.join(__dirname, "test-generate.pdf"), pdf);

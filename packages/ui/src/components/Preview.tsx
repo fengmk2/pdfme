@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useContext, useCallback } from "react";
 import {
   Template,
   SchemaForUI,
@@ -7,34 +7,34 @@ import {
   getDynamicTemplate,
   isBlankPdf,
   replacePlaceholders,
-} from '@pdfme/common';
-import { getDynamicLayoutForSchema, isDynamicLayoutSchema } from '@pdfme/schemas/dynamicLayout';
-import { getTextLineRange, mergeTextLineRangeValue } from '@pdfme/schemas/texts';
-import UnitPager from './UnitPager.js';
-import Root from './Root.js';
-import StaticSchema from './StaticSchema.js';
-import ErrorScreen from './ErrorScreen.js';
-import CtlBar from './CtlBar.js';
-import Paper from './Paper.js';
-import Renderer from './Renderer.js';
-import { useUIPreProcessor, useScrollPageCursor } from '../hooks.js';
-import { FontContext, OptionsContext } from '../contexts.js';
+} from "@pdfme/common";
+import { getDynamicLayoutForSchema, isDynamicLayoutSchema } from "@pdfme/schemas/dynamicLayout";
+import { getTextLineRange, mergeTextLineRangeValue } from "@pdfme/schemas/texts";
+import UnitPager from "./UnitPager.js";
+import Root from "./Root.js";
+import StaticSchema from "./StaticSchema.js";
+import ErrorScreen from "./ErrorScreen.js";
+import CtlBar from "./CtlBar.js";
+import Paper from "./Paper.js";
+import Renderer from "./Renderer.js";
+import { useUIPreProcessor, useScrollPageCursor } from "../hooks.js";
+import { FontContext, OptionsContext } from "../contexts.js";
 import {
   template2SchemasList,
   getPagesScrollTopByIndex,
   useMaxZoom,
   getDynamicHeightReflowChanges,
-} from '../helper.js';
-import { theme } from 'antd';
+} from "../helper.js";
+import { theme } from "antd";
 
 const _cache = new Map<string | number, unknown>();
 
 const applySchemaChange = (schema: SchemaForUI, key: string, value: unknown) => {
-  if (key === 'position.x') {
+  if (key === "position.x") {
     schema.position.x = value as number;
     return;
   }
-  if (key === 'position.y') {
+  if (key === "position.y") {
     schema.position.y = value as number;
     return;
   }
@@ -49,7 +49,7 @@ const Preview = ({
   size,
   onChangeInput,
   onPageChange,
-}: Omit<PreviewProps, 'domContainer'> & {
+}: Omit<PreviewProps, "domContainer"> & {
   onChangeInput?: (args: { index: number; value: string; name: string }) => void;
   onPageChange?: (pageInfo: { currentPage: number; totalPages: number }) => void;
   size: Size;
@@ -127,7 +127,7 @@ const Preview = ({
   }, []);
 
   useEffect(() => {
-    if (typeof options.zoomLevel === 'number') {
+    if (typeof options.zoomLevel === "number") {
       setZoomLevel(options.zoomLevel);
     }
   }, [options.zoomLevel]);
@@ -164,17 +164,17 @@ const Preview = ({
     let newInputValue: string | undefined;
 
     for (const { key: _key, value } of args) {
-      if (_key === 'content') {
-        const oldValue = (input?.[schema.name] as string) || '';
+      if (_key === "content") {
+        const oldValue = (input?.[schema.name] as string) || "";
         const rawNewValue = value as string;
         const newValue =
-          schema.type === 'text' && getTextLineRange(schema)
+          schema.type === "text" && getTextLineRange(schema)
             ? await mergeTextLineRangeValue({
                 value: oldValue,
                 replacement: rawNewValue,
                 schema: schema as unknown as Parameters<
                   typeof mergeTextLineRangeValue
-                >[0]['schema'],
+                >[0]["schema"],
                 font,
                 _cache,
               })
@@ -191,7 +191,7 @@ const Preview = ({
         const targetSchema = pageSchemas.find((s) => s.id === schema.id) as SchemaForUI;
         if (!targetSchema) continue;
 
-        if (_key === 'height' && isBlankPdf(template.basePdf)) {
+        if (_key === "height" && isBlankPdf(template.basePdf)) {
           getDynamicHeightReflowChanges({
             schemas: pageSchemas,
             schema: targetSchema,
@@ -240,7 +240,7 @@ const Preview = ({
         unitNum={inputs.length}
         setUnitCursor={setUnitCursor}
       />
-      <div ref={containerRef} style={{ ...size, position: 'relative', overflow: 'auto' }}>
+      <div ref={containerRef} style={{ ...size, position: "relative", overflow: "auto" }}>
         <Paper
           paperRefs={paperRefs}
           scale={scale}
@@ -254,18 +254,18 @@ const Preview = ({
             );
             const value = schema.readOnly
               ? replacePlaceholders({
-                  content: schema.content || '',
+                  content: schema.content || "",
                   variables: { ...input, totalPages: schemasList.length, currentPage: index + 1 },
                   schemas: schemasList,
                 })
-              : String(hasInputValue ? (input?.[schema.name] ?? '') : '');
+              : String(hasInputValue ? (input?.[schema.name] ?? "") : "");
             return (
               <Renderer
                 key={schema.id}
                 schema={schema}
                 basePdf={template.basePdf}
                 value={value}
-                mode={isForm ? 'form' : 'viewer'}
+                mode={isForm ? "form" : "viewer"}
                 placeholder={hasInputValue ? undefined : schema.content}
                 tabIndex={index + 100}
                 onChange={(arg) => {
@@ -273,7 +273,7 @@ const Preview = ({
                   void handleOnChangeRenderer(args, schema);
                 }}
                 outline={
-                  isForm && !schema.readOnly ? `1px dashed ${token.colorPrimary}` : 'transparent'
+                  isForm && !schema.readOnly ? `1px dashed ${token.colorPrimary}` : "transparent"
                 }
                 scale={scale}
               />

@@ -11,6 +11,7 @@ npm install @pdfme/manipulator
 ## 機能
 
 ### merge（結合）
+
 複数のPDFファイルを1つのPDFに結合します。
 
 ```ts
@@ -22,6 +23,7 @@ const merged = await merge([pdf1, pdf2]);
 ```
 
 ### split（分割）
+
 PDFをページ範囲に基づいて複数のPDFに分割します。
 
 ```ts
@@ -35,6 +37,7 @@ const splits = await split(pdf, [
 ```
 
 ### rotate（回転）
+
 PDFの指定されたページを回転させます。
 
 ```ts
@@ -47,6 +50,7 @@ const result2 = await rotate(pdf, 90, [0, 2]); // 1ページ目と3ページ目�
 ```
 
 ### insert（挿入）
+
 指定された位置にPDFページを挿入します。
 
 ```ts
@@ -60,6 +64,7 @@ const result = await insert(basePdf, [
 ```
 
 ### remove（削除）
+
 PDFから指定されたページを削除します。
 
 ```ts
@@ -70,6 +75,7 @@ const result = await remove(pdf, [1, 3]); // 2ページ目と4ページ目を削
 ```
 
 ### move（移動）
+
 PDFの中で1つのページを別の位置に移動します。
 
 ```ts
@@ -80,6 +86,7 @@ const result = await move(pdf, { from: 0, to: 2 }); // 1ページ目を3番目�
 ```
 
 ### organize（整理）
+
 複数のPDF操作を順番に実行します。
 
 ```ts
@@ -119,11 +126,11 @@ interface InsertOperation {
 }
 
 type OrganizeAction =
-  | { type: 'remove'; data: { position: number } }
-  | { type: 'insert'; data: { pdf: PDFInput; position: number } }
-  | { type: 'replace'; data: { pdf: PDFInput; position: number } }
-  | { type: 'rotate'; data: { position: number; degrees: 0 | 90 | 180 | 270 | 360 } }
-  | { type: 'move'; data: { from: number; to: number } };
+  | { type: "remove"; data: { position: number } }
+  | { type: "insert"; data: { pdf: PDFInput; position: number } }
+  | { type: "replace"; data: { pdf: PDFInput; position: number } }
+  | { type: "rotate"; data: { position: number; degrees: 0 | 90 | 180 | 270 | 360 } }
+  | { type: "move"; data: { from: number; to: number } };
 ```
 
 ## お問い合わせ

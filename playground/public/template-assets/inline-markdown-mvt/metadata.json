@@ -2,9 +2,5 @@
   "title": "Inline Markdown MVT",
   "description": "A focused demo of inline markdown and MultiVariableText editing.",
   "sourceKind": "designer",
-  "tags": [
-    "Markdown",
-    "MVT",
-    "Form"
-  ]
+  "tags": ["Markdown", "MVT", "Form"]
 }

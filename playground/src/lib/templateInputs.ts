@@ -1,4 +1,4 @@
-import { getInputFromTemplate, type Template } from '@pdfme/common';
+import { getInputFromTemplate, type Template } from "@pdfme/common";
 
 export type TemplateInput = Record<string, string>;
 

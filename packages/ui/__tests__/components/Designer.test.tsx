@@ -1,19 +1,19 @@
-import React from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
-import Designer from '../../src/components/Designer/index.js';
-import { I18nContext, FontContext, OptionsContext, PluginsRegistry } from '../../src/contexts';
-import { i18n } from '../../src/i18n';
-import { DESIGNER_CLASSNAME, RIGHT_SIDEBAR_WIDTH, SELECTABLE_CLASSNAME } from '../../src/constants';
-import { getDefaultFont, pluginRegistry } from '@pdfme/common';
-import { normalizeElementIdsForSnapshot } from '../assets/normalizeSnapshot';
-import { setupUIMock, getSampleTemplate } from '../assets/helper';
-import { text, image } from '@pdfme/schemas';
+import React from "react";
+import { render, act, fireEvent, waitFor } from "@testing-library/react";
+import Designer from "../../src/components/Designer/index.js";
+import { I18nContext, FontContext, OptionsContext, PluginsRegistry } from "../../src/contexts";
+import { i18n } from "../../src/i18n";
+import { DESIGNER_CLASSNAME, RIGHT_SIDEBAR_WIDTH, SELECTABLE_CLASSNAME } from "../../src/constants";
+import { getDefaultFont, pluginRegistry } from "@pdfme/common";
+import { normalizeElementIdsForSnapshot } from "../assets/normalizeSnapshot";
+import { setupUIMock, getSampleTemplate } from "../assets/helper";
+import { text, image } from "@pdfme/schemas";
 
 const plugins = { text, image };
 
-test('Designer snapshot', async () => {
+test("Designer snapshot", async () => {
   setupUIMock();
-  let container: HTMLElement = document.createElement('a');
+  let container: HTMLElement = document.createElement("a");
   act(() => {
     const { container: c } = render(
       <I18nContext.Provider value={i18n}>
@@ -30,7 +30,7 @@ test('Designer snapshot', async () => {
             />
           </PluginsRegistry.Provider>
         </FontContext.Provider>
-      </I18nContext.Provider>
+      </I18nContext.Provider>,
     );
     container = c;
   });
@@ -39,7 +39,7 @@ test('Designer snapshot', async () => {
   expect(normalizeElementIdsForSnapshot(container)).toMatchSnapshot();
 });
 
-test('Designer keeps toolbar zoom interactive when options.zoomLevel is only an initial value', async () => {
+test("Designer keeps toolbar zoom interactive when options.zoomLevel is only an initial value", async () => {
   setupUIMock();
   const { container } = render(
     <I18nContext.Provider value={i18n}>
@@ -63,15 +63,15 @@ test('Designer keeps toolbar zoom interactive when options.zoomLevel is only an 
     expect(container.getElementsByClassName(SELECTABLE_CLASSNAME).length).toBeGreaterThan(0);
   });
 
-  expect(container).toHaveTextContent('100%');
-  fireEvent.click(container.querySelector('.pdfme-ui-zoom-in')!);
+  expect(container).toHaveTextContent("100%");
+  fireEvent.click(container.querySelector(".pdfme-ui-zoom-in")!);
 
   await waitFor(() => {
-    expect(container).toHaveTextContent('125%');
+    expect(container).toHaveTextContent("125%");
   });
 });
 
-test('Designer keeps sidebar toggle interactive when options.sidebarOpen is only an initial value', async () => {
+test("Designer keeps sidebar toggle interactive when options.sidebarOpen is only an initial value", async () => {
   setupUIMock();
   const { container } = render(
     <I18nContext.Provider value={i18n}>
@@ -100,6 +100,6 @@ test('Designer keeps sidebar toggle interactive when options.sidebarOpen is only
   fireEvent.click(container.querySelector(`.${DESIGNER_CLASSNAME}sidebar-toggle`)!);
 
   await waitFor(() => {
-    expect(sidebar.style.width).toBe('0px');
+    expect(sidebar.style.width).toBe("0px");
   });
 });

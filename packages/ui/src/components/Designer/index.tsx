@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
-} from 'react';
+} from "react";
 import {
   cloneDeep,
   ZOOM,
@@ -17,13 +17,13 @@ import {
   Size,
   isBlankPdf,
   px2mm,
-} from '@pdfme/common';
-import { DndContext } from '@dnd-kit/core';
-import RightSidebar from './RightSidebar/index.js';
-import LeftSidebar from './LeftSidebar.js';
-import Canvas from './Canvas/index.js';
-import { RULER_HEIGHT, RIGHT_SIDEBAR_WIDTH, LEFT_SIDEBAR_WIDTH } from '../../constants.js';
-import { I18nContext, OptionsContext, PluginsRegistry } from '../../contexts.js';
+} from "@pdfme/common";
+import { DndContext } from "@dnd-kit/core";
+import RightSidebar from "./RightSidebar/index.js";
+import LeftSidebar from "./LeftSidebar.js";
+import Canvas from "./Canvas/index.js";
+import { RULER_HEIGHT, RIGHT_SIDEBAR_WIDTH, LEFT_SIDEBAR_WIDTH } from "../../constants.js";
+import { I18nContext, OptionsContext, PluginsRegistry } from "../../contexts.js";
 import {
   schemasList2template,
   uuid,
@@ -32,8 +32,8 @@ import {
   getPagesScrollTopByIndex,
   changeSchemas as _changeSchemas,
   useMaxZoom,
-} from '../../helper.js';
-import { useUIPreProcessor, useScrollPageCursor, useInitEvents } from '../../hooks.js';
+} from "../../helper.js";
+import { useUIPreProcessor, useScrollPageCursor, useInitEvents } from "../../hooks.js";
 import {
   createDesignerSelection,
   getDesignerSelectionPageIndex,
@@ -41,10 +41,10 @@ import {
   normalizeDesignerSchemaSelectionTargets,
   type DesignerSelectSchemas,
   type DesignerSelection,
-} from '../../designerSelection.js';
-import Root from '../Root.js';
-import ErrorScreen from '../ErrorScreen.js';
-import CtlBar from '../CtlBar.js';
+} from "../../designerSelection.js";
+import Root from "../Root.js";
+import ErrorScreen from "../ErrorScreen.js";
+import CtlBar from "../CtlBar.js";
 
 /**
  * When the canvas scales there is a displacement of the starting position of the dragged schema.
@@ -65,7 +65,7 @@ const TemplateEditor = ({
   onPageCursorChange,
   onChangeSelection,
   onRegisterSchemaSelectionHandler,
-}: Omit<DesignerProps, 'domContainer'> & {
+}: Omit<DesignerProps, "domContainer"> & {
   size: Size;
   onSaveTemplate: (t: Template) => void;
   onChangeTemplate: (t: Template) => void;
@@ -121,11 +121,7 @@ const TemplateEditor = ({
         return;
       }
 
-      const targetPageIndex = getDesignerSelectionPageIndex(
-        normalizedTargets,
-        pageCursor,
-        options,
-      );
+      const targetPageIndex = getDesignerSelectionPageIndex(normalizedTargets, pageCursor, options);
       const targetSchemas = schemasList[targetPageIndex] ?? [];
       const selectedSchemaIds = getSelectedSchemaIds({
         pageIndex: targetPageIndex,
@@ -143,11 +139,7 @@ const TemplateEditor = ({
         setPageCursor(targetPageIndex);
         onPageCursorChange(targetPageIndex, schemasList.length);
         if (options.scroll !== false && canvasRef.current) {
-          canvasRef.current.scrollTop = getPagesScrollTopByIndex(
-            pageSizes,
-            targetPageIndex,
-            scale,
-          );
+          canvasRef.current.scrollTop = getPagesScrollTopByIndex(pageSizes, targetPageIndex, scale);
         }
         setTimeout(editSelectedSchemas);
         return;
@@ -179,13 +171,13 @@ const TemplateEditor = ({
   };
 
   useEffect(() => {
-    if (typeof options.zoomLevel === 'number') {
+    if (typeof options.zoomLevel === "number") {
       setZoomLevel(options.zoomLevel);
     }
   }, [options.zoomLevel]);
 
   useEffect(() => {
-    if (typeof options.sidebarOpen === 'boolean') {
+    if (typeof options.sidebarOpen === "boolean") {
       setSidebarOpen(options.sidebarOpen);
     }
   }, [options.sidebarOpen]);
@@ -208,7 +200,7 @@ const TemplateEditor = ({
     };
     updateHeight();
 
-    if (typeof ResizeObserver === 'function' && canvasRef.current) {
+    if (typeof ResizeObserver === "function" && canvasRef.current) {
       const observer = new ResizeObserver(updateHeight);
       observer.observe(canvasRef.current);
       return () => observer.disconnect();
@@ -275,7 +267,7 @@ const TemplateEditor = ({
       if (!preservePage) {
         setPageCursor(0);
         if (canvasRef.current?.scroll) {
-          canvasRef.current.scroll({ top: 0, behavior: 'smooth' });
+          canvasRef.current.scroll({ top: 0, behavior: "smooth" });
         }
       } else {
         setPageCursor((prev) => {
@@ -283,7 +275,7 @@ const TemplateEditor = ({
           if (clamped !== prev && canvasRef.current) {
             canvasRef.current.scroll({
               top: getPagesScrollTopByIndex(pageSizes, clamped, scale),
-              behavior: 'smooth',
+              behavior: "smooth",
             });
           }
           return clamped;
@@ -314,7 +306,7 @@ const TemplateEditor = ({
     const s = {
       id: uuid(),
       ...defaultSchema,
-      name: newSchemaName(i18n('field')),
+      name: newSchemaName(i18n("field")),
       position: {
         x: ensureMiddleValue(
           paddingLeft,
@@ -370,7 +362,7 @@ const TemplateEditor = ({
 
   const handleRemovePage = () => {
     if (pageCursor === 0) return;
-    if (!window.confirm(i18n('removePageConfirm'))) return;
+    if (!window.confirm(i18n("removePageConfirm"))) return;
 
     const _schemasList = cloneDeep(schemasList);
     _schemasList.splice(pageCursor, 1);
@@ -434,7 +426,7 @@ const TemplateEditor = ({
 
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             width: canvasWidth,
             marginLeft: LEFT_SIDEBAR_WIDTH,
           }}

@@ -1,1 +1,1 @@
-export type ImageType = 'jpeg' | 'png';
+export type ImageType = "jpeg" | "png";

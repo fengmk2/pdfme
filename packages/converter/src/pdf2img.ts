@@ -1,5 +1,5 @@
-import type { PDFDocumentProxy } from 'pdfjs-dist';
-import type { ImageType } from './types.js';
+import type { PDFDocumentProxy } from "pdfjs-dist";
+import type { ImageType } from "./types.js";
 
 interface Environment {
   getDocument: (pdf: ArrayBuffer | Uint8Array) => Promise<PDFDocumentProxy>;
@@ -26,7 +26,7 @@ export async function pdf2img(
   env: Environment,
 ): Promise<ArrayBuffer[]> {
   try {
-    const { scale = 1, imageType = 'jpeg', range = {} } = options;
+    const { scale = 1, imageType = "jpeg", range = {} } = options;
     const { start = 0, end = Infinity } = range;
 
     const { getDocument, destroyDocument, createCanvas, canvasToArrayBuffer } = env;
@@ -46,12 +46,12 @@ export async function pdf2img(
 
         const canvas = createCanvas(viewport.width, viewport.height);
         if (!canvas) {
-          throw new Error('Failed to create canvas');
+          throw new Error("Failed to create canvas");
         }
 
-        const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+        const context = canvas.getContext("2d") as CanvasRenderingContext2D;
         if (!context) {
-          throw new Error('Failed to get canvas context');
+          throw new Error("Failed to get canvas context");
         }
 
         await page.render({

@@ -1,4 +1,4 @@
-export type AuthoringStarterKind = 'jsx' | 'md2pdf';
+export type AuthoringStarterKind = "jsx" | "md2pdf";
 
 export type AuthoringStarter = {
   assetName: string;
@@ -17,7 +17,7 @@ type TemplateAssetEntry = {
   title: string;
 };
 
-const TEMPLATE_ASSETS_BASE_PATH = '/template-assets';
+const TEMPLATE_ASSETS_BASE_PATH = "/template-assets";
 
 export const getAuthoringStarterId = (assetName: string, kind: AuthoringStarterKind) => {
   const prefix = `${kind}-`;
@@ -34,7 +34,7 @@ export const loadAuthoringStarters = async (
 
   const entries = (await response.json()) as TemplateAssetEntry[];
   return entries
-    .filter((entry) => entry.sourceKind === kind && typeof entry.sourcePath === 'string')
+    .filter((entry) => entry.sourceKind === kind && typeof entry.sourcePath === "string")
     .map((entry) => ({
       assetName: entry.name,
       description: entry.description,
@@ -45,7 +45,7 @@ export const loadAuthoringStarters = async (
     }));
 };
 
-export const loadAuthoringStarterSource = async (starter: Pick<AuthoringStarter, 'sourcePath'>) => {
+export const loadAuthoringStarterSource = async (starter: Pick<AuthoringStarter, "sourcePath">) => {
   const response = await fetch(`${TEMPLATE_ASSETS_BASE_PATH}/${starter.sourcePath}`);
   if (!response.ok) {
     throw new Error(`Failed to load starter source: ${response.statusText}`);

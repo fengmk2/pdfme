@@ -1,5 +1,5 @@
-import hotkeysJs from 'hotkeys-js';
-import { useContext } from 'react';
+import hotkeysJs from "hotkeys-js";
+import { useContext } from "react";
 import {
   cloneDeep,
   ZOOM,
@@ -11,10 +11,10 @@ import {
   Size,
   isBlankPdf,
   PluginRegistry,
-} from '@pdfme/common';
-import { pdf2size } from '@pdfme/converter';
-import { DEFAULT_MAX_ZOOM, RULER_HEIGHT } from './constants.js';
-import { OptionsContext } from './contexts.js';
+} from "@pdfme/common";
+import { pdf2size } from "@pdfme/converter";
+import { DEFAULT_MAX_ZOOM, RULER_HEIGHT } from "./constants.js";
+import { OptionsContext } from "./contexts.js";
 
 // Define a type for the hotkeys function with additional properties
 type HotkeysFunction = {
@@ -36,20 +36,20 @@ hotkeys.shift = false;
 hotkeys.unbind = function (keys: string) {
   // Do nothing if hotkeysJs doesn't have unbind
   const hotkeysFn = hotkeysJs as unknown as { unbind?: (keys: string) => void };
-  if (typeof hotkeysFn.unbind === 'function') {
+  if (typeof hotkeysFn.unbind === "function") {
     hotkeysFn.unbind(keys);
   }
 };
 
 export const uuid = () =>
-  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
-    const v = c == 'x' ? r : (r & 0x3) | 0x8;
+    const v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 
 const set = <T extends object>(obj: T, path: string | string[], value: unknown) => {
-  path = Array.isArray(path) ? path : path.replace(/\[/g, '.').replace(/\]/g, '').split('.');
+  path = Array.isArray(path) ? path : path.replace(/\[/g, ".").replace(/\]/g, "").split(".");
   let src: Record<string, unknown> = obj as Record<string, unknown>;
   path.forEach((key, index, array) => {
     if (index == path.length - 1) {
@@ -77,7 +77,7 @@ const shift = (number: number, precision: number, reverseShift: boolean) => {
   if (reverseShift) {
     precision = -precision;
   }
-  const numArray = `${number}`.split('e');
+  const numArray = `${number}`.split("e");
 
   return Number(`${numArray[0]}e${numArray[1] ? Number(numArray[1]) + precision : precision}`);
 };
@@ -88,30 +88,30 @@ export const round = (number: number, precision: number) => {
 
 export const flatten = <T>(arr: T[][]): T[] => ([] as T[]).concat(...arr);
 
-const up = 'up';
-const shiftUp = 'shift+up';
-const down = 'down';
-const shiftDown = 'shift+down';
-const left = 'left';
-const shiftLeft = 'shift+left';
-const right = 'right';
-const shiftRight = 'shift+right';
+const up = "up";
+const shiftUp = "shift+up";
+const down = "down";
+const shiftDown = "shift+down";
+const left = "left";
+const shiftLeft = "shift+left";
+const right = "right";
+const shiftRight = "shift+right";
 
-const rmWin = 'backspace';
-const rmMac = 'delete';
-const esc = 'esc';
-const copyWin = 'ctrl+c';
-const copyMac = 'command+c';
-const pasteWin = 'ctrl+v';
-const pasteMac = 'command+v';
-const redoWin = 'ctrl+y';
-const redoMac = 'shift+command+z';
-const undoWin = 'ctrl+z';
-const undoMac = 'command+z';
-const saveWin = 'ctrl+s';
-const saveMac = 'command+s';
-const selectAllWin = 'ctrl+a';
-const selectAllMac = 'command+a';
+const rmWin = "backspace";
+const rmMac = "delete";
+const esc = "esc";
+const copyWin = "ctrl+c";
+const copyMac = "command+c";
+const pasteWin = "ctrl+v";
+const pasteMac = "command+v";
+const redoWin = "ctrl+y";
+const redoMac = "shift+command+z";
+const undoWin = "ctrl+z";
+const undoMac = "command+z";
+const saveWin = "ctrl+s";
+const saveMac = "command+s";
+const selectAllWin = "ctrl+a";
+const selectAllMac = "command+a";
 
 const keys = [
   up,
@@ -140,7 +140,7 @@ const keys = [
 ];
 
 export const initShortCuts = (arg: {
-  move: (command: 'up' | 'down' | 'left' | 'right', isShift: boolean) => void;
+  move: (command: "up" | "down" | "left" | "right", isShift: boolean) => void;
   remove: () => void;
   esc: () => void;
   copy: () => void;
@@ -155,22 +155,22 @@ export const initShortCuts = (arg: {
       case up:
       case shiftUp:
         e.preventDefault();
-        arg.move('up', hotkeys.shift);
+        arg.move("up", hotkeys.shift);
         break;
       case down:
       case shiftDown:
         e.preventDefault();
-        arg.move('down', hotkeys.shift);
+        arg.move("down", hotkeys.shift);
         break;
       case left:
       case shiftLeft:
         e.preventDefault();
-        arg.move('left', hotkeys.shift);
+        arg.move("left", hotkeys.shift);
         break;
       case right:
       case shiftRight:
         e.preventDefault();
-        arg.move('right', hotkeys.shift);
+        arg.move("right", hotkeys.shift);
         break;
       case rmWin:
       case rmMac:
@@ -229,7 +229,7 @@ function detectMimeType(arrayBuffer: ArrayBuffer): string {
     dataView.getUint8(2) === 0x4e &&
     dataView.getUint8(3) === 0x47
   ) {
-    return 'image/png';
+    return "image/png";
   }
 
   // Check for JPEG signature: 0xFF 0xD8 0xFF
@@ -238,10 +238,10 @@ function detectMimeType(arrayBuffer: ArrayBuffer): string {
     dataView.getUint8(1) === 0xd8 &&
     dataView.getUint8(2) === 0xff
   ) {
-    return 'image/jpeg';
+    return "image/jpeg";
   }
 
-  return ''; // Unknown type
+  return ""; // Unknown type
 }
 
 export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer): string => {
@@ -250,7 +250,7 @@ export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer): string => {
 
   // Convert ArrayBuffer to raw Base64
   const bytes = new Uint8Array(arrayBuffer);
-  let binary = '';
+  let binary = "";
   for (let i = 0; i < bytes.length; i++) {
     binary += String.fromCharCode(bytes[i]);
   }
@@ -270,7 +270,7 @@ const convertSchemasForUI = (template: Template): SchemaForUI[][] => {
   template.schemas.forEach((page) => {
     page.forEach((schema) => {
       (schema as SchemaForUI).id = uuid();
-      (schema as SchemaForUI).content = schema.content || '';
+      (schema as SchemaForUI).content = schema.content || "";
     });
   });
 
@@ -342,7 +342,7 @@ export const getUniqueSchemaName = (arg: {
     (acc, cur) => Object.assign(acc, { originalName: cur, copiedNum: 0 }),
     {},
   );
-  const extractOriginalName = (name: string) => name.replace(/ copy$| copy [0-9]*$/, '');
+  const extractOriginalName = (name: string) => name.replace(/ copy$| copy [0-9]*$/, "");
   schemaNames
     .filter((name) => / copy$| copy [0-9]*$/.test(name))
     .forEach((name) => {
@@ -369,29 +369,29 @@ export const getUniqueSchemaName = (arg: {
 };
 
 export const moveCommandToChangeSchemasArg = (props: {
-  command: 'up' | 'down' | 'left' | 'right';
+  command: "up" | "down" | "left" | "right";
   activeSchemas: SchemaForUI[];
   isShift: boolean;
   pageSize: Size;
 }) => {
   const { command, activeSchemas, isShift, pageSize } = props;
-  const key = command === 'up' || command === 'down' ? 'y' : 'x';
+  const key = command === "up" || command === "down" ? "y" : "x";
   const num = isShift ? 0.1 : 1;
 
   const getValue = (as: SchemaForUI) => {
     let value = 0;
     const { position } = as;
     switch (command) {
-      case 'up':
+      case "up":
         value = round(position.y - num, 2);
         break;
-      case 'down':
+      case "down":
         value = round(position.y + num, 2);
         break;
-      case 'left':
+      case "left":
         value = round(position.x - num, 2);
         break;
-      case 'right':
+      case "right":
         value = round(position.x + num, 2);
         break;
       default:
@@ -404,7 +404,7 @@ export const moveCommandToChangeSchemasArg = (props: {
   return activeSchemas.map((as) => {
     let value = getValue(as);
     const { width, height } = as;
-    if (key === 'x') {
+    if (key === "x") {
       value = value > pageSize.width - width ? round(pageSize.width - width, 2) : value;
     } else {
       value = value > pageSize.height - height ? round(pageSize.height - height, 2) : value;
@@ -432,13 +432,13 @@ const handlePositionSizeChange = (
   const { width: pw, height: ph } = pageSize;
   const calcBounds = (v: unknown, min: number, max: number) =>
     Math.min(Math.max(Number(v), min), max);
-  if (key === 'position.x') {
+  if (key === "position.x") {
     schema.position.x = calcBounds(value, pl, pw - schema.width - pr);
-  } else if (key === 'position.y') {
+  } else if (key === "position.y") {
     schema.position.y = calcBounds(value, pt, ph - schema.height - pb);
-  } else if (key === 'width') {
+  } else if (key === "width") {
     schema.width = calcBounds(value, 0, pw - schema.position.x - pr);
-  } else if (key === 'height') {
+  } else if (key === "height") {
     schema.height = calcBounds(value, 0, ph - schema.position.y - pb);
   }
 };
@@ -449,8 +449,8 @@ const handleTypeChange = (
   value: unknown,
   pluginsRegistry: PluginRegistry,
 ) => {
-  if (key !== 'type') return;
-  const keysToKeep = ['id', 'name', 'type', 'position', 'required'];
+  if (key !== "type") return;
+  const keysToKeep = ["id", "name", "type", "position", "required"];
   Object.keys(schema).forEach((key) => {
     if (!keysToKeep.includes(key)) {
       delete schema[key as keyof typeof schema];
@@ -495,9 +495,9 @@ export const changeSchemas = (args: {
     // Assign to reference
     set(tgt, key, value);
 
-    if (key === 'type') {
+    if (key === "type") {
       handleTypeChange(tgt, key, value, pluginsRegistry);
-    } else if (['position.x', 'position.y', 'width', 'height'].includes(key)) {
+    } else if (["position.x", "position.y", "width", "height"].includes(key)) {
       handlePositionSizeChange(tgt, key, value, basePdf, pageSize);
     }
 
@@ -512,7 +512,7 @@ export const getDynamicHeightReflowChanges = (args: {
   height: unknown;
 }): { key: string; value: unknown; schemaId: string }[] => {
   const { schemas, schema, height } = args;
-  if (schema.type !== 'list') return [];
+  if (schema.type !== "list") return [];
 
   const nextHeight = Number(height);
   if (!Number.isFinite(nextHeight)) return [];
@@ -524,7 +524,7 @@ export const getDynamicHeightReflowChanges = (args: {
   return schemas
     .filter((s) => s.id !== schema.id && s.position.y >= baseBottom)
     .map((s) => ({
-      key: 'position.y',
+      key: "position.y",
       value: round(s.position.y + delta, 2),
       schemaId: s.id,
     }));
@@ -541,17 +541,17 @@ export const setFontNameRecursively = (
   fontName: string,
   seen = new WeakSet(),
 ): void => {
-  if (!obj || typeof obj !== 'object' || seen.has(obj)) return;
+  if (!obj || typeof obj !== "object" || seen.has(obj)) return;
   seen.add(obj);
 
   for (const key in obj) {
     if (
-      key === 'fontName' &&
+      key === "fontName" &&
       Object.prototype.hasOwnProperty.call(obj, key) &&
       obj[key] === undefined
     ) {
       obj[key] = fontName;
-    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+    } else if (typeof obj[key] === "object" && obj[key] !== null) {
       setFontNameRecursively(obj[key] as Record<string, unknown>, fontName, seen);
     }
   }

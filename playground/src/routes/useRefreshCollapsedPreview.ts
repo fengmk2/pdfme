@@ -1,5 +1,5 @@
-import { useEffect, useRef, type RefObject } from 'react';
-import { shouldRefreshCollapsedPreview } from './previewSizing';
+import { useEffect, useRef, type RefObject } from "react";
+import { shouldRefreshCollapsedPreview } from "./previewSizing";
 
 const INITIAL_REFRESH_DELAY_MS = 150;
 const REFRESH_COOLDOWN_MS = 750;
@@ -45,15 +45,15 @@ export const useRefreshCollapsedPreview = ({
     };
 
     const scrollContainer = scrollRootRef.current;
-    scrollContainer?.addEventListener('scroll', refreshPreviewIfVisible, { passive: true });
-    window.addEventListener('scroll', refreshPreviewIfVisible, { passive: true });
-    window.addEventListener('resize', refreshPreviewIfVisible);
+    scrollContainer?.addEventListener("scroll", refreshPreviewIfVisible, { passive: true });
+    window.addEventListener("scroll", refreshPreviewIfVisible, { passive: true });
+    window.addEventListener("resize", refreshPreviewIfVisible);
     const timeoutId = window.setTimeout(refreshPreviewIfVisible, INITIAL_REFRESH_DELAY_MS);
 
     return () => {
-      scrollContainer?.removeEventListener('scroll', refreshPreviewIfVisible);
-      window.removeEventListener('scroll', refreshPreviewIfVisible);
-      window.removeEventListener('resize', refreshPreviewIfVisible);
+      scrollContainer?.removeEventListener("scroll", refreshPreviewIfVisible);
+      window.removeEventListener("scroll", refreshPreviewIfVisible);
+      window.removeEventListener("resize", refreshPreviewIfVisible);
       window.clearTimeout(timeoutId);
       if (frameId !== null) window.cancelAnimationFrame(frameId);
     };

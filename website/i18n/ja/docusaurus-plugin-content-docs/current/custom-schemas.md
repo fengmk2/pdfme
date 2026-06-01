@@ -25,9 +25,9 @@ npm install @pdfme/schemas
 以下のコードは、`@pdfme/generator`と`@pdfme/ui`からQRコード、署名、画像のスキーマをインポートする例を示しています。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { text, image, signature, barcodes } from '@pdfme/schemas';
-import { generate } from '@pdfme/generator';
+import type { Template } from "@pdfme/common";
+import { text, image, signature, barcodes } from "@pdfme/schemas";
+import { generate } from "@pdfme/generator";
 
 const template: Template = {
   // 省略... テンプレートでtext、image、signature、qrcodeスキーマタイプを使用できます。
@@ -52,11 +52,11 @@ const pdf = await generate({
 この`@pdfme/ui`の例では、Designerを使用していますが、FormとViewerでも同じ方法でプラグインを読み込むことができます。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { text, image, signature, barcodes } from '@pdfme/schemas';
-import { Designer } from '@pdfme/ui';
+import type { Template } from "@pdfme/common";
+import { text, image, signature, barcodes } from "@pdfme/schemas";
+import { Designer } from "@pdfme/ui";
 
-const domContainer = document.getElementById('container');
+const domContainer = document.getElementById("container");
 const template: Template = {
   // 省略... テンプレートでtext、image、signature、qrcodeスキーマタイプを使用できます。
 };
@@ -153,7 +153,6 @@ pdfmeは[pdf-lib](https://pdf-lib.js.org/)と[form-render](https://xrender.fun/f
 - デモ: https://playground.pdfme.com/
 - コード: [packages/schemas/src/graphics/signature.ts](https://github.com/pdfme/pdfme/blob/main/packages/schemas/src/graphics/signature.ts)
 
-
 ### カスタムスキーマ作成時の注意点
 
 #### レンダラースキーマのキャッシング
@@ -183,6 +182,7 @@ pdfmeコミュニティは、プロジェクトで役立つさまざまなカス
 このプラグインを使用するには：
 
 1. 必要な依存関係をインストールします：
+
    ```bash
    npm install qrcode -S
    ```
@@ -190,18 +190,19 @@ pdfmeコミュニティは、プロジェクトで役立つさまざまなカス
 2. プラグインコードをプロジェクトに追加します（例：`./src/plugins/qrCode.ts`）
 
 3. ジェネレーターまたはUIコンポーネントでプラグインをインポートして使用します：
+
    ```ts
    import qrCode from "./plugins/qrCode.js";
-   
+
    // ジェネレーターでの使用例
    const pdf = await generate({
-     template, 
-     inputs, 
+     template,
+     inputs,
      options: { font },
      plugins: {
        // 他のプラグイン
-       NodeQRCode: qrCode
-     }
+       NodeQRCode: qrCode,
+     },
    });
    ```
 

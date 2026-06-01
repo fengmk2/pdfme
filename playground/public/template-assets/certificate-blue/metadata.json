@@ -2,8 +2,5 @@
   "title": "Certificate Blue",
   "description": "A polished blue certificate layout for awards and completion documents.",
   "sourceKind": "designer",
-  "tags": [
-    "Certificate",
-    "Award"
-  ]
+  "tags": ["Certificate", "Award"]
 }

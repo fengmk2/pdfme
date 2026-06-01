@@ -1,15 +1,15 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { PDFME_VERSION } from '@pdfme/common';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { PDFME_VERSION } from "@pdfme/common";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const templatesDir = path.join(__dirname, '..', 'public', 'template-assets');
-const indexFilePath = path.join(templatesDir, 'index.json');
-const manifestFilePath = path.join(templatesDir, 'manifest.json');
-const versionedManifestDir = path.join(templatesDir, 'manifests');
+const templatesDir = path.join(__dirname, "..", "public", "template-assets");
+const indexFilePath = path.join(templatesDir, "index.json");
+const manifestFilePath = path.join(templatesDir, "manifest.json");
+const versionedManifestDir = path.join(templatesDir, "manifests");
 
 function generateTemplatesListJson() {
   const cliVersion = PDFME_VERSION;
@@ -17,9 +17,9 @@ function generateTemplatesListJson() {
   const metadataByTemplate = loadTemplateMetadata();
   const templateDirs = items
     .filter((item) => {
-      if (!item.isDirectory() || item.name.startsWith('.')) return false;
+      if (!item.isDirectory() || item.name.startsWith(".")) return false;
 
-      const templateJsonPath = path.join(templatesDir, item.name, 'template.json');
+      const templateJsonPath = path.join(templatesDir, item.name, "template.json");
       return fs.existsSync(templateJsonPath);
     })
     .map((item) => item.name);
@@ -28,8 +28,8 @@ function generateTemplatesListJson() {
 
   const result = templateDirs
     .map((name) => {
-      const templateJsonPath = path.join(templatesDir, name, 'template.json');
-      const templateJson = JSON.parse(fs.readFileSync(templateJsonPath, 'utf8'));
+      const templateJsonPath = path.join(templatesDir, name, "template.json");
+      const templateJson = JSON.parse(fs.readFileSync(templateJsonPath, "utf8"));
       return buildTemplateEntry(name, templateJson, metadataByTemplate[name]);
     })
     .sort(compareTemplateEntries);
@@ -45,7 +45,7 @@ function generateTemplatesListJson() {
   }
 
   for (const entry of fs.readdirSync(versionedManifestDir, { withFileTypes: true })) {
-    if (!entry.isFile() || !entry.name.endsWith('.json')) {
+    if (!entry.isFile() || !entry.name.endsWith(".json")) {
       continue;
     }
 
@@ -61,7 +61,7 @@ function generateTemplatesListJson() {
     path.join(versionedManifestDir, `${cliVersion}.json`),
     JSON.stringify(manifest, null, 2),
   );
-  console.log(`Generated index.json with templates: ${result.map((t) => t.name).join(', ')}`);
+  console.log(`Generated index.json with templates: ${result.map((t) => t.name).join(", ")}`);
   console.log(`Generated manifest.json for CLI version ${cliVersion}`);
 }
 
@@ -69,13 +69,13 @@ function loadTemplateMetadata() {
   const metadataByTemplate = {};
   const items = fs.readdirSync(templatesDir, { withFileTypes: true });
   for (const item of items) {
-    if (!item.isDirectory() || item.name.startsWith('.')) continue;
+    if (!item.isDirectory() || item.name.startsWith(".")) continue;
 
-    const itemMetadataPath = path.join(templatesDir, item.name, 'metadata.json');
+    const itemMetadataPath = path.join(templatesDir, item.name, "metadata.json");
     if (!fs.existsSync(itemMetadataPath)) continue;
 
-    const parsed = JSON.parse(fs.readFileSync(itemMetadataPath, 'utf8'));
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    const parsed = JSON.parse(fs.readFileSync(itemMetadataPath, "utf8"));
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       throw new Error(`template-assets/${item.name}/metadata.json must be an object.`);
     }
     metadataByTemplate[item.name] = parsed;
@@ -85,24 +85,24 @@ function loadTemplateMetadata() {
 }
 
 function normalizeMetadata(rawMetadata) {
-  if (!rawMetadata || typeof rawMetadata !== 'object' || Array.isArray(rawMetadata)) {
+  if (!rawMetadata || typeof rawMetadata !== "object" || Array.isArray(rawMetadata)) {
     return {};
   }
 
   const metadata = {};
-  if (typeof rawMetadata.title === 'string' && rawMetadata.title.trim()) {
+  if (typeof rawMetadata.title === "string" && rawMetadata.title.trim()) {
     metadata.title = rawMetadata.title.trim();
   }
-  if (typeof rawMetadata.description === 'string') metadata.description = rawMetadata.description;
-  if (typeof rawMetadata.order === 'number' && Number.isFinite(rawMetadata.order)) {
+  if (typeof rawMetadata.description === "string") metadata.description = rawMetadata.description;
+  if (typeof rawMetadata.order === "number" && Number.isFinite(rawMetadata.order)) {
     metadata.order = rawMetadata.order;
   }
-  if (['designer', 'jsx', 'md2pdf'].includes(rawMetadata.sourceKind)) {
+  if (["designer", "jsx", "md2pdf"].includes(rawMetadata.sourceKind)) {
     metadata.sourceKind = rawMetadata.sourceKind;
   }
   if (Array.isArray(rawMetadata.tags)) {
     metadata.tags = [
-      ...new Set(rawMetadata.tags.filter((tag) => typeof tag === 'string' && tag.trim())),
+      ...new Set(rawMetadata.tags.filter((tag) => typeof tag === "string" && tag.trim())),
     ];
   }
 
@@ -117,13 +117,13 @@ function validateTemplateMetadata(metadataByTemplate, templateDirs) {
 
   if (missingMetadata.length > 0) {
     throw new Error(
-      `template asset metadata is missing entries for templates: ${missingMetadata.join(', ')}`,
+      `template asset metadata is missing entries for templates: ${missingMetadata.join(", ")}`,
     );
   }
 
   if (orphanMetadata.length > 0) {
     throw new Error(
-      `template asset metadata contains entries without template.json: ${orphanMetadata.join(', ')}`,
+      `template asset metadata contains entries without template.json: ${orphanMetadata.join(", ")}`,
     );
   }
 
@@ -166,9 +166,9 @@ function validateTemplateMetadata(metadataByTemplate, templateDirs) {
 }
 
 function inferSourceKind(name) {
-  if (name.startsWith('jsx-')) return 'jsx';
-  if (name.startsWith('md2pdf-')) return 'md2pdf';
-  return 'designer';
+  if (name.startsWith("jsx-")) return "jsx";
+  if (name.startsWith("md2pdf-")) return "md2pdf";
+  return "designer";
 }
 
 function buildTemplateEntry(name, templateJson, rawMetadata) {
@@ -191,7 +191,7 @@ function buildTemplateEntry(name, templateJson, rawMetadata) {
 
   return {
     name,
-    author: templateJson.author || 'pdfme',
+    author: templateJson.author || "pdfme",
     path: `${name}/template.json`,
     thumbnailPath: `${name}/thumbnail.png`,
     sourcePath: getSourcePath(name, sourceKind),
@@ -210,12 +210,12 @@ function buildTemplateEntry(name, templateJson, rawMetadata) {
 }
 
 function getSourcePath(name, sourceKind) {
-  if (sourceKind === 'jsx') {
-    const sourcePath = path.join(templatesDir, name, 'source.tsx');
+  if (sourceKind === "jsx") {
+    const sourcePath = path.join(templatesDir, name, "source.tsx");
     return fs.existsSync(sourcePath) ? `${name}/source.tsx` : undefined;
   }
-  if (sourceKind === 'md2pdf') {
-    const sourcePath = path.join(templatesDir, name, 'source.md');
+  if (sourceKind === "md2pdf") {
+    const sourcePath = path.join(templatesDir, name, "source.md");
     return fs.existsSync(sourcePath) ? `${name}/source.md` : undefined;
   }
   return undefined;
@@ -239,11 +239,11 @@ function normalizeSchemas(rawSchemas) {
 
   return rawSchemas.map((page) => {
     if (Array.isArray(page)) {
-      return page.filter((schema) => typeof schema === 'object' && schema !== null);
+      return page.filter((schema) => typeof schema === "object" && schema !== null);
     }
 
-    if (typeof page === 'object' && page !== null) {
-      return Object.values(page).filter((schema) => typeof schema === 'object' && schema !== null);
+    if (typeof page === "object" && page !== null) {
+      return Object.values(page).filter((schema) => typeof schema === "object" && schema !== null);
     }
 
     return [];
@@ -252,27 +252,27 @@ function normalizeSchemas(rawSchemas) {
 
 function hasCJKContent(schemas) {
   return schemas.some((schema) =>
-    ['content', 'title', 'placeholder'].some(
+    ["content", "title", "placeholder"].some(
       (key) =>
-        typeof schema[key] === 'string' &&
+        typeof schema[key] === "string" &&
         /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/.test(schema[key]),
     ),
   );
 }
 
 function detectBasePdfKind(basePdf) {
-  if (typeof basePdf === 'string') {
-    if (basePdf.startsWith('data:')) return 'dataUri';
-    if (basePdf.endsWith('.pdf')) return 'pdfPath';
-    return 'string';
+  if (typeof basePdf === "string") {
+    if (basePdf.startsWith("data:")) return "dataUri";
+    if (basePdf.endsWith(".pdf")) return "pdfPath";
+    return "string";
   }
 
-  if (basePdf && typeof basePdf === 'object') {
-    if ('width' in basePdf && 'height' in basePdf) return 'blank';
-    return 'object';
+  if (basePdf && typeof basePdf === "object") {
+    if ("width" in basePdf && "height" in basePdf) return "blank";
+    return "object";
   }
 
-  return 'unknown';
+  return "unknown";
 }
 
 generateTemplatesListJson();

@@ -1,12 +1,12 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { Check, X } from 'lucide-react';
-import { Template, checkTemplate } from '@pdfme/common';
-import PlaygroundButton from './PlaygroundButton';
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { Check, X } from "lucide-react";
+import { Template, checkTemplate } from "@pdfme/common";
+import PlaygroundButton from "./PlaygroundButton";
 
-const CodeEditor = lazy(() => import('./CodeEditor'));
+const CodeEditor = lazy(() => import("./CodeEditor"));
 
-const ASSET_PLACEHOLDER_PREFIX = '__PDFME_ASSET__:';
+const ASSET_PLACEHOLDER_PREFIX = "__PDFME_ASSET__:";
 const EMBEDDED_ASSET_MIN_LENGTH = 1000;
 
 type JsonPathSegment = string | number;
@@ -29,26 +29,26 @@ type TemplateJsonDialogProps = {
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  Object.prototype.toString.call(value) === '[object Object]';
+  Object.prototype.toString.call(value) === "[object Object]";
 
 const formatJsonPath = (path: JsonPathSegment[]): string =>
   path.reduce<string>(
     (result, segment) =>
-      typeof segment === 'number' ? `${result}[${segment}]` : `${result}.${segment}`,
-    '$',
+      typeof segment === "number" ? `${result}[${segment}]` : `${result}.${segment}`,
+    "$",
   );
 
 const isEmbeddedAsset = (value: string) => {
   if (value.length < EMBEDDED_ASSET_MIN_LENGTH) return false;
   if (/^data:[^,]+;base64,/i.test(value)) return true;
 
-  const normalized = value.replace(/\s/g, '');
+  const normalized = value.replace(/\s/g, "");
   const looksLikeBase64 = /^[A-Za-z0-9+/]+={0,2}$/.test(normalized);
   const hasKnownBinaryPrefix =
-    normalized.startsWith('JVBER') ||
-    normalized.startsWith('iVBOR') ||
-    normalized.startsWith('/9j/') ||
-    normalized.startsWith('R0lGOD');
+    normalized.startsWith("JVBER") ||
+    normalized.startsWith("iVBOR") ||
+    normalized.startsWith("/9j/") ||
+    normalized.startsWith("R0lGOD");
 
   return looksLikeBase64 && hasKnownBinaryPrefix;
 };
@@ -57,19 +57,19 @@ const getEmbeddedAssetMimeType = (value: string) => {
   const dataUrlMatch = value.match(/^data:([^;,]+)[^,]*;base64,/i);
   if (dataUrlMatch?.[1]) return dataUrlMatch[1];
 
-  const normalized = value.replace(/\s/g, '');
-  if (normalized.startsWith('JVBER')) return 'application/pdf';
-  if (normalized.startsWith('iVBOR')) return 'image/png';
-  if (normalized.startsWith('/9j/')) return 'image/jpeg';
-  if (normalized.startsWith('R0lGOD')) return 'image/gif';
+  const normalized = value.replace(/\s/g, "");
+  if (normalized.startsWith("JVBER")) return "application/pdf";
+  if (normalized.startsWith("iVBOR")) return "image/png";
+  if (normalized.startsWith("/9j/")) return "image/jpeg";
+  if (normalized.startsWith("R0lGOD")) return "image/gif";
 
-  return 'base64';
+  return "base64";
 };
 
 const getEmbeddedAssetSize = (value: string) => {
-  const base64 = /^data:[^,]+;base64,/i.test(value) ? value.slice(value.indexOf(',') + 1) : value;
-  const normalized = base64.replace(/\s/g, '');
-  const padding = normalized.endsWith('==') ? 2 : normalized.endsWith('=') ? 1 : 0;
+  const base64 = /^data:[^,]+;base64,/i.test(value) ? value.slice(value.indexOf(",") + 1) : value;
+  const normalized = base64.replace(/\s/g, "");
+  const padding = normalized.endsWith("==") ? 2 : normalized.endsWith("=") ? 1 : 0;
   const bytes = Math.max(0, Math.floor((normalized.length * 3) / 4) - padding);
 
   if (bytes < 1024) return `${bytes} B`;
@@ -82,7 +82,7 @@ const replaceEmbeddedAssetsWithPlaceholders = (template: Template) => {
   let assetIndex = 0;
 
   const replace = (value: unknown, path: JsonPathSegment[]): unknown => {
-    if (typeof value === 'string' && isEmbeddedAsset(value)) {
+    if (typeof value === "string" && isEmbeddedAsset(value)) {
       const placeholder = `${ASSET_PLACEHOLDER_PREFIX}asset_${assetIndex + 1}`;
       assetIndex += 1;
       assets[placeholder] = {
@@ -111,7 +111,7 @@ const replaceEmbeddedAssetsWithPlaceholders = (template: Template) => {
 
 const restoreEmbeddedAssetsFromPlaceholders = (template: unknown, assets: EmbeddedAssetMap) => {
   const restore = (value: unknown, path: JsonPathSegment[]): unknown => {
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       if (!value.startsWith(ASSET_PLACEHOLDER_PREFIX)) return value;
 
       const assetInfo = assets[value];
@@ -152,14 +152,14 @@ export default function TemplateJsonDialog({
   const assetsRef = useRef<EmbeddedAssetMap>({});
   const [assetInfos, setAssetInfos] = useState<EmbeddedAssetInfo[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     if (!isOpen || !template) {
       assetsRef.current = {};
       setAssetInfos([]);
       setError(null);
-      setValue('');
+      setValue("");
       return;
     }
 

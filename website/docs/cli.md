@@ -73,23 +73,23 @@ pdfme generate job.json -o out.pdf --image --json
 
 Main options:
 
-| Option | Default | Notes |
-| --- | --- | --- |
-| `[file]` | - | Unified job file containing `{ template, inputs, options? }` |
-| `-t, --template` | - | Template JSON file |
-| `-i, --inputs` | - | Input JSON file |
-| `-o, --output` | `output.pdf` | Output PDF path |
-| `--force` | `false` | Allow overwriting the implicit default `output.pdf` |
-| `--image` | `false` | Write one image per generated page |
-| `--imageFormat` | `png` | `png` or `jpeg` |
-| `--scale` | `1` | Render scale for image output |
-| `--grid` | `false` | Draw grid lines and schema bounds on generated images |
-| `--gridSize` | `10` | Grid spacing in millimeters |
-| `--font` | - | Local custom fonts as `Name=path.ttf`, comma-separated for multiple fonts |
-| `--basePdf` | - | Override `template.basePdf` with a PDF file path |
-| `--noAutoFont` | `false` | Disable automatic `NotoSansJP` resolution for CJK text |
-| `-v, --verbose` | `false` | Print input/output/render details to stderr |
-| `--json` | `false` | Print JSON only to stdout |
+| Option           | Default      | Notes                                                                     |
+| ---------------- | ------------ | ------------------------------------------------------------------------- |
+| `[file]`         | -            | Unified job file containing `{ template, inputs, options? }`              |
+| `-t, --template` | -            | Template JSON file                                                        |
+| `-i, --inputs`   | -            | Input JSON file                                                           |
+| `-o, --output`   | `output.pdf` | Output PDF path                                                           |
+| `--force`        | `false`      | Allow overwriting the implicit default `output.pdf`                       |
+| `--image`        | `false`      | Write one image per generated page                                        |
+| `--imageFormat`  | `png`        | `png` or `jpeg`                                                           |
+| `--scale`        | `1`          | Render scale for image output                                             |
+| `--grid`         | `false`      | Draw grid lines and schema bounds on generated images                     |
+| `--gridSize`     | `10`         | Grid spacing in millimeters                                               |
+| `--font`         | -            | Local custom fonts as `Name=path.ttf`, comma-separated for multiple fonts |
+| `--basePdf`      | -            | Override `template.basePdf` with a PDF file path                          |
+| `--noAutoFont`   | `false`      | Disable automatic `NotoSansJP` resolution for CJK text                    |
+| `-v, --verbose`  | `false`      | Print input/output/render details to stderr                               |
+| `--json`         | `false`      | Print JSON only to stdout                                                 |
 
 Notes:
 
@@ -122,9 +122,7 @@ Unified job example:
       ]
     ]
   },
-  "inputs": [
-    { "customerName": "John Doe" }
-  ],
+  "inputs": [{ "customerName": "John Doe" }],
   "options": {
     "font": {
       "NotoSansJP": {
@@ -282,9 +280,7 @@ Human-readable output includes standard size labels such as `A4 portrait` when d
   "ok": true,
   "command": "pdf2size",
   "pageCount": 1,
-  "pages": [
-    { "pageNumber": 1, "width": 210, "height": 297 }
-  ]
+  "pages": [{ "pageNumber": 1, "width": 210, "height": 297 }]
 }
 ```
 
@@ -355,12 +351,12 @@ When you pass `--json`:
 
 Current exit-code categories:
 
-| Code | Meaning |
-| --- | --- |
-| `0` | Success |
-| `1` | Argument, validation, or unsupported-input failure |
-| `2` | Runtime or font-resolution failure |
-| `3` | File I/O failure |
+| Code | Meaning                                            |
+| ---- | -------------------------------------------------- |
+| `0`  | Success                                            |
+| `1`  | Argument, validation, or unsupported-input failure |
+| `2`  | Runtime or font-resolution failure                 |
+| `3`  | File I/O failure                                   |
 
 ## Typical Workflows
 

@@ -1,11 +1,11 @@
-import * as hooks from '../../src/hooks';
-import * as helper from '../../src/helper';
-import { BLANK_PDF, PAGE_SIZE_PRESETS, Template } from '@pdfme/common';
+import * as hooks from "../../src/hooks";
+import * as helper from "../../src/helper";
+import { BLANK_PDF, PAGE_SIZE_PRESETS, Template } from "@pdfme/common";
 
 export const setupUIMock = () => {
-  const backgrounds = ['data:image/png;base64,a...'];
+  const backgrounds = ["data:image/png;base64,a..."];
   const pageSizes = [PAGE_SIZE_PRESETS.A4];
-  const mock = vi.spyOn(hooks, 'useUIPreProcessor');
+  const mock = vi.spyOn(hooks, "useUIPreProcessor");
   mock.mockImplementation(() => ({
     backgrounds,
     pageSizes,
@@ -13,12 +13,12 @@ export const setupUIMock = () => {
     error: null,
     refresh: () => Promise.resolve(),
   }));
-  vi.spyOn(helper, 'uuid')
-    .mockReturnValueOnce('1')
-    .mockReturnValueOnce('2')
-    .mockReturnValueOnce('3')
-    .mockReturnValueOnce('4')
-    .mockReturnValueOnce('5');
+  vi.spyOn(helper, "uuid")
+    .mockReturnValueOnce("1")
+    .mockReturnValueOnce("2")
+    .mockReturnValueOnce("3")
+    .mockReturnValueOnce("4")
+    .mockReturnValueOnce("5");
   const FontFace = vi.fn().mockReturnValue({ load: () => Promise.resolve() });
   global.window.FontFace = FontFace;
 };
@@ -28,21 +28,21 @@ export const getSampleTemplate = (): Template => ({
   schemas: [
     [
       {
-        name: 'field1',
-        type: 'text',
-        content: 'bb',
+        name: "field1",
+        type: "text",
+        content: "bb",
         position: { x: 20, y: 20 },
         width: 100,
         height: 15,
-        alignment: 'left',
+        alignment: "left",
         fontSize: 30,
         characterSpacing: 0,
         lineHeight: 1,
       },
       {
-        name: 'field2',
-        type: 'image',
-        content: 'aaaaaaaaaaaa',
+        name: "field2",
+        type: "image",
+        content: "aaaaaaaaaaaa",
         position: { x: 20, y: 35 },
         width: 100,
         height: 40,

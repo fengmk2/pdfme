@@ -1,5 +1,5 @@
-import { Disclosure } from '@headlessui/react';
-import { Menu, X } from 'lucide-react';
+import { Disclosure } from "@headlessui/react";
+import { Menu, X } from "lucide-react";
 
 export type NavItem = {
   label: string;

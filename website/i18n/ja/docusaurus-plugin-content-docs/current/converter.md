@@ -12,6 +12,7 @@
 - **MarkdownからPDF**: `md2pdf`
 
 計画されている変換機能には以下が含まれます：
+
 - **PDFからMarkdown**: `pdf2md`
 
 ## インストール
@@ -25,6 +26,7 @@ Node.js で `pdf2img` を使うために追加の install は不要です。`@pd
 ## 機能
 
 ### pdf2img
+
 PDFページを画像（JPEGまたはPNG形式）に変換します。
 
 ```ts
@@ -39,6 +41,7 @@ const images = await pdf2img(pdf, {
 ```
 
 ### pdf2size
+
 PDFの各ページの幅と高さを取得します。
 
 ```ts
@@ -52,6 +55,7 @@ const sizes = await pdf2size(pdf, {
 ```
 
 ### img2pdf
+
 1つまたは複数の画像（JPEGまたはPNG）を1つのPDFファイルに変換します。
 
 ```ts
@@ -68,12 +72,13 @@ const pdf = await img2pdf([image1, image2], {
 ```
 
 ### md2pdf (beta)
+
 GitHub Flavored Markdown を pdfme の `Template` と `inputs` の組に変換します。
 
 ```ts
-import { md2pdf } from '@pdfme/converter/md2pdf';
+import { md2pdf } from "@pdfme/converter/md2pdf";
 
-const { template, inputs } = await md2pdf('# Hello\n\nVisit [pdfme](https://pdfme.com).');
+const { template, inputs } = await md2pdf("# Hello\n\nVisit [pdfme](https://pdfme.com).");
 ```
 
 [md2pdf playground](https://playground.pdfme.com/md2pdf) で実際に試せます。いくつかの Markdown サンプル
@@ -84,9 +89,9 @@ const { template, inputs } = await md2pdf('# Hello\n\nVisit [pdfme](https://pdfm
 PDFを生成するには、返された `template` と `inputs` を `@pdfme/generator` に渡し、Markdownで使われる schema plugin を登録してください。
 
 ```ts
-import { md2pdf } from '@pdfme/converter/md2pdf';
-import { generate } from '@pdfme/generator';
-import { image, line, list, table, text } from '@pdfme/schemas';
+import { md2pdf } from "@pdfme/converter/md2pdf";
+import { generate } from "@pdfme/generator";
+import { image, line, list, table, text } from "@pdfme/schemas";
 
 const { template, inputs } = await md2pdf(`
 # リリースノート
@@ -115,17 +120,18 @@ const pdf = await generate({
 ```
 
 #### 日本語とCJKテキスト
+
 pdfme のデフォルトフォントは Roboto で、日本語/CJK glyph を含みません。日本語 Markdown を扱う場合は、変換時に CJK 対応の `fontName` を指定し、generator または UI options に同じフォントを渡してください。
 
 ```ts
-import { readFile } from 'node:fs/promises';
-import { md2pdf } from '@pdfme/converter/md2pdf';
-import { generate } from '@pdfme/generator';
-import { image, line, list, table, text } from '@pdfme/schemas';
+import { readFile } from "node:fs/promises";
+import { md2pdf } from "@pdfme/converter/md2pdf";
+import { generate } from "@pdfme/generator";
+import { image, line, list, table, text } from "@pdfme/schemas";
 
-const fontData = await readFile('./fonts/NotoSansJP-Regular.ttf');
-const { template, inputs } = await md2pdf('# 日本語\n\nこれはPDF生成のテストです。', {
-  style: { fontName: 'NotoSansJP' },
+const fontData = await readFile("./fonts/NotoSansJP-Regular.ttf");
+const { template, inputs } = await md2pdf("# 日本語\n\nこれはPDF生成のテストです。", {
+  style: { fontName: "NotoSansJP" },
 });
 
 const pdf = await generate({
@@ -143,6 +149,7 @@ const pdf = await generate({
 `basePdf` を渡した場合、`md2pdf` は `page` options から blank PDF を作らず、その値をそのまま使います。これは pdfme template と同じ `BlankPdf` object なので、`staticSchema` も含められます。
 
 #### 現在の制限
+
 `md2pdf` は実用的な GFM block を扱えますが、GitHub Markdown renderer の完全互換ではありません。
 
 - paragraph、heading、list、table、code block、blockquote、horizontal rule、link、PNG/JPEG data URI image に対応しています。
@@ -167,9 +174,9 @@ const pdf = await generate({
 ## 型定義
 
 ```ts
-import type { BlankPdf, PageOrientation, PageSize } from '@pdfme/common';
+import type { BlankPdf, PageOrientation, PageSize } from "@pdfme/common";
 
-type ImageType = 'jpeg' | 'png';
+type ImageType = "jpeg" | "png";
 
 interface PageRange {
   start?: number;
@@ -189,11 +196,18 @@ interface Pdf2SizeOptions {
 interface Img2PdfOptions {
   scale?: number;
   imageType?: ImageType;
-  size?: { height: number, width: number }; // ミリメートル単位
+  size?: { height: number; width: number }; // ミリメートル単位
   margin?: [number, number, number, number]; // ミリメートル単位 [上, 右, 下, 左]
 }
 
-type BoxSides = { top?: number, right?: number, bottom?: number, left?: number, x?: number, y?: number };
+type BoxSides = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  x?: number;
+  y?: number;
+};
 type MarkdownMargin = number | [number, number, number, number] | BoxSides;
 
 interface Md2PdfOptions {

@@ -1,4 +1,4 @@
-import { CLI_VERSION } from './version.js';
+import { CLI_VERSION } from "./version.js";
 
 export interface ExampleManifestEntry {
   name: string;
@@ -27,18 +27,18 @@ export interface ExampleManifest {
 
 export interface ExampleManifestLoadResult {
   manifest: ExampleManifest;
-  source: 'remote';
+  source: "remote";
   url?: string;
 }
 
 export interface ExampleTemplateLoadResult {
   template: Record<string, unknown>;
-  source: 'remote';
+  source: "remote";
   url?: string;
 }
 
 export function getExamplesBaseUrl(): string {
-  return process.env.PDFME_EXAMPLES_BASE_URL ?? 'https://playground.pdfme.com/template-assets';
+  return process.env.PDFME_EXAMPLES_BASE_URL ?? "https://playground.pdfme.com/template-assets";
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -57,7 +57,7 @@ export async function getExampleManifest(): Promise<ExampleManifestLoadResult> {
   let lastError: unknown;
   for (const url of getManifestUrls()) {
     try {
-      return { manifest: normalizeManifest(await fetchJson<unknown>(url)), source: 'remote', url };
+      return { manifest: normalizeManifest(await fetchJson<unknown>(url)), source: "remote", url };
     } catch (error) {
       lastError = error;
     }
@@ -70,7 +70,7 @@ export async function getExampleTemplateNames(): Promise<string[]> {
   const { manifest } = await getExampleManifest();
   return manifest.templates
     .map((entry) => entry.name)
-    .filter((name): name is string => typeof name === 'string' && name.length > 0)
+    .filter((name): name is string => typeof name === "string" && name.length > 0)
     .sort();
 }
 
@@ -94,16 +94,16 @@ export async function fetchExampleTemplateWithSource(
   }
 
   const relativePath = entry.path;
-  const templateUrl = `${getExamplesBaseUrl().replace(/\/$/, '')}/${relativePath}`;
+  const templateUrl = `${getExamplesBaseUrl().replace(/\/$/, "")}/${relativePath}`;
   return {
     template: await fetchJson<Record<string, unknown>>(templateUrl),
-    source: 'remote',
+    source: "remote",
     url: templateUrl,
   };
 }
 
 function getManifestUrls(): string[] {
-  const baseUrl = getExamplesBaseUrl().replace(/\/$/, '');
+  const baseUrl = getExamplesBaseUrl().replace(/\/$/, "");
   return [`${baseUrl}/manifest.json`, `${baseUrl}/index.json`];
 }
 
@@ -116,8 +116,8 @@ function normalizeManifest(raw: unknown): ExampleManifest {
     };
   }
 
-  if (typeof raw !== 'object' || raw === null) {
-    throw new Error('Examples manifest must be a JSON object or array.');
+  if (typeof raw !== "object" || raw === null) {
+    throw new Error("Examples manifest must be a JSON object or array.");
   }
 
   const record = raw as Record<string, unknown>;
@@ -128,15 +128,15 @@ function normalizeManifest(raw: unknown): ExampleManifest {
       : undefined;
 
   if (!rawTemplates) {
-    throw new Error('Examples manifest is missing templates.');
+    throw new Error("Examples manifest is missing templates.");
   }
 
   return {
     schemaVersion:
-      typeof record.schemaVersion === 'number' && Number.isFinite(record.schemaVersion)
+      typeof record.schemaVersion === "number" && Number.isFinite(record.schemaVersion)
         ? record.schemaVersion
         : 1,
-    cliVersion: typeof record.cliVersion === 'string' ? record.cliVersion : CLI_VERSION,
+    cliVersion: typeof record.cliVersion === "string" ? record.cliVersion : CLI_VERSION,
     templates: normalizeEntries(rawTemplates),
   };
 }
@@ -144,48 +144,48 @@ function normalizeManifest(raw: unknown): ExampleManifest {
 function normalizeEntries(rawTemplates: unknown[]): ExampleManifestEntry[] {
   return rawTemplates
     .filter(
-      (entry): entry is Record<string, unknown> => typeof entry === 'object' && entry !== null,
+      (entry): entry is Record<string, unknown> => typeof entry === "object" && entry !== null,
     )
     .map((entry) => {
-      const name = typeof entry.name === 'string' ? entry.name : '';
+      const name = typeof entry.name === "string" ? entry.name : "";
 
       return {
         name,
         author:
-          typeof entry.author === 'string' && entry.author.length > 0 ? entry.author : 'pdfme',
+          typeof entry.author === "string" && entry.author.length > 0 ? entry.author : "pdfme",
         path:
-          typeof entry.path === 'string' && entry.path.length > 0
+          typeof entry.path === "string" && entry.path.length > 0
             ? entry.path
             : `${name}/template.json`,
         thumbnailPath:
-          typeof entry.thumbnailPath === 'string' && entry.thumbnailPath.length > 0
+          typeof entry.thumbnailPath === "string" && entry.thumbnailPath.length > 0
             ? entry.thumbnailPath
             : `${name}/thumbnail.png`,
-        ...(typeof entry.sourcePath === 'string' && entry.sourcePath.length > 0
+        ...(typeof entry.sourcePath === "string" && entry.sourcePath.length > 0
           ? { sourcePath: entry.sourcePath }
           : {}),
-        ...(typeof entry.description === 'string' ? { description: entry.description } : {}),
-        ...(typeof entry.order === 'number' && Number.isFinite(entry.order)
+        ...(typeof entry.description === "string" ? { description: entry.description } : {}),
+        ...(typeof entry.order === "number" && Number.isFinite(entry.order)
           ? { order: entry.order }
           : {}),
         pageCount:
-          typeof entry.pageCount === 'number' && Number.isFinite(entry.pageCount)
+          typeof entry.pageCount === "number" && Number.isFinite(entry.pageCount)
             ? entry.pageCount
             : 0,
         fieldCount:
-          typeof entry.fieldCount === 'number' && Number.isFinite(entry.fieldCount)
+          typeof entry.fieldCount === "number" && Number.isFinite(entry.fieldCount)
             ? entry.fieldCount
             : 0,
         schemaTypes: normalizeStringArray(entry.schemaTypes),
         fontNames: normalizeStringArray(entry.fontNames),
-        hasCJK: typeof entry.hasCJK === 'boolean' ? entry.hasCJK : false,
+        hasCJK: typeof entry.hasCJK === "boolean" ? entry.hasCJK : false,
         basePdfKind:
-          typeof entry.basePdfKind === 'string' && entry.basePdfKind.length > 0
+          typeof entry.basePdfKind === "string" && entry.basePdfKind.length > 0
             ? entry.basePdfKind
-            : 'unknown',
-        ...(typeof entry.sourceKind === 'string' ? { sourceKind: entry.sourceKind } : {}),
+            : "unknown",
+        ...(typeof entry.sourceKind === "string" ? { sourceKind: entry.sourceKind } : {}),
         ...(Array.isArray(entry.tags) ? { tags: normalizeStringArray(entry.tags) } : {}),
-        ...(typeof entry.title === 'string' ? { title: entry.title } : {}),
+        ...(typeof entry.title === "string" ? { title: entry.title } : {}),
       };
     })
     .filter((entry) => entry.name.length > 0);
@@ -196,7 +196,7 @@ function normalizeStringArray(value: unknown): string[] {
     return [];
   }
 
-  return value.filter((item): item is string => typeof item === 'string' && item.length > 0);
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
 }
 
 function formatError(error: unknown): string {
