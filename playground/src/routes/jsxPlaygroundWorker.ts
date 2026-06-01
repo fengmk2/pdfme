@@ -1,6 +1,6 @@
-import type { Font } from '@pdfme/common';
-import type { RenderResult } from '@pdfme/jsx';
-import { renderJsxSource } from './jsxPlaygroundRuntime';
+import type { Font } from "@pdfme/common";
+import type { RenderResult } from "@pdfme/jsx";
+import { renderJsxSource } from "./jsxPlaygroundRuntime";
 
 type RenderRequest = {
   font: Font;

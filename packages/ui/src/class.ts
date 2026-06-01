@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { createRoot, Root } from 'react-dom/client';
-import { DESTROYED_ERR_MSG, DEFAULT_LANG } from './constants.js';
-import { debounce } from './helper.js';
+import { ReactNode } from "react";
+import { createRoot, Root } from "react-dom/client";
+import { DESTROYED_ERR_MSG, DEFAULT_LANG } from "./constants.js";
+import { debounce } from "./helper.js";
 import {
   cloneDeep,
   Template,
@@ -19,8 +19,8 @@ import {
   checkUIOptions,
   checkPreviewProps,
   pluginRegistry,
-} from '@pdfme/common';
-import { builtInPlugins } from '@pdfme/schemas/builtins';
+} from "@pdfme/common";
+import { builtInPlugins } from "@pdfme/schemas/builtins";
 
 export abstract class BaseUIClass {
   protected domContainer!: HTMLElement | null;

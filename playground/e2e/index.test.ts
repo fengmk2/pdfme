@@ -1,16 +1,16 @@
-import puppeteer, { Browser, Page } from 'puppeteer';
-import { pdf2img } from '@pdfme/converter';
+import puppeteer, { Browser, Page } from "puppeteer";
+import { pdf2img } from "@pdfme/converter";
 import {
   Template,
   Schema,
   PAGE_SIZE_PRESETS,
   cloneDeep,
   getInputFromTemplate,
-} from '@pdfme/common';
-import { text, table, image, barcodes, select, checkbox, radioGroup } from '@pdfme/schemas';
-import { ChildProcessWithoutNullStreams, spawn } from 'node:child_process';
-import { stripVTControlCharacters } from 'node:util';
-import type { MatchImageOptions } from 'vitest-image-snapshot';
+} from "@pdfme/common";
+import { text, table, image, barcodes, select, checkbox, radioGroup } from "@pdfme/schemas";
+import { ChildProcessWithoutNullStreams, spawn } from "node:child_process";
+import { stripVTControlCharacters } from "node:util";
+import type { MatchImageOptions } from "vitest-image-snapshot";
 
 const previewUrlPattern = /https?:\/\/(?:localhost|127\.0\.0\.1):\d+\/?/;
 
@@ -46,7 +46,7 @@ async function waitForPreviewUrl(
   timeoutMs = 20000,
 ): Promise<string> {
   return await new Promise((resolve, reject) => {
-    let outputBuffer = '';
+    let outputBuffer = "";
 
     const timeoutId = setTimeout(() => {
       cleanup();
@@ -55,17 +55,17 @@ async function waitForPreviewUrl(
 
     const cleanup = () => {
       clearTimeout(timeoutId);
-      previewProcess.stdout.off('data', onStdout);
-      previewProcess.stderr.off('data', onStderr);
-      previewProcess.off('exit', onExit);
-      previewProcess.off('error', onError);
+      previewProcess.stdout.off("data", onStdout);
+      previewProcess.stderr.off("data", onStderr);
+      previewProcess.off("exit", onExit);
+      previewProcess.off("error", onError);
     };
 
-    const handleChunk = (kind: 'output' | 'error', data: Buffer | string) => {
+    const handleChunk = (kind: "output" | "error", data: Buffer | string) => {
       const text = stripVTControlCharacters(data.toString());
       const message = text.trim();
       if (message) {
-        const log = kind === 'output' ? console.log : console.error;
+        const log = kind === "output" ? console.log : console.error;
         log(`Preview server ${kind}: ${message}`);
       }
 
@@ -77,12 +77,12 @@ async function waitForPreviewUrl(
       const matchedUrl = outputBuffer.match(previewUrlPattern)?.[0];
       if (matchedUrl) {
         cleanup();
-        resolve(matchedUrl.replace(/\/$/, ''));
+        resolve(matchedUrl.replace(/\/$/, ""));
       }
     };
 
-    const onStdout = (data: Buffer | string) => handleChunk('output', data);
-    const onStderr = (data: Buffer | string) => handleChunk('error', data);
+    const onStdout = (data: Buffer | string) => handleChunk("output", data);
+    const onStderr = (data: Buffer | string) => handleChunk("error", data);
     const onExit = (code: number | null, signal: NodeJS.Signals | null) => {
       cleanup();
       reject(
@@ -94,10 +94,10 @@ async function waitForPreviewUrl(
       reject(error);
     };
 
-    previewProcess.stdout.on('data', onStdout);
-    previewProcess.stderr.on('data', onStderr);
-    previewProcess.on('exit', onExit);
-    previewProcess.on('error', onError);
+    previewProcess.stdout.on("data", onStdout);
+    previewProcess.stderr.on("data", onStderr);
+    previewProcess.on("exit", onExit);
+    previewProcess.on("error", onError);
   });
 }
 
@@ -113,16 +113,16 @@ function stopPreviewProcess(previewProcess: ChildProcessWithoutNullStreams | und
   try {
     process.kill(-previewProcess.pid);
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== 'ESRCH') {
+    if ((error as NodeJS.ErrnoException).code !== "ESRCH") {
       throw error;
     }
   }
 }
 
-let baseUrl = 'http://127.0.0.1:4173';
+let baseUrl = "http://127.0.0.1:4173";
 const timeout = 60000;
 
-const isRunningLocal = process.env.LOCAL === 'true';
+const isRunningLocal = process.env.LOCAL === "true";
 
 const snapshotOptions: MatchImageOptions = {
   allowedPixelRatio: 0.01,
@@ -142,29 +142,29 @@ const replayPdfSnapshotOptions: MatchImageOptions = {
 const viewport = { width: 1366, height: 768 };
 
 function getPdfSnapshotOptions(labelPrefix: string): MatchImageOptions {
-  return labelPrefix === 'modified-template' || labelPrefix === 'final-form'
+  return labelPrefix === "modified-template" || labelPrefix === "final-form"
     ? replayPdfSnapshotOptions
     : snapshotOptions;
 }
 
 const modifiedTemplateFieldNames = {
-  text: 'headline',
-  table: 'lineItems',
-  image: 'brandImage',
-  qrcode: 'supportQr',
-  select: 'status',
-  checkbox: 'approved',
-  radioGroup: 'selected',
+  text: "headline",
+  table: "lineItems",
+  image: "brandImage",
+  qrcode: "supportQr",
+  select: "status",
+  checkbox: "approved",
+  radioGroup: "selected",
 } as const;
 
 type PlaygroundStorageState = {
   template?: Template;
   inputs?: Record<string, string>[];
-  mode?: 'form' | 'viewer';
+  mode?: "form" | "viewer";
 };
 
-const playgroundProjectsStorageKey = 'playground:projects:v1';
-const activePlaygroundProjectStorageKey = 'playground:activeProjectId:v1';
+const playgroundProjectsStorageKey = "playground:projects:v1";
+const activePlaygroundProjectStorageKey = "playground:activeProjectId:v1";
 
 const cloneSchema = <T extends Schema>(schema: T, overrides: Partial<T>): T =>
   ({
@@ -177,7 +177,7 @@ const cloneSchema = <T extends Schema>(schema: T, overrides: Partial<T>): T =>
   }) as T;
 
 function buildModifiedTemplate(): Template {
-  const basePdf: Template['basePdf'] = {
+  const basePdf: Template["basePdf"] = {
     ...PAGE_SIZE_PRESETS.A4,
     padding: [20, 10, 20, 10],
   };
@@ -224,38 +224,38 @@ function buildModifiedTemplate(): Template {
 
 function buildFinalFormInputs(): Record<string, string>[] {
   const tableRows = Array.from({ length: 40 }, (_, index) => [
-    `Person ${String(index + 1).padStart(2, '0')}`,
+    `Person ${String(index + 1).padStart(2, "0")}`,
     `City ${((index % 5) + 1).toString()}`,
     `Summary ${index + 1}`,
   ]);
 
   return [
     {
-      [modifiedTemplateFieldNames.text]: 'Filled by CI',
+      [modifiedTemplateFieldNames.text]: "Filled by CI",
       [modifiedTemplateFieldNames.table]: JSON.stringify(tableRows),
-      [modifiedTemplateFieldNames.select]: 'option2',
-      [modifiedTemplateFieldNames.checkbox]: 'true',
-      [modifiedTemplateFieldNames.radioGroup]: 'true',
+      [modifiedTemplateFieldNames.select]: "option2",
+      [modifiedTemplateFieldNames.checkbox]: "true",
+      [modifiedTemplateFieldNames.radioGroup]: "true",
     },
   ];
 }
 
 async function loadRouteWithStorage(
   page: Page,
-  path: '/designer' | '/form-viewer',
+  path: "/designer" | "/form-viewer",
   storageState: PlaygroundStorageState,
 ) {
-  const projectId = 'project_e2e_deterministic_template';
+  const projectId = "project_e2e_deterministic_template";
   const inputs =
     storageState.inputs ??
     (storageState.template ? getInputFromTemplate(storageState.template) : []);
 
-  await page.goto(baseUrl, { waitUntil: 'networkidle2', timeout });
+  await page.goto(baseUrl, { waitUntil: "networkidle2", timeout });
   await page.evaluate(
     (state, resolvedInputs, id, projectsStorageKey, activeProjectStorageKey) => {
-      localStorage.removeItem('template');
-      localStorage.removeItem('inputs');
-      localStorage.removeItem('mode');
+      localStorage.removeItem("template");
+      localStorage.removeItem("inputs");
+      localStorage.removeItem("mode");
       localStorage.removeItem(projectsStorageKey);
       localStorage.removeItem(activeProjectStorageKey);
 
@@ -268,9 +268,9 @@ async function loadRouteWithStorage(
               createdAt: now,
               id,
               inputs: resolvedInputs,
-              kind: 'template',
+              kind: "template",
               template: state.template,
-              title: 'E2E deterministic template',
+              title: "E2E deterministic template",
               updatedAt: now,
             },
           ]),
@@ -278,7 +278,7 @@ async function loadRouteWithStorage(
         localStorage.setItem(activeProjectStorageKey, id);
       }
       if (state.mode) {
-        localStorage.setItem('mode', state.mode);
+        localStorage.setItem("mode", state.mode);
       }
     },
     storageState,
@@ -289,7 +289,7 @@ async function loadRouteWithStorage(
   );
 
   await page.goto(`${baseUrl}${path}?project=${encodeURIComponent(projectId)}`, {
-    waitUntil: 'networkidle2',
+    waitUntil: "networkidle2",
     timeout,
   });
 }
@@ -297,22 +297,22 @@ async function loadRouteWithStorage(
 async function waitForDesignerReady(page: Page, expectedText?: string) {
   await page.waitForFunction(
     (text) => {
-      const container = document.querySelector('div.flex-1.w-full');
+      const container = document.querySelector("div.flex-1.w-full");
       const hasExpectedText =
-        typeof text === 'string' && text.length > 0
+        typeof text === "string" && text.length > 0
           ? (container?.textContent?.includes(text) ?? false)
           : true;
-      const canvas = document.querySelector('.pdfme-designer-canvas');
-      const spinner = document.querySelector('.pdfme-designer-root svg.lucide-loader-circle');
+      const canvas = document.querySelector(".pdfme-designer-canvas");
+      const spinner = document.querySelector(".pdfme-designer-root svg.lucide-loader-circle");
       const paper = document.querySelector('.pdfme-designer-canvas [style*="background-image"]');
       const titledSelectables = Array.from(
-        document.querySelectorAll('.pdfme-designer-canvas .selectable[title]'),
+        document.querySelectorAll(".pdfme-designer-canvas .selectable[title]"),
       );
       const renderersReady = titledSelectables.every((element) => {
         const content = element.firstElementChild;
-        return !(content instanceof HTMLElement) || content.dataset.pdfmeRenderReady === 'true';
+        return !(content instanceof HTMLElement) || content.dataset.pdfmeRenderReady === "true";
       });
-      const fontsLoaded = !document.fonts || document.fonts.status === 'loaded';
+      const fontsLoaded = !document.fonts || document.fonts.status === "loaded";
       return hasExpectedText && !!canvas && !spinner && !!paper && fontsLoaded && renderersReady;
     },
     { timeout },
@@ -338,19 +338,19 @@ async function waitForDesignerReady(page: Page, expectedText?: string) {
 async function waitForFormReady(page: Page, expectedText?: string) {
   await page.waitForFunction(
     (text) => {
-      const container = document.querySelector('div.flex-1.w-full');
+      const container = document.querySelector("div.flex-1.w-full");
       const hasExpectedText =
-        typeof text === 'string' && text.length > 0
+        typeof text === "string" && text.length > 0
           ? (container?.textContent?.includes(text) ?? false)
           : true;
-      const titledSelectables = Array.from(document.querySelectorAll('.selectable[title]'));
+      const titledSelectables = Array.from(document.querySelectorAll(".selectable[title]"));
       const renderersReady =
         titledSelectables.length > 0 &&
         titledSelectables.every((element) => {
           const content = element.firstElementChild;
-          return !(content instanceof HTMLElement) || content.dataset.pdfmeRenderReady === 'true';
+          return !(content instanceof HTMLElement) || content.dataset.pdfmeRenderReady === "true";
         });
-      const fontsLoaded = !document.fonts || document.fonts.status === 'loaded';
+      const fontsLoaded = !document.fonts || document.fonts.status === "loaded";
       return hasExpectedText && renderersReady && fontsLoaded;
     },
     { timeout },
@@ -371,20 +371,20 @@ async function waitForFormReady(page: Page, expectedText?: string) {
 }
 
 async function generatePdf(page: Page, browser: Browser): Promise<Buffer> {
-  await page.waitForSelector('#generate-pdf', { timeout });
-  await page.click('#generate-pdf');
+  await page.waitForSelector("#generate-pdf", { timeout });
+  await page.click("#generate-pdf");
 
-  const newTarget = await browser.waitForTarget((target) => target.url().startsWith('blob:'), {
+  const newTarget = await browser.waitForTarget((target) => target.url().startsWith("blob:"), {
     timeout,
   });
   const newPage = await newTarget?.page();
   if (!newPage) {
-    throw new Error('[generatePdf]: New page not found');
+    throw new Error("[generatePdf]: New page not found");
   }
 
   await newPage.setViewport(viewport);
   await newPage.bringToFront();
-  await newPage.goto(newPage.url(), { waitUntil: 'networkidle2', timeout });
+  await newPage.goto(newPage.url(), { waitUntil: "networkidle2", timeout });
 
   const pdfArray = await newPage.evaluate(async () => {
     const response = await fetch(location.href);
@@ -401,13 +401,13 @@ async function generatePdf(page: Page, browser: Browser): Promise<Buffer> {
 
 async function pdfToImages(pdf: Buffer): Promise<Buffer[]> {
   const pdfBytes = new Uint8Array(pdf.buffer, pdf.byteOffset, pdf.byteLength);
-  const arrayBuffers = await pdf2img(pdfBytes, { imageType: 'png' });
+  const arrayBuffers = await pdf2img(pdfBytes, { imageType: "png" });
   return arrayBuffers.map((buf: ArrayBuffer) => Buffer.from(new Uint8Array(buf)));
 }
 
 async function captureAndCompareScreenshot(page: Page, label?: string) {
   await waitForDesignerReady(page);
-  const screenshot = await page.screenshot({ type: 'png' });
+  const screenshot = await page.screenshot({ type: "png" });
   await expect(Buffer.from(screenshot)).toMatchImage(
     label ? { ...designerSnapshotOptions, name: label } : designerSnapshotOptions,
   );
@@ -426,31 +426,31 @@ async function generateAndComparePDF(page: Page, browser: Browser, labelPrefix: 
   }
 }
 
-describe('Playground E2E Tests', () => {
+describe("Playground E2E Tests", () => {
   let browser: Browser | undefined;
   let page: Page | undefined;
   let previewProcess: ChildProcessWithoutNullStreams | undefined;
 
   beforeAll(async () => {
-    console.log('Starting preview server...');
-    previewProcess = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1'], {
+    console.log("Starting preview server...");
+    previewProcess = spawn("npm", ["run", "preview", "--", "--host", "127.0.0.1"], {
       detached: true,
-      stdio: 'pipe',
+      stdio: "pipe",
     });
 
     baseUrl = await waitForPreviewUrl(previewProcess);
     const serverReady = await waitForServerReady(baseUrl);
     if (!serverReady) {
-      throw new Error('Failed to start preview server in time');
+      throw new Error("Failed to start preview server in time");
     }
 
     browser = await puppeteer.launch({
       headless: !isRunningLocal,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     page = await browser.newPage();
     await page.evaluateOnNewDocument(() => {
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = `
         *,
         *::before,
@@ -460,7 +460,7 @@ describe('Playground E2E Tests', () => {
           caret-color: transparent !important;
         }
       `;
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         document.head.appendChild(style);
       });
     });
@@ -468,8 +468,8 @@ describe('Playground E2E Tests', () => {
     await page.setViewport(viewport);
     page.setDefaultNavigationTimeout(timeout);
 
-    page.on('request', (req) => {
-      const ignoreDomains = ['https://media.ethicalads.io/'];
+    page.on("request", (req) => {
+      const ignoreDomains = ["https://media.ethicalads.io/"];
       if (ignoreDomains.some((d) => req.url().startsWith(d))) {
         req.abort();
       } else {
@@ -485,61 +485,61 @@ describe('Playground E2E Tests', () => {
     stopPreviewProcess(previewProcess);
   });
 
-  it('should select Invoice template and compare PDF snapshot', async () => {
-    if (!browser || !page) throw new Error('Browser/Page not initialized');
+  it("should select Invoice template and compare PDF snapshot", async () => {
+    if (!browser || !page) throw new Error("Browser/Page not initialized");
 
     // 1. Navigate to templates list & click on Invoice template
     await page.goto(`${baseUrl}/templates`);
-    await page.waitForSelector('#template-img-invoice', { timeout });
-    await page.click('#template-img-invoice');
+    await page.waitForSelector("#template-img-invoice", { timeout });
+    await page.click("#template-img-invoice");
 
     // 2. Wait for the designer canvas and schema renderers to settle
-    await waitForDesignerReady(page, 'INVOICE');
+    await waitForDesignerReady(page, "INVOICE");
 
     // 3. Screenshot & compare
-    await captureAndCompareScreenshot(page, 'invoice-designer');
+    await captureAndCompareScreenshot(page, "invoice-designer");
 
     // 4. Generate PDF & compare
-    await generateAndComparePDF(page, browser, 'invoice');
+    await generateAndComparePDF(page, browser, "invoice");
   });
 
-  it('should select Pedigree template and compare PDF snapshot', async () => {
-    if (!browser || !page) throw new Error('Browser/Page not initialized');
+  it("should select Pedigree template and compare PDF snapshot", async () => {
+    if (!browser || !page) throw new Error("Browser/Page not initialized");
 
     // 5. Load the Pedigree designer directly to avoid flaky list-page navigation in CI
     await page.goto(`${baseUrl}/designer?template=pedigree`, {
-      waitUntil: 'networkidle2',
+      waitUntil: "networkidle2",
       timeout,
     });
 
-    await waitForDesignerReady(page, 'Pet Name');
+    await waitForDesignerReady(page, "Pet Name");
 
     // 7. Screenshot & compare
-    await captureAndCompareScreenshot(page, 'pedigree-designer');
+    await captureAndCompareScreenshot(page, "pedigree-designer");
 
     // 8. Generate PDF & compare
-    await generateAndComparePDF(page, browser, 'pedigree');
+    await generateAndComparePDF(page, browser, "pedigree");
   });
 
-  it('should load a deterministic template, generate PDF and compare, then render form inputs', async () => {
-    if (!browser || !page) throw new Error('Browser/Page not initialized');
+  it("should load a deterministic template, generate PDF and compare, then render form inputs", async () => {
+    if (!browser || !page) throw new Error("Browser/Page not initialized");
 
     const template = buildModifiedTemplate();
 
-    await loadRouteWithStorage(page, '/designer', { template });
-    await waitForDesignerReady(page, 'Type Something...');
+    await loadRouteWithStorage(page, "/designer", { template });
+    await waitForDesignerReady(page, "Type Something...");
 
-    await captureAndCompareScreenshot(page, 'modified-template-designer');
+    await captureAndCompareScreenshot(page, "modified-template-designer");
 
-    await generateAndComparePDF(page, browser, 'modified-template');
+    await generateAndComparePDF(page, browser, "modified-template");
 
-    await loadRouteWithStorage(page, '/form-viewer', {
+    await loadRouteWithStorage(page, "/form-viewer", {
       template,
       inputs: buildFinalFormInputs(),
-      mode: 'form',
+      mode: "form",
     });
-    await waitForFormReady(page, 'Filled by CI');
+    await waitForFormReady(page, "Filled by CI");
 
-    await generateAndComparePDF(page, browser, 'final-form');
+    await generateAndComparePDF(page, browser, "final-form");
   });
 });

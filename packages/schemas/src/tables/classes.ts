@@ -1,7 +1,7 @@
-import { Font, mm2pt, pt2mm } from '@pdfme/common';
-import type { Font as FontKitFont } from 'fontkit';
-import { splitTextToSize, getFontKitFont, widthOfTextAtSize } from '../text/helper.js';
-import type { Styles, TableInput, Settings, Section, StylesProps } from './types.js';
+import { Font, mm2pt, pt2mm } from "@pdfme/common";
+import type { Font as FontKitFont } from "fontkit";
+import { splitTextToSize, getFontKitFont, widthOfTextAtSize } from "../text/helper.js";
+import type { Styles, TableInput, Settings, Section, StylesProps } from "./types.js";
 
 type ContentSettings = { body: Row[]; head: Row[]; columns: Column[] };
 
@@ -32,12 +32,12 @@ export class Cell {
   getContentHeight() {
     const lineCount = Array.isArray(this.text) ? this.text.length : 1;
     const lineHeight = pt2mm(this.styles.fontSize) * this.styles.lineHeight;
-    const vPadding = this.padding('top') + this.padding('bottom');
+    const vPadding = this.padding("top") + this.padding("bottom");
     const height = lineCount * lineHeight + vPadding;
     return Math.max(height, this.styles.minCellHeight);
   }
 
-  padding(name: 'top' | 'bottom' | 'left' | 'right') {
+  padding(name: "top" | "bottom" | "left" | "right") {
     return this.styles.cellPadding[name];
   }
 }
@@ -86,7 +86,7 @@ export class Row {
     return columns.reduce((acc: number, column: Column) => {
       const cell = this.cells[column.index];
       if (!cell) return 0;
-      const vPadding = cell.padding('top') + cell.padding('bottom');
+      const vPadding = cell.padding("top") + cell.padding("bottom");
       const oneRowHeight = vPadding + cell.styles.lineHeight;
       return oneRowHeight > acc ? oneRowHeight : acc;
     }, 0);
@@ -344,13 +344,13 @@ async function calculate(
       const cell = row.cells[column.index];
       if (!cell) continue;
 
-      const hPadding = cell.padding('right') + cell.padding('left');
+      const hPadding = cell.padding("right") + cell.padding("left");
       const fontKitFont = await getFontKitFontByFontName(cell.styles.fontName);
 
       cell.contentWidth = getStringWidth(cell, fontKitFont) + hPadding;
 
       const longestWordWidth = getStringWidth(
-        Object.assign(cell, { text: cell.text.join(' ').split(/\s+/) }),
+        Object.assign(cell, { text: cell.text.join(" ").split(/\s+/) }),
         fontKitFont,
       );
       cell.minReadableWidth = longestWordWidth + hPadding;

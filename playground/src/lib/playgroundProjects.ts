@@ -1,12 +1,12 @@
-import { checkTemplate, getInputFromTemplate, type Template } from '@pdfme/common';
+import { checkTemplate, getInputFromTemplate, type Template } from "@pdfme/common";
 
-export type PlaygroundProjectKind = 'template' | 'jsx' | 'md2pdf';
+export type PlaygroundProjectKind = "template" | "jsx" | "md2pdf";
 
 export type PlaygroundProjectSource = {
   content: string;
-  language: 'jsx' | 'markdown';
+  language: "jsx" | "markdown";
   presetId?: string;
-  route: '/jsx' | '/md2pdf';
+  route: "/jsx" | "/md2pdf";
 };
 
 export type PlaygroundProject = {
@@ -31,18 +31,18 @@ export type SavePlaygroundProjectInput = {
   title: string;
 };
 
-const PROJECTS_STORAGE_KEY = 'playground:projects:v1';
-const ACTIVE_PROJECT_STORAGE_KEY = 'playground:activeProjectId:v1';
-const LEGACY_TEMPLATE_STORAGE_KEY = 'template';
-const LEGACY_INPUTS_STORAGE_KEY = 'inputs';
+const PROJECTS_STORAGE_KEY = "playground:projects:v1";
+const ACTIVE_PROJECT_STORAGE_KEY = "playground:activeProjectId:v1";
+const LEGACY_TEMPLATE_STORAGE_KEY = "template";
+const LEGACY_INPUTS_STORAGE_KEY = "inputs";
 
-type StorageLike = Pick<Storage, 'getItem' | 'removeItem' | 'setItem'>;
+type StorageLike = Pick<Storage, "getItem" | "removeItem" | "setItem">;
 
 const getStorage = (): StorageLike | null =>
-  typeof window === 'undefined' ? null : window.localStorage;
+  typeof window === "undefined" ? null : window.localStorage;
 
 const createProjectId = () => {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return `project_${crypto.randomUUID()}`;
   }
 
@@ -50,12 +50,12 @@ const createProjectId = () => {
 };
 
 const normalizeTitle = (title: string, fallback: string) => {
-  const normalized = title.trim().replace(/\s+/g, ' ');
+  const normalized = title.trim().replace(/\s+/g, " ");
   return normalized || fallback;
 };
 
 const createUniqueProjectTitle = (title: string, projects: PlaygroundProject[]) => {
-  const normalizedTitle = normalizeTitle(title, 'Untitled Project');
+  const normalizedTitle = normalizeTitle(title, "Untitled Project");
   const existingTitles = new Set(projects.map((project) => project.title));
   if (!existingTitles.has(normalizedTitle)) return normalizedTitle;
 
@@ -66,7 +66,7 @@ const createUniqueProjectTitle = (title: string, projects: PlaygroundProject[]) 
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null;
+  typeof value === "object" && value !== null;
 
 const parseInputs = (value: unknown): Record<string, string>[] | null => {
   if (!Array.isArray(value)) return null;
@@ -77,7 +77,7 @@ const parseInputs = (value: unknown): Record<string, string>[] | null => {
 
     const input: Record<string, string> = {};
     for (const [key, inputValue] of Object.entries(item)) {
-      if (typeof inputValue !== 'string') return null;
+      if (typeof inputValue !== "string") return null;
       input[key] = inputValue;
     }
     inputs.push(input);
@@ -89,12 +89,12 @@ const parseInputs = (value: unknown): Record<string, string>[] | null => {
 const parseProject = (value: unknown): PlaygroundProject | null => {
   if (!isRecord(value)) return null;
   if (
-    typeof value.id !== 'string' ||
-    typeof value.title !== 'string' ||
-    typeof value.kind !== 'string' ||
-    !['template', 'jsx', 'md2pdf'].includes(value.kind) ||
-    typeof value.createdAt !== 'number' ||
-    typeof value.updatedAt !== 'number' ||
+    typeof value.id !== "string" ||
+    typeof value.title !== "string" ||
+    typeof value.kind !== "string" ||
+    !["template", "jsx", "md2pdf"].includes(value.kind) ||
+    typeof value.createdAt !== "number" ||
+    typeof value.updatedAt !== "number" ||
     !isRecord(value.template)
   ) {
     return null;
@@ -116,7 +116,7 @@ const parseProject = (value: unknown): PlaygroundProject | null => {
     kind: value.kind as PlaygroundProjectKind,
     source: isRecord(value.source) ? (value.source as PlaygroundProjectSource) : undefined,
     template: value.template as Template,
-    thumbnail: typeof value.thumbnail === 'string' ? value.thumbnail : undefined,
+    thumbnail: typeof value.thumbnail === "string" ? value.thumbnail : undefined,
     title: value.title,
     updatedAt: value.updatedAt,
   };
@@ -135,15 +135,15 @@ const migrateLegacyProject = (storage: StorageLike): PlaygroundProject | null =>
     const template = JSON.parse(legacyTemplate) as Template;
     checkTemplate(template);
 
-    const parsedInputs = JSON.parse(storage.getItem(LEGACY_INPUTS_STORAGE_KEY) ?? 'null');
+    const parsedInputs = JSON.parse(storage.getItem(LEGACY_INPUTS_STORAGE_KEY) ?? "null");
     const now = Date.now();
     const project: PlaygroundProject = {
       createdAt: now,
       id: `project_legacy_${now.toString(36)}`,
       inputs: parseInputs(parsedInputs) ?? getInputFromTemplate(template),
-      kind: 'template',
+      kind: "template",
       template,
-      title: 'Imported local template',
+      title: "Imported local template",
       updatedAt: now,
     };
 
@@ -161,7 +161,7 @@ export const readPlaygroundProjects = (storage = getStorage()): PlaygroundProjec
   if (!storage) return [];
 
   try {
-    const parsed = JSON.parse(storage.getItem(PROJECTS_STORAGE_KEY) ?? '[]');
+    const parsed = JSON.parse(storage.getItem(PROJECTS_STORAGE_KEY) ?? "[]");
     if (!Array.isArray(parsed)) return [];
 
     const projects = parsed
@@ -201,7 +201,7 @@ export const savePlaygroundProject = (
     source: input.source,
     template: input.template,
     thumbnail: input.thumbnail ?? existing?.thumbnail,
-    title: normalizeTitle(input.title, existing?.title ?? 'Untitled Project'),
+    title: normalizeTitle(input.title, existing?.title ?? "Untitled Project"),
     updatedAt: now,
   };
 
@@ -306,13 +306,13 @@ export const getActivePlaygroundProject = (storage = getStorage()) => {
 };
 
 export const getProjectAuthoringPath = (project: PlaygroundProject) => {
-  if (project.kind === 'jsx') return `/jsx?project=${encodeURIComponent(project.id)}`;
-  if (project.kind === 'md2pdf') return `/md2pdf?project=${encodeURIComponent(project.id)}`;
+  if (project.kind === "jsx") return `/jsx?project=${encodeURIComponent(project.id)}`;
+  if (project.kind === "md2pdf") return `/md2pdf?project=${encodeURIComponent(project.id)}`;
   return `/designer?project=${encodeURIComponent(project.id)}`;
 };
 
 export const getProjectKindLabel = (kind: PlaygroundProjectKind) => {
-  if (kind === 'jsx') return 'JSX';
-  if (kind === 'md2pdf') return 'md2pdf';
-  return 'Template';
+  if (kind === "jsx") return "JSX";
+  if (kind === "md2pdf") return "md2pdf";
+  return "Template";
 };

@@ -105,10 +105,7 @@
         "strikethrough": false,
         "underline": false,
         "text": "Invoice No.{InvoiceNo}\n{Date}",
-        "variables": [
-          "InvoiceNo",
-          "Date"
-        ],
+        "variables": ["InvoiceNo", "Date"],
         "fontName": "",
         "name": "info"
       },
@@ -122,17 +119,9 @@
         "height": 45.75920000000001,
         "content": "[[\"Eggshell Camisole Top\",\"1\",\"123\",\"123\"],[\"Cuban Collar Shirt\",\"2\",\"127\",\"254\"]]",
         "showHead": true,
-        "head": [
-          "Item",
-          "Quantity",
-          "Unit Price",
-          "Total"
-        ],
+        "head": ["Item", "Quantity", "Unit Price", "Total"],
         "headWidthPercentages": [
-          49.538325694806396,
-          17.962830593295262,
-          19.26354959425127,
-          13.23529411764708
+          49.538325694806396, 17.962830593295262, 19.26354959425127, 13.23529411764708
         ],
         "fontName": "",
         "tableStyles": {
@@ -240,9 +229,7 @@
         "underline": false,
         "readOnly": false,
         "text": "Tax ({rate}%)",
-        "variables": [
-          "rate"
-        ],
+        "variables": ["rate"],
         "required": false,
         "dynamicFontSize": {
           "min": 4,
@@ -491,12 +478,7 @@
   "basePdf": {
     "width": 210,
     "height": 297,
-    "padding": [
-      20,
-      20,
-      20,
-      20
-    ],
+    "padding": [20, 20, 20, 20],
     "staticSchema": [
       {
         "name": "line",

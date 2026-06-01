@@ -18,7 +18,7 @@ return (
           Generated from JSX
         </Text>
         <Text width={54} size={7} align="right" color="#64748b">
-          {'Page {currentPage} of {totalPages}'}
+          {"Page {currentPage} of {totalPages}"}
         </Text>
       </Row>
     </Footer>
@@ -42,7 +42,9 @@ return (
             </Text>
           </Stack>
           <Svg width={34} height={22}>
-            {'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80"><rect width="120" height="80" rx="12" fill="#0f172a"/><circle cx="42" cy="40" r="22" fill="#22c55e"/><rect x="62" y="22" width="34" height="36" rx="7" fill="#e0f2fe"/></svg>'}
+            {
+              '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80"><rect width="120" height="80" rx="12" fill="#0f172a"/><circle cx="42" cy="40" r="22" fill="#22c55e"/><rect x="62" y="22" width="34" height="36" rx="7" fill="#e0f2fe"/></svg>'
+            }
           </Svg>
         </Row>
 
@@ -55,11 +57,11 @@ return (
               <MultiVariableText
                 size={10}
                 lineHeight={1.25}
-                text={'{company}\n{name}\n{email}'}
+                text={"{company}\n{name}\n{email}"}
                 values={{
-                  company: 'Kumo Coffee',
-                  name: 'Aki Tanaka',
-                  email: 'aki@example.com',
+                  company: "Kumo Coffee",
+                  name: "Aki Tanaka",
+                  email: "aki@example.com",
                 }}
               />
             </Stack>
@@ -72,9 +74,9 @@ return (
               <List
                 size={8}
                 items={[
-                  'Text and MVT can omit height; JSX measures them while rendering.',
-                  { text: 'Boxes without height grow around measured children.', level: 1 },
-                  'Download the generated template JSON.',
+                  "Text and MVT can omit height; JSX measures them while rendering.",
+                  { text: "Boxes without height grow around measured children.", level: 1 },
+                  "Download the generated template JSON.",
                 ]}
               />
             </Stack>
@@ -82,19 +84,19 @@ return (
         </Row>
 
         <Table
-          head={['Item', 'Qty', 'Price']}
+          head={["Item", "Qty", "Price"]}
           rows={[
-            ['Design system setup', 1, '$800'],
-            ['PDF template automation', 2, '$1,200'],
-            ['QA and playground review', 1, '$350'],
+            ["Design system setup", 1, "$800"],
+            ["PDF template automation", 2, "$1,200"],
+            ["QA and playground review", 1, "$350"],
           ]}
           columnWeights={[55, 15, 30]}
           rowHeight={9}
           headerHeight={9}
           font="NotoSansJP"
           fontSize={8}
-          headStyles={{ backgroundColor: '#0f766e', borderColor: '#0f766e', padding: 2 }}
-          bodyStyles={{ borderColor: '#cbd5e1', borderWidth: 0.25, padding: 2 }}
+          headStyles={{ backgroundColor: "#0f766e", borderColor: "#0f766e", padding: 2 }}
+          bodyStyles={{ borderColor: "#cbd5e1", borderWidth: 0.25, padding: 2 }}
         />
 
         <Row gap={6}>
@@ -105,8 +107,20 @@ return (
           </Box>
           <Box width={42} height={22}>
             <Row gap={2}>
-              <Ellipse width={22} height={22} fill="#dbeafe" borderColor="#2563eb" borderWidth={0.4} />
-              <Rectangle width={18} height={22} fill="#fee2e2" borderColor="#ef4444" borderWidth={0.4} />
+              <Ellipse
+                width={22}
+                height={22}
+                fill="#dbeafe"
+                borderColor="#2563eb"
+                borderWidth={0.4}
+              />
+              <Rectangle
+                width={18}
+                height={22}
+                fill="#fee2e2"
+                borderColor="#ef4444"
+                borderWidth={0.4}
+              />
             </Row>
           </Box>
         </Row>
@@ -119,11 +133,13 @@ return (
           Second page
         </Text>
         <Text size={9} lineHeight={1.35} overflow="expand">
-          PageBreak creates another schemas array in the generated template. This page shows that JSX is only an authoring layer: the output remains a normal pdfme Template.
+          PageBreak creates another schemas array in the generated template. This page shows that
+          JSX is only an authoring layer: the output remains a normal pdfme Template.
         </Text>
         <Box padding={5} borderColor="#cbd5e1" borderWidth={0.4} background="#f8fafc">
           <Text size={9} lineHeight={1.35}>
-            Try changing numbers, colors, Stack gaps, Row widths, or Table rows. The Viewer updates after a short debounce.
+            Try changing numbers, colors, Stack gaps, Row widths, or Table rows. The Viewer updates
+            after a short debounce.
           </Text>
         </Box>
       </Stack>

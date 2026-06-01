@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { PDFME_VERSION } from '@pdfme/common';
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { PDFME_VERSION } from "@pdfme/common";
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
 
 const externalIcon = (
   <svg
@@ -21,7 +21,7 @@ const externalIcon = (
 );
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 function HelpModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -62,8 +62,8 @@ function HelpModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                   <button
                     onClick={() =>
                       window.open(
-                        'https://app.pdfme.com/contact?utm_source=playground&utm_content=need-help',
-                        '_blank',
+                        "https://app.pdfme.com/contact?utm_source=playground&utm_content=need-help",
+                        "_blank",
                       )
                     }
                     className="flex justify-center items-center w-full rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
@@ -72,14 +72,14 @@ function HelpModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
                     {externalIcon}
                   </button>
                   <button
-                    onClick={() => window.open('https://discord.gg/xWPTJbmgNV', '_blank')}
+                    onClick={() => window.open("https://discord.gg/xWPTJbmgNV", "_blank")}
                     className="flex justify-center items-center w-full rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
                   >
                     Need help by community?
                     {externalIcon}
                   </button>
                   <button
-                    onClick={() => window.open('https://github.com/pdfme/pdfme/issues', '_blank')}
+                    onClick={() => window.open("https://github.com/pdfme/pdfme/issues", "_blank")}
                     className="flex justify-center items-center w-full rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
                   >
                     Found bugs? Report them on our GitHub issues page.
@@ -108,19 +108,19 @@ export default function Navigation() {
   const [helpModalOpen, setHelpModalOpen] = useState(false);
 
   const navLinks = [
-    { id: 'templates-nav', to: '/', label: 'Templates' },
-    { id: 'designer-nav', to: '/designer', label: 'Designer' },
-    { id: 'form-viewer-nav', to: '/form-viewer', label: 'Form/Viewer' },
-    { id: 'jsx-nav', to: '/jsx', label: 'JSX' },
-    { id: 'md2pdf-nav', to: '/md2pdf', label: 'md2pdf' },
+    { id: "templates-nav", to: "/", label: "Templates" },
+    { id: "designer-nav", to: "/designer", label: "Designer" },
+    { id: "form-viewer-nav", to: "/form-viewer", label: "Form/Viewer" },
+    { id: "jsx-nav", to: "/jsx", label: "JSX" },
+    { id: "md2pdf-nav", to: "/md2pdf", label: "md2pdf" },
   ];
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     classNames(
       isActive
-        ? 'border-green-500 text-green-600'
-        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-      'whitespace-nowrap border-b-2 px-1 py-2 text-sm font-medium',
+        ? "border-green-500 text-green-600"
+        : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+      "whitespace-nowrap border-b-2 px-1 py-2 text-sm font-medium",
     );
 
   return (

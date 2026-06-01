@@ -1,19 +1,19 @@
-import PDFObject from '../objects/PDFObject';
-import PDFString from '../objects/PDFString';
-import PDFHexString from '../objects/PDFHexString';
-import PDFArray from '../objects/PDFArray';
-import PDFName from '../objects/PDFName';
-import PDFRef from '../objects/PDFRef';
-import PDFAcroTerminal from './PDFAcroTerminal';
-import { IndexOutOfBoundsError } from '../errors';
+import PDFObject from "../objects/PDFObject";
+import PDFString from "../objects/PDFString";
+import PDFHexString from "../objects/PDFHexString";
+import PDFArray from "../objects/PDFArray";
+import PDFName from "../objects/PDFName";
+import PDFRef from "../objects/PDFRef";
+import PDFAcroTerminal from "./PDFAcroTerminal";
+import { IndexOutOfBoundsError } from "../errors";
 
 class PDFAcroButton extends PDFAcroTerminal {
   Opt(): PDFString | PDFHexString | PDFArray | undefined {
-    return this.dict.lookupMaybe(PDFName.of('Opt'), PDFString, PDFHexString, PDFArray);
+    return this.dict.lookupMaybe(PDFName.of("Opt"), PDFString, PDFHexString, PDFArray);
   }
 
   setOpt(opt: PDFObject[]) {
-    this.dict.set(PDFName.of('Opt'), this.dict.context.obj(opt));
+    this.dict.set(PDFName.of("Opt"), this.dict.context.obj(opt));
   }
 
   getExportValues(): (PDFString | PDFHexString)[] | undefined {
@@ -62,7 +62,7 @@ class PDFAcroButton extends PDFAcroTerminal {
     for (let idx = 0, len = widgets.length; idx < len; idx++) {
       const widget = widgets[idx];
       const exportVal =
-        exportValues[idx] ?? PDFHexString.fromText(widget.getOnValue()?.decodeText() ?? '');
+        exportValues[idx] ?? PDFHexString.fromText(widget.getOnValue()?.decodeText() ?? "");
       Opt.push(exportVal);
     }
 

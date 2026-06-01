@@ -1,7 +1,7 @@
-import React from 'react';
-import { act, waitFor } from '@testing-library/react';
-import { BLANK_PDF, type Template, type UIProps } from '@pdfme/common';
-import { BaseUIClass } from '../src/class';
+import React from "react";
+import { act, waitFor } from "@testing-library/react";
+import { BLANK_PDF, type Template, type UIProps } from "@pdfme/common";
+import { BaseUIClass } from "../src/class";
 
 class TestUI extends BaseUIClass {
   public show() {
@@ -18,7 +18,7 @@ const template: Template = {
   schemas: [[]],
 };
 
-test('BaseUIClass mount renders without forcing a synchronous flush', async () => {
+test("BaseUIClass mount renders without forcing a synchronous flush", async () => {
   const originalResizeObserver = globalThis.ResizeObserver;
 
   class ResizeObserverMock {
@@ -31,9 +31,9 @@ test('BaseUIClass mount renders without forcing a synchronous flush', async () =
 
   globalThis.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver;
 
-  const domContainer = document.createElement('div');
-  Object.defineProperty(domContainer, 'clientHeight', { configurable: true, value: 240 });
-  Object.defineProperty(domContainer, 'clientWidth', { configurable: true, value: 320 });
+  const domContainer = document.createElement("div");
+  Object.defineProperty(domContainer, "clientHeight", { configurable: true, value: 240 });
+  Object.defineProperty(domContainer, "clientWidth", { configurable: true, value: 320 });
   document.body.appendChild(domContainer);
 
   try {

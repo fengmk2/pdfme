@@ -52,13 +52,13 @@ pdfmeでは以下の型、関数、クラスが利用可能です。
 環境がwebpackを使用している場合は、以下のように必要なアイテムをインポートします。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { generate } from '@pdfme/generator';
+import type { Template } from "@pdfme/common";
+import { generate } from "@pdfme/generator";
 ```
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { Designer, Form, Viewer } from '@pdfme/ui';
+import type { Template } from "@pdfme/common";
+import { Designer, Form, Viewer } from "@pdfme/ui";
 ```
 
 **すべてのオブジェクトは`Template`を使用しており、これについては次のセクションで簡単に説明します。**
@@ -83,7 +83,6 @@ pdfmeライブラリの中核はテンプレートです。
 basePdf: { "width": 210, "height": 297, "padding": [10, 10, 10, 10] }
 ```
 
-
 **schemas**はデフォルトではテキストのみ使用できます。`generate`、`Designer`、`Form`、`Viewer` が使うデフォルトのプラグインレジストリには、意図的に `text` スキーマだけが含まれています。  
 画像、署名、テーブル、QRコードなどのバーコード、その他のスキーマタイプを使う場合は、`@pdfme/schemas` から対象プラグインを明示的に import し、`plugins` オプションで渡してください。  
 さらに、独自のスキーマを作成することで、上記以外の種類をレンダリングすることも可能です。詳細は[カスタムスキーマ](/docs/custom-schemas)と、既存コードを更新する場合の [v6 migration guide](/docs/migration-v6) をご覧ください。
@@ -94,29 +93,29 @@ basePdf: { "width": 210, "height": 297, "padding": [10, 10, 10, 10] }
 ### 最小限のテンプレート {#minimal-template}
 
 ```ts
-import { Template, BLANK_PDF } from '@pdfme/common';
+import { Template, BLANK_PDF } from "@pdfme/common";
 
 const template: Template = {
   basePdf: BLANK_PDF,
   schemas: [
     [
       {
-        name: 'a',
-        type: 'text',
+        name: "a",
+        type: "text",
         position: { x: 0, y: 0 },
         width: 10,
         height: 10,
       },
       {
-        name: 'b',
-        type: 'text',
+        name: "b",
+        type: "text",
         position: { x: 10, y: 10 },
         width: 10,
         height: 10,
       },
       {
-        name: 'c',
-        type: 'text',
+        name: "c",
+        type: "text",
         position: { x: 20, y: 20 },
         width: 10,
         height: 10,
@@ -145,31 +144,31 @@ npm install @pdfme/schemas
 以下は、組み込みとカスタムの両方のスキーマタイプを使用したテンプレートの例です：
 
 ```ts
-import { Template, BLANK_PDF } from '@pdfme/common';
-import { text, barcodes, image } from '@pdfme/schemas';
-import myCustomPlugin from './custom-plugins';
+import { Template, BLANK_PDF } from "@pdfme/common";
+import { text, barcodes, image } from "@pdfme/schemas";
+import myCustomPlugin from "./custom-plugins";
 
 const template: Template = {
   basePdf: BLANK_PDF,
   schemas: [
     [
       {
-        name: 'example_text',
-        type: 'text',
+        name: "example_text",
+        type: "text",
         position: { x: 0, y: 0 },
         width: 40,
         height: 10,
       },
       {
-        name: 'example_image',
-        type: 'image',
+        name: "example_image",
+        type: "image",
         position: { x: 200, y: 200 },
         width: 60,
         height: 40,
       },
       {
-        name: 'example_qr_code',
-        type: 'qrcode',
+        name: "example_qr_code",
+        type: "qrcode",
         position: { x: 100, y: 100 },
         width: 50,
         height: 50,
@@ -180,16 +179,16 @@ const template: Template = {
 
 const plugins = {
   Text: multiVariableText,
-  'QR Code': barcodes.qrcode,
+  "QR Code": barcodes.qrcode,
   Image: image,
   MyCustomPlugin: myCustomPlugin,
 };
 
 const inputs = [
   {
-    example_text: 'Hello, World!',
-    example_image: 'data:image/png;base64,iVBORw0KG....',
-    example_qr_code: 'https://pdfme.com/',
+    example_text: "Hello, World!",
+    example_image: "data:image/png;base64,iVBORw0KG....",
+    example_qr_code: "https://pdfme.com/",
   },
 ];
 
@@ -213,13 +212,13 @@ PDF生成関数`generate`は、PDFを生成するために`template`と`inputs`�
 [上記で作成したテンプレート](/docs/getting-started#minimal-template)を使用してPDFファイルを生成するコードを以下に示します。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { generate } from '@pdfme/generator';
+import type { Template } from "@pdfme/common";
+import { generate } from "@pdfme/generator";
 
 const template: Template = {
   // 省略...　テンプレートセクションを確認してください。
 };
-const inputs = [{ a: 'a1', b: 'b1', c: 'c1' }];
+const inputs = [{ a: "a1", b: "b1", c: "c1" }];
 
 generate({ template, inputs }).then((pdf) => {
   console.log(pdf);
@@ -252,10 +251,10 @@ UIは[デザイナー](/docs/getting-started#designer)、[フォーム](/docs/ge
 上記で作成したテンプレートをデフォルトテンプレートとして使用し、デザイナーを統合してみましょう。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { Designer } from '@pdfme/ui';
+import type { Template } from "@pdfme/common";
+import { Designer } from "@pdfme/ui";
 
-const domContainer = document.getElementById('container');
+const domContainer = document.getElementById("container");
 const template: Template = {
   // 省略...　テンプレートセクションを確認してください。
 };
@@ -283,7 +282,7 @@ UIの状態は `options` で制御できます（省略時は下記のデフォ�
 // UIの状態を一部またはすべて設定（省略時のデフォルト値を例示）
 const options = {
   zoomLevel: 1,
-  sidebarOpen: true
+  sidebarOpen: true,
 };
 
 const designer = new Designer({ domContainer, template, options });
@@ -298,15 +297,15 @@ const designer = new Designer({ domContainer, template, options });
 [playground Form/Viewer](https://playground.pdfme.com/form-viewer?template=invoice)で請求書テンプレートを使用したフォームを試すことができます。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { Form } from '@pdfme/ui';
+import type { Template } from "@pdfme/common";
+import { Form } from "@pdfme/ui";
 
-const domContainer = document.getElementById('container');
+const domContainer = document.getElementById("container");
 const template: Template = {
   // 省略...
 };
 // これは初期データです。
-const inputs = [{ a: 'a1', b: 'b1', c: 'c1' }];
+const inputs = [{ a: "a1", b: "b1", c: "c1" }];
 
 const form = new Form({ domContainer, template, inputs });
 ```
@@ -319,7 +318,7 @@ const form = new Form({ domContainer, template, inputs });
 
 ```ts
 generate({ template, inputs: form.getInputs() }).then((pdf) => {
-  const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
+  const blob = new Blob([pdf.buffer], { type: "application/pdf" });
   window.open(URL.createObjectURL(blob));
 });
 ```
@@ -333,14 +332,14 @@ generate({ template, inputs: form.getInputs() }).then((pdf) => {
 ビューワーの使用は基本的にフォームの使用と同じですが、ユーザーが編集できない点が異なります。
 
 ```ts
-import type { Template } from '@pdfme/common';
-import { Viewer } from '@pdfme/ui';
+import type { Template } from "@pdfme/common";
+import { Viewer } from "@pdfme/ui";
 
-const domContainer = document.getElementById('container');
+const domContainer = document.getElementById("container");
 const template: Template = {
   // 省略...
 };
-const inputs = [{ a: 'a1', b: 'b1', c: 'c1' }];
+const inputs = [{ a: "a1", b: "b1", c: "c1" }];
 
 const viewer = new Viewer({ domContainer, template, inputs });
 ```

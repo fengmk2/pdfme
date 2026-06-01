@@ -1,31 +1,31 @@
-import { Plugin, Schema } from '@pdfme/common';
+import { Plugin, Schema } from "@pdfme/common";
 import {
   convertForPdfLayoutProps,
   isEditable,
   addAlphaToHex,
   createErrorElm,
   createSvgStr,
-} from '../utils.js';
-import { sanitizeSVG } from '../sanitize.js';
-import { Route } from 'lucide';
+} from "../utils.js";
+import { sanitizeSVG } from "../sanitize.js";
+import { Route } from "lucide";
 
 const isValidSVG = (svgString: string): boolean => {
   try {
     // Basic validation checks that work in both Node.js and browser
-    if (!svgString || typeof svgString !== 'string') {
+    if (!svgString || typeof svgString !== "string") {
       return false;
     }
 
     // Check for basic SVG structure
-    if (!svgString.includes('<svg') || !svgString.includes('</svg>')) {
+    if (!svgString.includes("<svg") || !svgString.includes("</svg>")) {
       return false;
     }
 
     // Additional browser-specific validation if DOMParser is available
-    if (typeof DOMParser !== 'undefined') {
+    if (typeof DOMParser !== "undefined") {
       const parser = new DOMParser();
-      const doc = parser.parseFromString(svgString, 'image/svg+xml');
-      const parserError = doc.querySelector('parsererror');
+      const doc = parser.parseFromString(svgString, "image/svg+xml");
+      const parserError = doc.querySelector("parsererror");
       if (parserError !== null) {
         return false;
       }
@@ -48,35 +48,35 @@ export type SVGSchema = Schema;
 const svgSchema: Plugin<SVGSchema> = {
   ui: (arg) => {
     const { rootElement, value, mode, onChange, theme, schema } = arg;
-    const container = document.createElement(isEditable(mode, schema) ? 'textarea' : 'div');
-    container.style.width = '100%';
-    container.style.height = '100%';
-    container.style.boxSizing = 'border-box';
+    const container = document.createElement(isEditable(mode, schema) ? "textarea" : "div");
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.boxSizing = "border-box";
     if (isEditable(mode, schema)) {
       const textarea = container as HTMLTextAreaElement;
       textarea.value = value;
-      textarea.style.position = 'absolute';
+      textarea.style.position = "absolute";
       textarea.style.backgroundColor = addAlphaToHex(theme.colorPrimaryBg, 30);
 
       if (isValidSVG(value)) {
         const sanitizedValue = sanitizeSVG(value);
-        const svgElement = new DOMParser().parseFromString(sanitizedValue, 'image/svg+xml')
+        const svgElement = new DOMParser().parseFromString(sanitizedValue, "image/svg+xml")
           .childNodes[0];
         if (svgElement instanceof SVGElement) {
-          svgElement.setAttribute('width', '100%');
-          svgElement.setAttribute('height', '100%');
-          svgElement.style.position = 'absolute';
+          svgElement.setAttribute("width", "100%");
+          svgElement.setAttribute("height", "100%");
+          svgElement.style.position = "absolute";
           rootElement.appendChild(svgElement);
         }
       } else if (value) {
         const errorElm = createErrorElm();
-        errorElm.style.position = 'absolute';
+        errorElm.style.position = "absolute";
         rootElement.appendChild(errorElm);
       }
 
-      textarea.addEventListener('change', (e: Event) => {
+      textarea.addEventListener("change", (e: Event) => {
         const newValue = (e.target as HTMLTextAreaElement).value;
-        if (onChange) onChange({ key: 'content', value: newValue });
+        if (onChange) onChange({ key: "content", value: newValue });
       });
       rootElement.appendChild(container);
       textarea.setSelectionRange(value.length, value.length);
@@ -90,8 +90,8 @@ const svgSchema: Plugin<SVGSchema> = {
       container.innerHTML = sanitizeSVG(value);
       const svgElement = container.childNodes[0];
       if (svgElement instanceof SVGElement) {
-        svgElement.setAttribute('width', '100%');
-        svgElement.setAttribute('height', '100%');
+        svgElement.setAttribute("width", "100%");
+        svgElement.setAttribute("height", "100%");
         rootElement.appendChild(container);
       }
     }
@@ -107,8 +107,8 @@ const svgSchema: Plugin<SVGSchema> = {
   propPanel: {
     schema: {},
     defaultSchema: {
-      name: '',
-      type: 'svg',
+      name: "",
+      type: "svg",
       content: defaultValue,
       position: { x: 0, y: 0 },
       width: 40,

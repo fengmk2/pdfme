@@ -20,7 +20,7 @@ new Designer({
   options: {
     theme: {
       token: {
-        colorPrimary: 'red',
+        colorPrimary: "red",
       },
     },
   },
@@ -50,10 +50,10 @@ new Designer({
   domContainer,
   template,
   options: {
-    lang: 'ja',
+    lang: "ja",
     labels: {
-      fieldsList: '入力項目一覧ビュー', // 編集ボタンのラベルを上書き
-      youCanCreateYourOwnLabel: '独自のラベルを作成できます', // カスタムプラグイン用の新しいラベルを追加
+      fieldsList: "入力項目一覧ビュー", // 編集ボタンのラベルを上書き
+      youCanCreateYourOwnLabel: "独自のラベルを作成できます", // カスタムプラグイン用の新しいラベルを追加
     },
   },
 });
@@ -88,13 +88,13 @@ const designer = new Designer({
   template,
   options: {
     zoomLevel: 1.5,
-    sidebarOpen: false,  // （Designerのみ）
-  }
+    sidebarOpen: false, // （Designerのみ）
+  },
 });
 
 // 初期化後に状態を更新:
 designer.updateOptions({
   zoomLevel: 2,
-  sidebarOpen: true
+  sidebarOpen: true,
 });
 ```

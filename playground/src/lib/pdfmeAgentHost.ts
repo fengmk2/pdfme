@@ -1,5 +1,5 @@
-export const PDFME_AGENT_HOST_READY_EVENT = 'pdfme-agent-host-ready';
-export const PDFME_AGENT_HOST_DESTROYED_EVENT = 'pdfme-agent-host-destroyed';
+export const PDFME_AGENT_HOST_READY_EVENT = "pdfme-agent-host-ready";
+export const PDFME_AGENT_HOST_DESTROYED_EVENT = "pdfme-agent-host-destroyed";
 
 export type PdfmeAgentTemplateContext = {
   editingStaticSchemas?: boolean;
@@ -38,9 +38,7 @@ export type PdfmeAgentHost = {
   getSelectedSchemas?: () => PdfmeAgentSelectedSchema[];
   getSelection?: () => PdfmeAgentSelection | null;
   getTemplateContext?: () => PdfmeAgentTemplateContext;
-  onChangeSelection?: (
-    cb: (selection: PdfmeAgentSelection | null) => void,
-  ) => (() => void) | void;
+  onChangeSelection?: (cb: (selection: PdfmeAgentSelection | null) => void) => (() => void) | void;
 };
 
 declare global {

@@ -2,9 +2,5 @@
   "title": "Research paper",
   "description": "A paper-style document that leans on measured text height and PageBreak.",
   "sourceKind": "jsx",
-  "tags": [
-    "Research",
-    "Article",
-    "Multi-page"
-  ]
+  "tags": ["Research", "Article", "Multi-page"]
 }

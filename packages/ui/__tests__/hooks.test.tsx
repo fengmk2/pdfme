@@ -1,28 +1,28 @@
-import React from 'react';
-import { act, renderHook, waitFor } from '@testing-library/react';
-import { BLANK_PDF, PAGE_SIZE_PRESETS, type SchemaForUI, type Template } from '@pdfme/common';
-import * as converter from '@pdfme/converter';
-import * as helper from '../src/helper';
-import { useInitEvents, useUIPreProcessor } from '../src/hooks';
+import React from "react";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import { BLANK_PDF, PAGE_SIZE_PRESETS, type SchemaForUI, type Template } from "@pdfme/common";
+import * as converter from "@pdfme/converter";
+import * as helper from "../src/helper";
+import { useInitEvents, useUIPreProcessor } from "../src/hooks";
 
-vi.mock('@pdfme/converter', () => ({
+vi.mock("@pdfme/converter", () => ({
   pdf2size: vi.fn(),
   pdf2img: vi.fn(),
 }));
 
 const createTemplate = (): Template => ({
-  basePdf: 'data:application/pdf;base64,AA==',
+  basePdf: "data:application/pdf;base64,AA==",
   schemas: [[]],
 });
 
-test('useUIPreProcessor stores converter failures without unhandled rejections', async () => {
-  vi.spyOn(console, 'error').mockImplementation(() => undefined);
+test("useUIPreProcessor stores converter failures without unhandled rejections", async () => {
+  vi.spyOn(console, "error").mockImplementation(() => undefined);
   const pdf2sizeMock = vi.mocked(converter.pdf2size);
   const pdf2imgMock = vi.mocked(converter.pdf2img);
   const template = createTemplate();
   const size = { width: 1200, height: 1200 };
 
-  pdf2sizeMock.mockRejectedValue(new Error('corrupt basePdf'));
+  pdf2sizeMock.mockRejectedValue(new Error("corrupt basePdf"));
 
   const { result } = renderHook(() =>
     useUIPreProcessor({
@@ -35,11 +35,11 @@ test('useUIPreProcessor stores converter failures without unhandled rejections',
 
   await waitFor(() => expect(result.current.error).toBeInstanceOf(Error));
 
-  expect(result.current.error?.message).toContain('corrupt basePdf');
+  expect(result.current.error?.message).toContain("corrupt basePdf");
   expect(pdf2imgMock).toHaveBeenCalledTimes(1);
 });
 
-test('useUIPreProcessor runs pdf sizing and imaging in parallel with isolated buffers', async () => {
+test("useUIPreProcessor runs pdf sizing and imaging in parallel with isolated buffers", async () => {
   const pdf2sizeMock = vi.mocked(converter.pdf2size);
   const pdf2imgMock = vi.mocked(converter.pdf2img);
   const template = createTemplate();
@@ -71,19 +71,19 @@ test('useUIPreProcessor runs pdf sizing and imaging in parallel with isolated bu
   await waitFor(() => expect(result.current.pageSizes).toEqual([PAGE_SIZE_PRESETS.A4]));
 });
 
-test('useInitEvents paste ignores missing DOM nodes instead of storing null active elements', () => {
+test("useInitEvents paste ignores missing DOM nodes instead of storing null active elements", () => {
   vi.useFakeTimers();
 
   const schema = {
-    id: 'field-1',
-    name: 'field1',
-    type: 'text',
-    content: 'value',
+    id: "field-1",
+    name: "field1",
+    type: "text",
+    content: "value",
     position: { x: 0, y: 0 },
     width: 100,
     height: 20,
   } as SchemaForUI;
-  const activeElement = document.createElement('div');
+  const activeElement = document.createElement("div");
   activeElement.id = schema.id;
   const template: Template = {
     basePdf: BLANK_PDF,
@@ -103,12 +103,12 @@ test('useInitEvents paste ignores missing DOM nodes instead of storing null acti
 
   let shortcuts: Parameters<typeof helper.initShortCuts>[0] | undefined;
 
-  vi.spyOn(helper, 'initShortCuts').mockImplementation((arg) => {
+  vi.spyOn(helper, "initShortCuts").mockImplementation((arg) => {
     shortcuts = arg;
   });
-  vi.spyOn(helper, 'destroyShortCuts').mockImplementation(() => undefined);
-  vi.spyOn(helper, 'uuid').mockReturnValue('pasted-field');
-  vi.spyOn(document, 'getElementById').mockReturnValue(null);
+  vi.spyOn(helper, "destroyShortCuts").mockImplementation(() => undefined);
+  vi.spyOn(helper, "uuid").mockReturnValue("pasted-field");
+  vi.spyOn(document, "getElementById").mockReturnValue(null);
 
   renderHook(() =>
     useInitEvents({

@@ -10,14 +10,14 @@
 
 > 引用ブロックは左線と余白を持つテキストボックスとして表現されます。
 
-| 項目 | 状態 |
-| --- | --- |
-| 日本語テキスト | 対応 |
-| テーブル | 基本対応 |
-| リモート画像 | 現在はリンク fallback |
+| 項目           | 状態                  |
+| -------------- | --------------------- |
+| 日本語テキスト | 対応                  |
+| テーブル       | 基本対応              |
+| リモート画像   | 現在はリンク fallback |
 
 ```ts
 const { template, inputs } = await md2pdf(markdown, {
-  style: { fontName: 'NotoSansJP' },
+  style: { fontName: "NotoSansJP" },
 });
 ```

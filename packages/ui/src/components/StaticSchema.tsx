@@ -1,7 +1,7 @@
-import React from 'react';
-import { isBlankPdf, replacePlaceholders, Template } from '@pdfme/common';
-import Renderer from './Renderer.js';
-import { uuid } from '../helper.js';
+import React from "react";
+import { isBlankPdf, replacePlaceholders, Template } from "@pdfme/common";
+import Renderer from "./Renderer.js";
+import { uuid } from "../helper.js";
 
 const StaticSchema = (props: {
   template: Template;
@@ -28,16 +28,16 @@ const StaticSchema = (props: {
           value={
             schema.readOnly
               ? replacePlaceholders({
-                  content: schema.content || '',
+                  content: schema.content || "",
                   variables: { ...input, totalPages, currentPage },
                   schemas,
                 })
-              : schema.content || ''
+              : schema.content || ""
           }
           onChangeHoveringSchemaId={() => {
             void 0;
           }}
-          mode={'viewer'}
+          mode={"viewer"}
           outline={`none`}
           scale={scale}
           selectable={false}

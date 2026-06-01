@@ -9,25 +9,14 @@
       "thumbnailPath": "invoice/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 18,
-      "schemaTypes": [
-        "line",
-        "multiVariableText",
-        "svg",
-        "table",
-        "text"
-      ],
+      "schemaTypes": ["line", "multiVariableText", "svg", "table", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A practical invoice with customer details, line items, totals, and payment notes.",
       "order": 90,
       "sourceKind": "designer",
-      "tags": [
-        "Invoice",
-        "Business",
-        "Table",
-        "Visual"
-      ],
+      "tags": ["Invoice", "Business", "Table", "Visual"],
       "title": "Invoice"
     },
     {
@@ -37,25 +26,14 @@
       "thumbnailPath": "quotes/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 18,
-      "schemaTypes": [
-        "line",
-        "multiVariableText",
-        "svg",
-        "table",
-        "text"
-      ],
+      "schemaTypes": ["line", "multiVariableText", "svg", "table", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A quote document layout for proposals, estimates, and short commercial offers.",
       "order": 100,
       "sourceKind": "designer",
-      "tags": [
-        "Quote",
-        "Business",
-        "Table",
-        "Visual"
-      ],
+      "tags": ["Quote", "Business", "Table", "Visual"],
       "title": "Quotes"
     },
     {
@@ -65,24 +43,14 @@
       "thumbnailPath": "pedigree/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 8,
-      "schemaTypes": [
-        "image",
-        "qrcode",
-        "signature",
-        "text"
-      ],
+      "schemaTypes": ["image", "qrcode", "signature", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A pedigree-style relationship chart for structured family or lineage data.",
       "order": 110,
       "sourceKind": "designer",
-      "tags": [
-        "Chart",
-        "QR",
-        "Image",
-        "Visual"
-      ],
+      "tags": ["Chart", "QR", "Image", "Visual"],
       "title": "Pedigree"
     },
     {
@@ -92,21 +60,14 @@
       "thumbnailPath": "certificate-black/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 7,
-      "schemaTypes": [
-        "text"
-      ],
-      "fontNames": [
-        "PinyonScript-Regular"
-      ],
+      "schemaTypes": ["text"],
+      "fontNames": ["PinyonScript-Regular"],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A high-contrast certificate layout with a formal dark theme.",
       "order": 120,
       "sourceKind": "designer",
-      "tags": [
-        "Certificate",
-        "Award"
-      ],
+      "tags": ["Certificate", "Award"],
       "title": "Certificate Black"
     },
     {
@@ -123,10 +84,7 @@
       "description": "A clean blank A4 document for starting from scratch in Designer.",
       "order": 130,
       "sourceKind": "designer",
-      "tags": [
-        "Blank",
-        "Starter"
-      ],
+      "tags": ["Blank", "Starter"],
       "title": "A4 Blank"
     },
     {
@@ -136,20 +94,14 @@
       "thumbnailPath": "qr-lines/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 150,
-      "schemaTypes": [
-        "qrcode",
-        "text"
-      ],
+      "schemaTypes": ["qrcode", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A QR code template with line-based metadata and compact supporting text.",
       "order": 140,
       "sourceKind": "designer",
-      "tags": [
-        "QR",
-        "Label"
-      ],
+      "tags": ["QR", "Label"],
       "title": "QR Lines"
     },
     {
@@ -159,18 +111,13 @@
       "thumbnailPath": "address-label-10/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 30,
-      "schemaTypes": [
-        "text"
-      ],
+      "schemaTypes": ["text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A 10-label address sheet for shipping and mailing workflows.",
       "sourceKind": "designer",
-      "tags": [
-        "Labels",
-        "Shipping"
-      ],
+      "tags": ["Labels", "Shipping"],
       "title": "Address Label 10"
     },
     {
@@ -180,18 +127,13 @@
       "thumbnailPath": "address-label-30/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 90,
-      "schemaTypes": [
-        "text"
-      ],
+      "schemaTypes": ["text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A compact 30-label address sheet for dense mailing labels.",
       "sourceKind": "designer",
-      "tags": [
-        "Labels",
-        "Shipping"
-      ],
+      "tags": ["Labels", "Shipping"],
       "title": "Address Label 30"
     },
     {
@@ -201,18 +143,13 @@
       "thumbnailPath": "address-label-6/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 36,
-      "schemaTypes": [
-        "text"
-      ],
+      "schemaTypes": ["text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A larger 6-label address sheet with room for longer addresses.",
       "sourceKind": "designer",
-      "tags": [
-        "Labels",
-        "Shipping"
-      ],
+      "tags": ["Labels", "Shipping"],
       "title": "Address Label 6"
     },
     {
@@ -223,21 +160,13 @@
       "sourcePath": "md2pdf-article/source.md",
       "pageCount": 1,
       "fieldCount": 8,
-      "schemaTypes": [
-        "list",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["list", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A longer article-like sample for pagination and text wrapping checks.",
       "sourceKind": "md2pdf",
-      "tags": [
-        "Markdown",
-        "Article"
-      ],
+      "tags": ["Markdown", "Article"],
       "title": "Article"
     },
     {
@@ -247,20 +176,13 @@
       "thumbnailPath": "certificate-blue/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 7,
-      "schemaTypes": [
-        "text"
-      ],
-      "fontNames": [
-        "PinyonScript-Regular"
-      ],
+      "schemaTypes": ["text"],
+      "fontNames": ["PinyonScript-Regular"],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A polished blue certificate layout for awards and completion documents.",
       "sourceKind": "designer",
-      "tags": [
-        "Certificate",
-        "Award"
-      ],
+      "tags": ["Certificate", "Award"],
       "title": "Certificate Blue"
     },
     {
@@ -270,20 +192,13 @@
       "thumbnailPath": "certificate-gold/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 7,
-      "schemaTypes": [
-        "text"
-      ],
-      "fontNames": [
-        "PinyonScript-Regular"
-      ],
+      "schemaTypes": ["text"],
+      "fontNames": ["PinyonScript-Regular"],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A warm gold certificate layout with a classic presentation style.",
       "sourceKind": "designer",
-      "tags": [
-        "Certificate",
-        "Award"
-      ],
+      "tags": ["Certificate", "Award"],
       "title": "Certificate Gold"
     },
     {
@@ -293,20 +208,13 @@
       "thumbnailPath": "certificate-white/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 7,
-      "schemaTypes": [
-        "text"
-      ],
-      "fontNames": [
-        "PinyonScript-Regular"
-      ],
+      "schemaTypes": ["text"],
+      "fontNames": ["PinyonScript-Regular"],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A minimal certificate layout that works well with light branding.",
       "sourceKind": "designer",
-      "tags": [
-        "Certificate",
-        "Award"
-      ],
+      "tags": ["Certificate", "Award"],
       "title": "Certificate White"
     },
     {
@@ -317,24 +225,13 @@
       "sourcePath": "jsx-form-fields/source.tsx",
       "pageCount": 1,
       "fieldCount": 16,
-      "schemaTypes": [
-        "image",
-        "multiVariableText",
-        "rectangle",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["image", "multiVariableText", "rectangle", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "Input-backed Text, MultiVariableText, and Image fields for testing Form preview.",
       "sourceKind": "jsx",
-      "tags": [
-        "Form",
-        "MVT",
-        "Image"
-      ],
+      "tags": ["Form", "MVT", "Image"],
       "title": "Form fields"
     },
     {
@@ -344,22 +241,13 @@
       "thumbnailPath": "inline-markdown-mvt/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 2,
-      "schemaTypes": [
-        "multiVariableText",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["multiVariableText", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A focused demo of inline markdown and MultiVariableText editing.",
       "sourceKind": "designer",
-      "tags": [
-        "Markdown",
-        "MVT",
-        "Form"
-      ],
+      "tags": ["Markdown", "MVT", "Form"],
       "title": "Inline Markdown MVT"
     },
     {
@@ -369,19 +257,13 @@
       "thumbnailPath": "invoice-blue/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 35,
-      "schemaTypes": [
-        "text"
-      ],
+      "schemaTypes": ["text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A blue invoice variant for a more branded business document.",
       "sourceKind": "designer",
-      "tags": [
-        "Invoice",
-        "Business",
-        "Table"
-      ],
+      "tags": ["Invoice", "Business", "Table"],
       "title": "Invoice Blue"
     },
     {
@@ -391,19 +273,13 @@
       "thumbnailPath": "invoice-green/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 25,
-      "schemaTypes": [
-        "text"
-      ],
+      "schemaTypes": ["text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A green invoice variant with a calm accounting-oriented look.",
       "sourceKind": "designer",
-      "tags": [
-        "Invoice",
-        "Business",
-        "Table"
-      ],
+      "tags": ["Invoice", "Business", "Table"],
       "title": "Invoice Green"
     },
     {
@@ -414,29 +290,13 @@
       "sourcePath": "jsx-invoice/source.tsx",
       "pageCount": 2,
       "fieldCount": 20,
-      "schemaTypes": [
-        "ellipse",
-        "list",
-        "multiVariableText",
-        "rectangle",
-        "svg",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["ellipse", "list", "multiVariableText", "rectangle", "svg", "table", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A two-page invoice with Header, Footer, Absolute, Table, and visual schemas.",
       "sourceKind": "jsx",
-      "tags": [
-        "Invoice",
-        "Business",
-        "Table",
-        "Visual",
-        "Multi-page"
-      ],
+      "tags": ["Invoice", "Business", "Table", "Visual", "Multi-page"],
       "title": "Invoice layout"
     },
     {
@@ -446,19 +306,13 @@
       "thumbnailPath": "invoice-white/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 35,
-      "schemaTypes": [
-        "text"
-      ],
+      "schemaTypes": ["text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A restrained white invoice layout with a clean printable style.",
       "sourceKind": "designer",
-      "tags": [
-        "Invoice",
-        "Business",
-        "Table"
-      ],
+      "tags": ["Invoice", "Business", "Table"],
       "title": "Invoice White"
     },
     {
@@ -468,25 +322,13 @@
       "thumbnailPath": "invoice-ja-simple/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 34,
-      "schemaTypes": [
-        "image",
-        "line",
-        "multiVariableText",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSerifJP"
-      ],
+      "schemaTypes": ["image", "line", "multiVariableText", "table", "text"],
+      "fontNames": ["NotoSerifJP"],
       "hasCJK": true,
       "basePdfKind": "blank",
       "description": "A simple Japanese invoice layout with CJK font usage.",
       "sourceKind": "designer",
-      "tags": [
-        "Invoice",
-        "Business",
-        "CJK"
-      ],
+      "tags": ["Invoice", "Business", "CJK"],
       "title": "Japanese Invoice"
     },
     {
@@ -496,25 +338,13 @@
       "thumbnailPath": "invoice-ja-simple-landscape/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 37,
-      "schemaTypes": [
-        "image",
-        "line",
-        "multiVariableText",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSerifJP"
-      ],
+      "schemaTypes": ["image", "line", "multiVariableText", "table", "text"],
+      "fontNames": ["NotoSerifJP"],
       "hasCJK": true,
       "basePdfKind": "blank",
       "description": "A landscape Japanese invoice layout for wider table content.",
       "sourceKind": "designer",
-      "tags": [
-        "Invoice",
-        "Business",
-        "CJK"
-      ],
+      "tags": ["Invoice", "Business", "CJK"],
       "title": "Japanese Invoice Landscape"
     },
     {
@@ -525,22 +355,13 @@
       "sourcePath": "jsx-japanese-notice/source.tsx",
       "pageCount": 1,
       "fieldCount": 5,
-      "schemaTypes": [
-        "rectangle",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["rectangle", "table", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": true,
       "basePdfKind": "blank",
       "description": "A Japanese preset that uses NotoSansJP and static footer page numbers.",
       "sourceKind": "jsx",
-      "tags": [
-        "CJK",
-        "Table"
-      ],
+      "tags": ["CJK", "Table"],
       "title": "Japanese notice"
     },
     {
@@ -551,23 +372,13 @@
       "sourcePath": "md2pdf-japanese-report/source.md",
       "pageCount": 1,
       "fieldCount": 7,
-      "schemaTypes": [
-        "list",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["list", "table", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": true,
       "basePdfKind": "blank",
       "description": "A Japanese Markdown sample for CJK font and table rendering checks.",
       "sourceKind": "md2pdf",
-      "tags": [
-        "Markdown",
-        "CJK",
-        "Report"
-      ],
+      "tags": ["Markdown", "CJK", "Report"],
       "title": "Japanese report"
     },
     {
@@ -577,19 +388,13 @@
       "thumbnailPath": "location-arrow/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 60,
-      "schemaTypes": [
-        "code128",
-        "text"
-      ],
+      "schemaTypes": ["code128", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A location marker template that highlights points with arrow indicators.",
       "sourceKind": "designer",
-      "tags": [
-        "Map",
-        "Visual"
-      ],
+      "tags": ["Map", "Visual"],
       "title": "Location Arrow"
     },
     {
@@ -599,19 +404,13 @@
       "thumbnailPath": "location-number/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 90,
-      "schemaTypes": [
-        "code128",
-        "text"
-      ],
+      "schemaTypes": ["code128", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A location marker template that labels points with numbered badges.",
       "sourceKind": "designer",
-      "tags": [
-        "Map",
-        "Visual"
-      ],
+      "tags": ["Map", "Visual"],
       "title": "Location Number"
     },
     {
@@ -621,22 +420,13 @@
       "thumbnailPath": "mhlw-regular-health-check-report/thumbnail.png",
       "pageCount": 2,
       "fieldCount": 73,
-      "schemaTypes": [
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": true,
       "basePdfKind": "dataUri",
       "description": "A Japanese Ministry of Health, Labour and Welfare regular health check report form with CJK text fields.",
       "sourceKind": "designer",
-      "tags": [
-        "Government",
-        "Healthcare",
-        "CJK",
-        "Form"
-      ],
+      "tags": ["Government", "Healthcare", "CJK", "Form"],
       "title": "MHLW Regular Health Check Report"
     },
     {
@@ -647,24 +437,13 @@
       "sourcePath": "md2pdf-overview/source.md",
       "pageCount": 1,
       "fieldCount": 8,
-      "schemaTypes": [
-        "line",
-        "list",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["line", "list", "table", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "Basic GFM blocks, inline formatting, horizontal rule, blockquote, code, and table.",
       "sourceKind": "md2pdf",
-      "tags": [
-        "Markdown",
-        "Table",
-        "Code"
-      ],
+      "tags": ["Markdown", "Table", "Code"],
       "title": "Overview"
     },
     {
@@ -674,19 +453,13 @@
       "thumbnailPath": "qr-title/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 80,
-      "schemaTypes": [
-        "qrcode",
-        "text"
-      ],
+      "schemaTypes": ["qrcode", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A QR code template with a prominent title and simple scan instructions.",
       "sourceKind": "designer",
-      "tags": [
-        "QR",
-        "Label"
-      ],
+      "tags": ["QR", "Label"],
       "title": "QR Title"
     },
     {
@@ -697,23 +470,13 @@
       "sourcePath": "md2pdf-release-notes/source.md",
       "pageCount": 1,
       "fieldCount": 8,
-      "schemaTypes": [
-        "list",
-        "table",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["list", "table", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A product-note style document with task list syntax and tables.",
       "sourceKind": "md2pdf",
-      "tags": [
-        "Markdown",
-        "Release Notes",
-        "Checklist"
-      ],
+      "tags": ["Markdown", "Release Notes", "Checklist"],
       "title": "Release notes"
     },
     {
@@ -724,23 +487,13 @@
       "sourcePath": "jsx-report/source.tsx",
       "pageCount": 1,
       "fieldCount": 16,
-      "schemaTypes": [
-        "list",
-        "rectangle",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["list", "rectangle", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A dashboard-style report with cards, progress bars, list content, and page footer.",
       "sourceKind": "jsx",
-      "tags": [
-        "Report",
-        "Dashboard",
-        "List"
-      ],
+      "tags": ["Report", "Dashboard", "List"],
       "title": "Report page"
     },
     {
@@ -751,22 +504,13 @@
       "sourcePath": "jsx-research-paper/source.tsx",
       "pageCount": 2,
       "fieldCount": 9,
-      "schemaTypes": [
-        "rectangle",
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["rectangle", "text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A paper-style document that leans on measured text height and PageBreak.",
       "sourceKind": "jsx",
-      "tags": [
-        "Research",
-        "Article",
-        "Multi-page"
-      ],
+      "tags": ["Research", "Article", "Multi-page"],
       "title": "Research paper"
     },
     {
@@ -776,23 +520,13 @@
       "thumbnailPath": "new-sale-quotation/thumbnail.png",
       "pageCount": 3,
       "fieldCount": 49,
-      "schemaTypes": [
-        "image",
-        "line",
-        "rectangle",
-        "table",
-        "text"
-      ],
+      "schemaTypes": ["image", "line", "rectangle", "table", "text"],
       "fontNames": [],
       "hasCJK": false,
       "basePdfKind": "blank",
       "description": "A sales quotation template with product rows and business summary fields.",
       "sourceKind": "designer",
-      "tags": [
-        "Quote",
-        "Business",
-        "Table"
-      ],
+      "tags": ["Quote", "Business", "Table"],
       "title": "Sales Quotation"
     },
     {
@@ -802,21 +536,13 @@
       "thumbnailPath": "hihokensha-shikaku-shutoku-todoke/thumbnail.png",
       "pageCount": 1,
       "fieldCount": 104,
-      "schemaTypes": [
-        "text"
-      ],
-      "fontNames": [
-        "NotoSansJP"
-      ],
+      "schemaTypes": ["text"],
+      "fontNames": ["NotoSansJP"],
       "hasCJK": true,
       "basePdfKind": "dataUri",
       "description": "A Japanese social insurance form template for structured government-style documents.",
       "sourceKind": "designer",
-      "tags": [
-        "Government",
-        "CJK",
-        "Form"
-      ],
+      "tags": ["Government", "CJK", "Form"],
       "title": "Social Insurance Enrollment Form"
     },
     {
@@ -826,25 +552,13 @@
       "thumbnailPath": "z-fold-brochure/thumbnail.png",
       "pageCount": 2,
       "fieldCount": 27,
-      "schemaTypes": [
-        "ellipse",
-        "image",
-        "line",
-        "qrcode",
-        "rectangle",
-        "text"
-      ],
-      "fontNames": [
-        "Roboto"
-      ],
+      "schemaTypes": ["ellipse", "image", "line", "qrcode", "rectangle", "text"],
+      "fontNames": ["Roboto"],
       "hasCJK": false,
       "basePdfKind": "dataUri",
       "description": "A z-fold brochure layout for tri-fold print and promotional material.",
       "sourceKind": "designer",
-      "tags": [
-        "Brochure",
-        "Print"
-      ],
+      "tags": ["Brochure", "Print"],
       "title": "Z-Fold Brochure"
     }
   ]

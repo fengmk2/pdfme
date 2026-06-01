@@ -1,6 +1,6 @@
-import { PDFFont, PDFDocument } from '@pdfme/pdf-lib';
-import type { Font as FontKitFont } from 'fontkit';
-import type { TextSchema } from './types.js';
+import { PDFFont, PDFDocument } from "@pdfme/pdf-lib";
+import type { Font as FontKitFont } from "fontkit";
+import type { TextSchema } from "./types.js";
 import {
   PDFRenderProps,
   ColorType,
@@ -8,7 +8,7 @@ import {
   getDefaultFont,
   getFallbackFontName,
   mm2pt,
-} from '@pdfme/common';
+} from "@pdfme/common";
 import {
   VERTICAL_ALIGN_TOP,
   VERTICAL_ALIGN_MIDDLE,
@@ -19,7 +19,7 @@ import {
   DEFAULT_LINE_HEIGHT,
   DEFAULT_CHARACTER_SPACING,
   DEFAULT_FONT_COLOR,
-} from './constants.js';
+} from "./constants.js";
 import {
   calculateDynamicFontSize,
   heightOfFontAtSize,
@@ -28,19 +28,19 @@ import {
   fetchRemoteFontData,
   widthOfTextAtSize,
   splitTextToSize,
-} from './helper.js';
-import { stripInlineMarkdown } from './inlineMarkdown.js';
-import { applyTextLineRange } from './measure.js';
-import { calculateDynamicRichTextFontSize, isInlineMarkdownTextSchema } from './richText.js';
-import { renderInlineMarkdownText } from './richTextPdfRender.js';
-import { shouldUseDynamicFontSize } from './overflow.js';
-import { convertForPdfLayoutProps, rotatePoint, hex2PrintingColor } from '../utils.js';
-import { getTextLineRange } from '../splitRange.js';
-import { getBoxContentArea, getBoxInsets, hasBoxDimension } from '../box.js';
+} from "./helper.js";
+import { stripInlineMarkdown } from "./inlineMarkdown.js";
+import { applyTextLineRange } from "./measure.js";
+import { calculateDynamicRichTextFontSize, isInlineMarkdownTextSchema } from "./richText.js";
+import { renderInlineMarkdownText } from "./richTextPdfRender.js";
+import { shouldUseDynamicFontSize } from "./overflow.js";
+import { convertForPdfLayoutProps, rotatePoint, hex2PrintingColor } from "../utils.js";
+import { getTextLineRange } from "../splitRange.js";
+import { getBoxContentArea, getBoxInsets, hasBoxDimension } from "../box.js";
 
 type PdfFontCache = Record<string, Promise<PDFFont>>;
 
-const PDF_FONT_CACHE_KEY = 'text-pdf-font-cache';
+const PDF_FONT_CACHE_KEY = "text-pdf-font-cache";
 
 const getPdfFontCache = (_cache: Map<string | number, unknown>): PdfFontCache => {
   let pdfFontCache = _cache.get(PDF_FONT_CACHE_KEY) as PdfFontCache | undefined;
@@ -72,11 +72,11 @@ const embedAndGetFont = (arg: {
 
   const pdfFontPromise = (async () => {
     let fontData = fontValue.data;
-    if (typeof fontData === 'string' && fontData.startsWith('http')) {
+    if (typeof fontData === "string" && fontData.startsWith("http")) {
       fontData = await fetchRemoteFontData(fontData);
     }
     return pdfDoc.embedFont(fontData, {
-      subset: typeof fontValue.subset === 'undefined' ? true : fontValue.subset,
+      subset: typeof fontValue.subset === "undefined" ? true : fontValue.subset,
     });
   })();
 
@@ -96,7 +96,7 @@ const getFontProp = ({
   fontKitFont: FontKitFont;
   colorType?: ColorType;
   schema: TextSchema;
-  basePdf: PDFRenderProps<TextSchema>['basePdf'];
+  basePdf: PDFRenderProps<TextSchema>["basePdf"];
   fontSize?: number;
 }) => {
   const fontSize =
@@ -119,7 +119,7 @@ const getFontProp = ({
 let graphemeSegmenter: Intl.Segmenter | undefined;
 
 const getGraphemeSegmenter = () => {
-  graphemeSegmenter ??= new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+  graphemeSegmenter ??= new Intl.Segmenter(undefined, { granularity: "grapheme" });
   return graphemeSegmenter;
 };
 
@@ -207,7 +207,7 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
     return;
   }
   if (!pdfFontValuePromise) {
-    throw new Error('[@pdfme/schemas] Failed to prepare PDF font for text rendering.');
+    throw new Error("[@pdfme/schemas] Failed to prepare PDF font for text rendering.");
   }
   const pdfFontValue = await pdfFontValuePromise;
 
@@ -225,7 +225,7 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
     }),
     getTextLineRange(schema),
   );
-  const needsTextWidth = alignment !== 'left' || Boolean(schema.strikethrough || schema.underline);
+  const needsTextWidth = alignment !== "left" || Boolean(schema.strikethrough || schema.underline);
   const needsTextHeight = Boolean(schema.strikethrough || schema.underline);
 
   // Text lines are rendered from the bottom upwards, we need to adjust the position down
@@ -245,7 +245,7 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
   }
 
   lines.forEach((line, rowIndex) => {
-    const trimmed = line.replace('\n', '');
+    const trimmed = line.replace("\n", "");
     const textWidth = needsTextWidth
       ? widthOfTextAtSize(trimmed, fontKitFont, fontSize, characterSpacing)
       : 0;
@@ -253,15 +253,15 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
     const rowYOffset = lineHeight * fontSize * rowIndex;
 
     // Adobe Acrobat Reader shows an error if `drawText` is called with an empty text
-    if (line === '') {
+    if (line === "") {
       // return; // this also works
-      line = '\r\n';
+      line = "\r\n";
     }
 
     let xLine = contentX;
-    if (alignment === 'center') {
+    if (alignment === "center") {
       xLine += (contentWidth - textWidth) / 2;
-    } else if (alignment === 'right') {
+    } else if (alignment === "right") {
       xLine += contentWidth - textWidth;
     }
 
@@ -302,7 +302,7 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
     }
 
     let spacing = characterSpacing;
-    if (alignment === 'justify' && line.slice(-1) !== '\n') {
+    if (alignment === "justify" && line.slice(-1) !== "\n") {
       // if alignment is `justify` but the end of line is not newline, then adjust the spacing
       const segmenter = getGraphemeSegmenter();
       const iterator = segmenter.segment(trimmed)[Symbol.iterator]();
@@ -325,14 +325,14 @@ export const pdfRender = async (arg: PDFRenderProps<TextSchema>) => {
 };
 
 const drawTextBoxDecoration = (arg: {
-  page: PDFRenderProps<TextSchema>['page'];
+  page: PDFRenderProps<TextSchema>["page"];
   schema: TextSchema;
   colorType?: ColorType;
   x: number;
   y: number;
   width: number;
   height: number;
-  rotate: ReturnType<typeof convertForPdfLayoutProps>['rotate'];
+  rotate: ReturnType<typeof convertForPdfLayoutProps>["rotate"];
   pivotPoint: { x: number; y: number };
 }) => {
   const { page, schema, colorType, x, y, width, height, rotate, pivotPoint } = arg;

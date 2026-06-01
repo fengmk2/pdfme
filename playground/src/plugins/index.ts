@@ -16,12 +16,12 @@ import {
   select,
   checkbox,
   radioGroup,
-} from '@pdfme/schemas';
+} from "@pdfme/schemas";
 
 export const getPlugins = () => {
   return {
     Text: text,
-    'Multi-Variable Text': multiVariableText,
+    "Multi-Variable Text": multiVariableText,
     Table: table,
     List: list,
     Line: line,

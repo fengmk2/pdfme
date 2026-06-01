@@ -1,5 +1,5 @@
-import * as fontkit from 'fontkit';
-import type { Font as FontKitFont } from 'fontkit';
+import * as fontkit from "fontkit";
+import type { Font as FontKitFont } from "fontkit";
 import {
   b64toUint8Array,
   mm2pt,
@@ -10,10 +10,10 @@ import {
   getDefaultFont,
   DEFAULT_FONT_NAME,
   isUrlSafeToFetch,
-} from '@pdfme/common';
-import { Buffer } from 'buffer';
-import type { TextSchema, FontWidthCalcValues } from './types.js';
-import { getBoxContentArea } from '../box.js';
+} from "@pdfme/common";
+import { Buffer } from "buffer";
+import type { TextSchema, FontWidthCalcValues } from "./types.js";
+import { getBoxContentArea } from "../box.js";
 import {
   DEFAULT_FONT_SIZE,
   DEFAULT_CHARACTER_SPACING,
@@ -25,7 +25,7 @@ import {
   VERTICAL_ALIGN_TOP,
   LINE_END_FORBIDDEN_CHARS,
   LINE_START_FORBIDDEN_CHARS,
-} from './constants.js';
+} from "./constants.js";
 
 export const getBrowserVerticalFontAdjustments = (
   fontKitFont: FontKitFont,
@@ -140,7 +140,7 @@ const getCacheKey = (fontName: string) => `getFontKitFont-${fontName}`;
 export const fetchRemoteFontData = async (url: string): Promise<ArrayBuffer> => {
   if (!isUrlSafeToFetch(url)) {
     throw Error(
-      '[@pdfme/schemas] Invalid or unsafe URL for font data. Only http: and https: URLs pointing to public hosts are allowed.',
+      "[@pdfme/schemas] Invalid or unsafe URL for font data. Only http: and https: URLs pointing to public hosts are allowed.",
     );
   }
 
@@ -170,8 +170,8 @@ export const getFontKitFont = async (
 
   const currentFont = font[fntNm] || getFallbackFont(font) || getDefaultFont()[DEFAULT_FONT_NAME];
   let fontData = currentFont.data;
-  if (typeof fontData === 'string') {
-    if (fontData.startsWith('http')) {
+  if (typeof fontData === "string") {
+    if (fontData.startsWith("http")) {
       fontData = await fetchRemoteFontData(fontData);
     } else {
       fontData = b64toUint8Array(fontData);
@@ -220,7 +220,7 @@ const getOverPosition = (textLine: string, calcValues: FontWidthCalcValues) => {
  * However, this might need to be revisited for broader language support.
  */
 const isLineBreakableChar = (char: string) => {
-  const lineBreakableChars = [' ', '-', '\u2014', '\u2013'];
+  const lineBreakableChars = [" ", "-", "\u2014", "\u2013"];
   return lineBreakableChars.includes(char);
 };
 
@@ -232,7 +232,7 @@ const getSplitPosition = (textLine: string, calcValues: FontWidthCalcValues) => 
   const overPos = getOverPosition(textLine, calcValues);
   if (overPos === null) return textLine.length; // input line is shorter than the available space
 
-  if (textLine[overPos] === ' ') {
+  if (textLine[overPos] === " ") {
     // if the character immediately beyond the boundary is a space, split
     return overPos;
   }
@@ -301,7 +301,7 @@ export const calculateDynamicFontSize = ({
   if (dynamicFontSizeSetting.max < dynamicFontSizeSetting.min) return fontSize;
 
   const characterSpacing = schemaCharacterSpacing ?? DEFAULT_CHARACTER_SPACING;
-  const paragraphs = value.split('\n');
+  const paragraphs = value.split("\n");
 
   let dynamicFontSize = fontSize;
   if (dynamicFontSize < dynamicFontSizeSetting.min) {
@@ -332,7 +332,7 @@ export const calculateDynamicFontSize = ({
         if (dynamicFontFit === DYNAMIC_FIT_VERTICAL) {
           // For vertical fit we want to consider the width of text lines where we detect a split
           const textWidth = widthOfTextAtSize(
-            line.replace('\n', ''),
+            line.replace("\n", ""),
             fontKitFont,
             size,
             characterSpacing,
@@ -421,19 +421,19 @@ export const splitTextToSize = (arg: {
   });
   return lines;
 };
-export const isFirefox = () => navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+export const isFirefox = () => navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 
 let wordSegmenter: Intl.Segmenter | undefined;
 
 const getWordSegmenter = () => {
-  wordSegmenter ??= new Intl.Segmenter(undefined, { granularity: 'word' });
+  wordSegmenter ??= new Intl.Segmenter(undefined, { granularity: "word" });
   return wordSegmenter;
 };
 
 const getSplittedLinesBySegmenter = (line: string, calcValues: FontWidthCalcValues): string[] => {
   // nothing to process but need to keep this for new lines.
-  if (line.trim() === '') {
-    return [''];
+  if (line.trim() === "") {
+    return [""];
   }
 
   const { font, fontSize, characterSpacing, boxWidthInPt } = calcValues;
@@ -458,10 +458,10 @@ const getSplittedLinesBySegmenter = (line: string, calcValues: FontWidthCalcValu
         lines[lineCounter] = segment;
         currentTextSize = textWidth + characterSpacing;
       }
-    } else if (segment.trim() === '') {
+    } else if (segment.trim() === "") {
       // a segment can be consist of multiple spaces like '     '
       // if they overflow the box, treat them as a line break and move to the next line
-      lines[++lineCounter] = '';
+      lines[++lineCounter] = "";
       currentTextSize = 0;
     } else if (textWidth <= boxWidthInPt) {
       // the segment is small enough to be added to the next line
@@ -498,7 +498,7 @@ const getSplittedLinesBySegmenter = (line: string, calcValues: FontWidthCalcValu
 const adjustEndOfLine = (lines: string[]): string[] => {
   return lines.map((line, index) => {
     if (index === lines.length - 1) {
-      return line.trimEnd() + '\n';
+      return line.trimEnd() + "\n";
     } else {
       return line.trimEnd();
     }
@@ -523,7 +523,7 @@ export const filterStartJP = (lines: string[]): string[] => {
     .reverse()
     .forEach((line) => {
       if (line.trim().length === 0) {
-        filtered.push('');
+        filtered.push("");
       } else {
         const charAtStart: string = line.charAt(0);
         if (LINE_START_FORBIDDEN_CHARS.includes(charAtStart)) {
@@ -551,7 +551,7 @@ export const filterStartJP = (lines: string[]): string[] => {
 
   if (charToAppend) {
     // Handle the case where filtered might be empty
-    const firstItem = filtered.length > 0 ? filtered[0] : '';
+    const firstItem = filtered.length > 0 ? filtered[0] : "";
     // Ensure we're concatenating strings
     const combinedItem = String(charToAppend) + String(firstItem);
     return [combinedItem, ...filtered.slice(1)].reverse();
@@ -567,7 +567,7 @@ export const filterEndJP = (lines: string[]): string[] => {
 
   lines.forEach((line) => {
     if (line.trim().length === 0) {
-      filtered.push('');
+      filtered.push("");
     } else {
       const chartAtEnd = line.slice(-1);
 
@@ -596,7 +596,7 @@ export const filterEndJP = (lines: string[]): string[] => {
 
   if (charToPrepend) {
     // Handle the case where filtered might be empty
-    const lastItem = filtered.length > 0 ? filtered[filtered.length - 1] : '';
+    const lastItem = filtered.length > 0 ? filtered[filtered.length - 1] : "";
     // Ensure we're concatenating strings
     const combinedItem = String(lastItem) + String(charToPrepend);
     return [...filtered.slice(0, -1), combinedItem];

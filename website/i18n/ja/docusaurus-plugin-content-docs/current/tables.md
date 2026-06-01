@@ -13,9 +13,9 @@
 ページ区切りをサポートするには、テンプレートの`basePdf`プロパティを`{ width: number, height: number, padding: [number,number,number,number] }`に設定してください。`basePdf` にカスタム PDF データを使う場合、元のページは固定されるため、動的レイアウトと自動ページ区切りは適用されません。
 
 ```javascript
-import { table } from '@pdfme/schemas';
-import { Designer } from '@pdfme/ui';
-import { generate } from '@pdfme/generator';
+import { table } from "@pdfme/schemas";
+import { Designer } from "@pdfme/ui";
+import { generate } from "@pdfme/generator";
 
 new Designer({
   domContainer,

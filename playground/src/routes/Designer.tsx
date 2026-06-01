@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Code2, Copy, Download, Save } from 'lucide-react';
-import { cloneDeep, Template, checkTemplate, Lang, isBlankPdf } from '@pdfme/common';
-import { Designer, type DesignerSelection } from '@pdfme/ui';
+import React, { useRef, useEffect, useCallback, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Code2, Copy, Download, Save } from "lucide-react";
+import { cloneDeep, Template, checkTemplate, Lang, isBlankPdf } from "@pdfme/common";
+import { Designer, type DesignerSelection } from "@pdfme/ui";
 import {
   getFontsData,
   getTemplateById,
@@ -15,26 +15,26 @@ import {
   generatePDF,
   downloadJsonFile,
   translations,
-} from '../helper';
-import { getPlugins } from '../plugins';
-import { NavBar, NavItem } from '../components/NavBar';
-import PlaygroundButton from '../components/PlaygroundButton';
-import ProjectSavedToast from '../components/ProjectSavedToast';
-import TemplateJsonDialog from '../components/TemplateJsonDialog';
+} from "../helper";
+import { getPlugins } from "../plugins";
+import { NavBar, NavItem } from "../components/NavBar";
+import PlaygroundButton from "../components/PlaygroundButton";
+import ProjectSavedToast from "../components/ProjectSavedToast";
+import TemplateJsonDialog from "../components/TemplateJsonDialog";
 import {
   PDFME_AGENT_HOST_DESTROYED_EVENT,
   PDFME_AGENT_HOST_READY_EVENT,
   type PdfmeAgentHost,
-} from '../lib/pdfmeAgentHost';
-import { isPdfmeAgentEnabled } from '../lib/pdfmeAgentLoader';
+} from "../lib/pdfmeAgentHost";
+import { isPdfmeAgentEnabled } from "../lib/pdfmeAgentLoader";
 import {
   clearActivePlaygroundProject,
   getActivePlaygroundProject,
   getPlaygroundProject,
   savePlaygroundProject,
   type PlaygroundProject,
-} from '../lib/playgroundProjects';
-import { createTemplateThumbnailDataUrl } from '../lib/templateThumbnails';
+} from "../lib/playgroundProjects";
+import { createTemplateThumbnailDataUrl } from "../lib/templateThumbnails";
 import {
   FileWorkspaceTemplateDeletedError,
   FileWorkspaceTemplateInvalidError,
@@ -51,7 +51,7 @@ import {
   type FileWorkspaceCollection,
   type FileWorkspaceTemplateEntry,
   type FileWorkspaceTemplateRead,
-} from '../lib/fileWorkspace';
+} from "../lib/fileWorkspace";
 
 function destroyDesignerInstance(instance: Designer) {
   try {
@@ -59,7 +59,7 @@ function destroyDesignerInstance(instance: Designer) {
   } catch (error) {
     if (
       !(error instanceof Error) ||
-      !error.message.includes('this instance is already destroyed')
+      !error.message.includes("this instance is already destroyed")
     ) {
       throw error;
     }
@@ -75,7 +75,7 @@ type DesignerLoadRequest = {
   workspaceTemplateName: string | null;
 };
 
-type FileWorkspaceStatus = 'deleted' | 'invalid' | null;
+type FileWorkspaceStatus = "deleted" | "invalid" | null;
 
 type FileWorkspaceConflict = {
   incoming?: FileWorkspaceTemplateRead;
@@ -85,10 +85,10 @@ type FileWorkspaceConflict = {
 
 function getDesignerLoadRequest(): DesignerLoadRequest {
   const searchParams = new URLSearchParams(window.location.search);
-  const shouldCreateNewProject = searchParams.get('new') === '1';
-  const templateId = searchParams.get('template');
-  const projectId = searchParams.get('project');
-  const workspaceTemplateName = searchParams.get('workspace');
+  const shouldCreateNewProject = searchParams.get("new") === "1";
+  const templateId = searchParams.get("template");
+  const projectId = searchParams.get("project");
+  const workspaceTemplateName = searchParams.get("workspace");
 
   return {
     projectId,
@@ -117,7 +117,7 @@ function DesignerFileButton({
     <label
       aria-disabled={disabled}
       className={`inline-flex min-w-0 items-center justify-center whitespace-nowrap rounded border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 transition focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-300 focus-within:ring-offset-2 ${
-        disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-gray-50'
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-gray-50"
       }`}
     >
       {label}
@@ -147,7 +147,7 @@ function DesignerApp() {
   const isSavingFileWorkspaceRef = useRef(false);
   const isFileWorkspaceDirtyRef = useRef(false);
   const fileWorkspaceStatusRef = useRef<FileWorkspaceStatus>(null);
-  const projectTitleRef = useRef('Untitled Template');
+  const projectTitleRef = useRef("Untitled Template");
   const agentSelectionRef = useRef<DesignerSelection | null>(null);
   const agentSelectionListenersRef = useRef(
     new Set<(selection: DesignerSelection | null) => void>(),
@@ -265,8 +265,8 @@ function DesignerApp() {
 
         if (saveAs) {
           const title =
-            window.prompt('Save as', `${currentFileEntry.title || currentFileEntry.name} Copy`) ??
-            '';
+            window.prompt("Save as", `${currentFileEntry.title || currentFileEntry.name} Copy`) ??
+            "";
           if (!title.trim()) return false;
 
           targetEntry = await createTemplateEntryFromTemplate(
@@ -275,10 +275,10 @@ function DesignerApp() {
             title,
           );
           const nextSearchParams = new URLSearchParams(searchParamsRef.current);
-          nextSearchParams.set('workspace', targetEntry.name);
-          nextSearchParams.delete('new');
-          nextSearchParams.delete('template');
-          nextSearchParams.delete('project');
+          nextSearchParams.set("workspace", targetEntry.name);
+          nextSearchParams.delete("new");
+          nextSearchParams.delete("template");
+          nextSearchParams.delete("project");
           setSearchParams(nextSearchParams, { replace: true });
         } else if (diskVersionRef.current) {
           try {
@@ -313,7 +313,7 @@ function DesignerApp() {
             };
           } catch (error) {
             console.warn(error);
-            toast.warn('Saved template, but thumbnail update failed');
+            toast.warn("Saved template, but thumbnail update failed");
           }
 
           const refreshedCollection = await refreshTemplateCollection({
@@ -352,10 +352,10 @@ function DesignerApp() {
       const currentProject = projectRef.current;
       const nextTemplate = template || designer.current.getTemplate();
       const currentTitle =
-        (currentProject?.title ?? projectTitleRef.current) || 'Untitled Template';
+        (currentProject?.title ?? projectTitleRef.current) || "Untitled Template";
       const title = saveAs
-        ? (window.prompt('Save as', `${currentTitle} Copy`) ?? '')
-        : (currentProject?.title ?? window.prompt('Project name', currentTitle) ?? '');
+        ? (window.prompt("Save as", `${currentTitle} Copy`) ?? "")
+        : (currentProject?.title ?? window.prompt("Project name", currentTitle) ?? "");
       if (!title.trim()) return false;
 
       const thumbnail = await createTemplateThumbnailDataUrl(
@@ -365,7 +365,7 @@ function DesignerApp() {
       const savedProject = savePlaygroundProject({
         id: saveAs ? undefined : currentProject?.id,
         inputs: currentProject?.inputs,
-        kind: currentProject?.kind ?? 'template',
+        kind: currentProject?.kind ?? "template",
         source: currentProject?.source,
         template: nextTemplate,
         thumbnail,
@@ -403,8 +403,8 @@ function DesignerApp() {
 
         if (workspaceTemplateName) {
           const restored = await restorePersistedTemplateCollection();
-          if (restored.status !== 'mounted') {
-            throw new Error('Mounted folder is not available. Reopen it from Templates.');
+          if (restored.status !== "mounted") {
+            throw new Error("Mounted folder is not available. Reopen it from Templates.");
           }
 
           const entry = findTemplateEntry(restored.collection, workspaceTemplateName);
@@ -423,11 +423,11 @@ function DesignerApp() {
         } else if (shouldCreateNewProject) {
           setActiveFileWorkspaceEntry(null, null);
           clearActivePlaygroundProject();
-          setCurrentProjectTitle('Untitled Template');
+          setCurrentProjectTitle("Untitled Template");
         } else if (projectIdFromQuery) {
           setActiveFileWorkspaceEntry(null, null);
           project = getPlaygroundProject(projectIdFromQuery);
-          if (!project) throw new Error('Project not found');
+          if (!project) throw new Error("Project not found");
           template = project.template;
         } else if (templateIdFromQuery) {
           setActiveFileWorkspaceEntry(null, null);
@@ -463,9 +463,9 @@ function DesignerApp() {
 
         if (shouldConsumeQuery && !didCleanLoadQueryRef.current) {
           const nextSearchParams = new URLSearchParams(initialSearchParams);
-          nextSearchParams.delete('new');
-          nextSearchParams.delete('template');
-          nextSearchParams.delete('project');
+          nextSearchParams.delete("new");
+          nextSearchParams.delete("template");
+          nextSearchParams.delete("project");
           didCleanLoadQueryRef.current = true;
           setSearchParams(nextSearchParams, { replace: true });
         }
@@ -477,12 +477,12 @@ function DesignerApp() {
           template,
           options: {
             font: getFontsData(),
-            lang: 'en',
+            lang: "en",
             labels: {
-              'signature.clear': '🗑️',
+              "signature.clear": "🗑️",
             },
             theme: {
-              token: { colorPrimary: '#25c2a0' },
+              token: { colorPrimary: "#25c2a0" },
             },
             icons: {
               multiVariableText:
@@ -529,7 +529,7 @@ function DesignerApp() {
 
   const onChangeBasePDF = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
-      readFile(e.target.files[0], 'dataURL').then(async (basePdf) => {
+      readFile(e.target.files[0], "dataURL").then(async (basePdf) => {
         if (designer.current) {
           const newTemplate = cloneDeep(designer.current.getTemplate());
           newTemplate.basePdf = basePdf;
@@ -541,8 +541,8 @@ function DesignerApp() {
 
   const onDownloadTemplate = () => {
     if (designer.current) {
-      downloadJsonFile(designer.current.getTemplate(), 'template');
-      toast.success('Downloaded template JSON');
+      downloadJsonFile(designer.current.getTemplate(), "template");
+      toast.success("Downloaded template JSON");
     }
   };
 
@@ -561,9 +561,9 @@ function DesignerApp() {
     }
 
     projectRef.current = null;
-    setCurrentProjectTitle('Untitled Template');
+    setCurrentProjectTitle("Untitled Template");
     clearActivePlaygroundProject();
-    setSearchParams(new URLSearchParams([['new', '1']]), { replace: true });
+    setSearchParams(new URLSearchParams([["new", "1"]]), { replace: true });
     if (designer.current) {
       const blankTemplate = getBlankTemplate();
       setCleanBrowserProjectTemplate(blankTemplate);
@@ -581,7 +581,7 @@ function DesignerApp() {
     if (!designer.current) return;
 
     designer.current.updateTemplate(template);
-    toast.success('Template JSON committed');
+    toast.success("Template JSON committed");
   };
 
   const onReloadConflictFromDisk = () => {
@@ -617,17 +617,17 @@ function DesignerApp() {
     } catch (error) {
       console.error(error);
       setFileWorkspaceConflict(currentConflict);
-      toast.error(error instanceof Error ? error.message : 'Failed to save over disk');
+      toast.error(error instanceof Error ? error.message : "Failed to save over disk");
     }
   };
 
-  const applyAgentTemplateUpdate: PdfmeAgentHost['applyTemplateUpdate'] = useCallback(
+  const applyAgentTemplateUpdate: PdfmeAgentHost["applyTemplateUpdate"] = useCallback(
     async ({ baseTemplate, template }) => {
-      if (!designer.current) throw new Error('Designer is not ready');
+      if (!designer.current) throw new Error("Designer is not ready");
 
       const currentProject = projectRef.current;
-      if (currentProject && currentProject.kind !== 'template') {
-        throw new Error('AI edits are currently supported for template browser projects only');
+      if (currentProject && currentProject.kind !== "template") {
+        throw new Error("AI edits are currently supported for template browser projects only");
       }
 
       checkTemplate(template as Template);
@@ -639,14 +639,14 @@ function DesignerApp() {
           serializeTemplateForFileWorkspace(baseTemplate as Template)
       ) {
         throw new Error(
-          'Template changed while the agent was editing. The AI update was not applied.',
+          "Template changed while the agent was editing. The AI update was not applied.",
         );
       }
 
       if (fileWorkspaceEntryRef.current) {
         const saved = await onSaveTemplate(nextTemplate);
         if (!saved) {
-          throw new Error('AI update was not saved because the mounted template changed on disk.');
+          throw new Error("AI update was not saved because the mounted template changed on disk.");
         }
 
         isApplyingTemplateRef.current = true;
@@ -661,7 +661,7 @@ function DesignerApp() {
       designer.current.updateTemplate(nextTemplate);
 
       if (!currentProject) {
-        toast.success('AI update applied');
+        toast.success("AI update applied");
         return;
       }
 
@@ -672,7 +672,7 @@ function DesignerApp() {
       const savedProject = savePlaygroundProject({
         id: currentProject.id,
         inputs: currentProject.inputs,
-        kind: 'template',
+        kind: "template",
         source: currentProject.source,
         template: nextTemplate,
         thumbnail,
@@ -681,7 +681,7 @@ function DesignerApp() {
       projectRef.current = savedProject;
       setCleanBrowserProjectTemplate(savedProject.template);
       setCurrentProjectTitle(savedProject.title);
-      toast.success('AI update saved to Browser Project');
+      toast.success("AI update saved to Browser Project");
     },
     [onSaveTemplate, setCleanBrowserProjectTemplate, setCurrentProjectTitle],
   );
@@ -729,13 +729,13 @@ function DesignerApp() {
     if (!fileWorkspaceConflict) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
+      if (event.key !== "Escape") return;
       event.preventDefault();
       onKeepConflictEditing();
     };
 
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [fileWorkspaceConflict, onKeepConflictEditing]);
 
   const toggleEditingStaticSchemas = () => {
@@ -776,7 +776,7 @@ function DesignerApp() {
       if (!originalTemplate) return;
       const merged = cloneDeep(originalTemplate);
       if (!isBlankPdf(merged.basePdf)) {
-        toast.error('Invalid basePdf format');
+        toast.error("Invalid basePdf format");
         return;
       }
 
@@ -857,12 +857,12 @@ function DesignerApp() {
       {
         onError: (error) => {
           if (error instanceof FileWorkspaceTemplateDeletedError) {
-            setFileWorkspaceStatus('deleted');
+            setFileWorkspaceStatus("deleted");
             return;
           }
 
           if (error instanceof FileWorkspaceTemplateInvalidError) {
-            setFileWorkspaceStatus('invalid');
+            setFileWorkspaceStatus("invalid");
             return;
           }
 
@@ -873,7 +873,7 @@ function DesignerApp() {
     );
   }, [applyTemplateFromDisk, fileWorkspaceEntry]);
 
-  const saveTemplateLabel = fileWorkspaceEntry ? `Save ${fileWorkspaceEntry.path}` : 'Save Project';
+  const saveTemplateLabel = fileWorkspaceEntry ? `Save ${fileWorkspaceEntry.path}` : "Save Project";
   const hasUnsavedFileWorkspaceChanges = Boolean(
     fileWorkspaceEntry && isFileWorkspaceDirty && !fileWorkspaceStatus,
   );
@@ -883,12 +883,12 @@ function DesignerApp() {
 
   const navItems: NavItem[] = [
     {
-      label: 'Lang',
+      label: "Lang",
       content: (
         <select
           disabled={editingStaticSchemas}
           className={`w-full border rounded px-2 py-1 border-gray-300 ${
-            editingStaticSchemas ? 'opacity-50 cursor-not-allowed' : ''
+            editingStaticSchemas ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onChange={(e) => {
             designer.current?.updateOptions({ lang: e.target.value as Lang });
@@ -903,7 +903,7 @@ function DesignerApp() {
       ),
     },
     {
-      label: 'Base PDF',
+      label: "Base PDF",
       content: (
         <div className="flex gap-1">
           <DesignerFileButton
@@ -916,11 +916,11 @@ function DesignerApp() {
       ),
     },
     {
-      label: 'Edit',
+      label: "Edit",
       content: (
         <div className="flex gap-1">
           <PlaygroundButton onClick={toggleEditingStaticSchemas}>
-            {editingStaticSchemas ? 'End editing' : 'Static schema'}
+            {editingStaticSchemas ? "End editing" : "Static schema"}
           </PlaygroundButton>
           <PlaygroundButton disabled={editingStaticSchemas} onClick={onOpenTemplateJson}>
             <Code2 className="size-3.5" />
@@ -930,7 +930,7 @@ function DesignerApp() {
       ),
     },
     {
-      label: fileWorkspaceEntry ? 'Workspace' : 'Project',
+      label: fileWorkspaceEntry ? "Workspace" : "Project",
       content: (
         <div className="flex gap-1">
           <PlaygroundButton
@@ -972,7 +972,7 @@ function DesignerApp() {
       ),
     },
     {
-      label: 'Output',
+      label: "Output",
       content: (
         <div className="flex gap-1">
           <PlaygroundButton disabled={editingStaticSchemas} onClick={onDownloadTemplate}>
@@ -983,12 +983,12 @@ function DesignerApp() {
             id="generate-pdf"
             disabled={editingStaticSchemas}
             onClick={async (e) => {
-              const output = e.altKey ? 'form' : 'pdf';
+              const output = e.altKey ? "form" : "pdf";
               const startTimer = performance.now();
               await generatePDF(designer.current, output);
               const endTimer = performance.now();
               toast.info(
-                `Generated ${output === 'form' ? 'Form' : 'PDF'} in ${Math.round(
+                `Generated ${output === "form" ? "Form" : "PDF"} in ${Math.round(
                   endTimer - startTimer,
                 )}ms ⚡️`,
               );
@@ -1002,12 +1002,12 @@ function DesignerApp() {
   ];
 
   const fileWorkspaceStatusMessage = fileWorkspaceEntry
-    ? fileWorkspaceStatus === 'invalid'
+    ? fileWorkspaceStatus === "invalid"
       ? `${fileWorkspaceEntry.path} is currently invalid on disk. The editor is keeping the last valid template.`
-      : fileWorkspaceStatus === 'deleted'
+      : fileWorkspaceStatus === "deleted"
         ? `${fileWorkspaceEntry.path} was deleted on disk. Saving will recreate it.`
-        : ''
-    : '';
+        : ""
+    : "";
 
   return (
     <main className="flex min-h-0 flex-1 flex-col">

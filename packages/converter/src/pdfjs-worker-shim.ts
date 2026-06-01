@@ -3,10 +3,10 @@ const uint8ArrayPrototype = Uint8Array.prototype as Uint8Array & {
 };
 
 if (!uint8ArrayPrototype.toHex) {
-  Object.defineProperty(Uint8Array.prototype, 'toHex', {
+  Object.defineProperty(Uint8Array.prototype, "toHex", {
     configurable: true,
     value(this: Uint8Array) {
-      let result = '';
+      let result = "";
 
       for (let i = 0; i < this.length; i += 1) {
         const hex = this[i].toString(16);

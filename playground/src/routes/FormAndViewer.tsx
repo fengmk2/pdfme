@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Template, checkTemplate, getInputFromTemplate, Lang } from '@pdfme/common';
-import { Form, Viewer } from '@pdfme/ui';
+import { useRef, useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Template, checkTemplate, getInputFromTemplate, Lang } from "@pdfme/common";
+import { Form, Viewer } from "@pdfme/ui";
 import {
   getFontsData,
   getTemplateById,
@@ -13,18 +13,18 @@ import {
   generatePDF,
   isJsonString,
   translations,
-} from '../helper';
-import { getPlugins } from '../plugins';
-import PlaygroundButton from '../components/PlaygroundButton';
-import ProjectSavedToast from '../components/ProjectSavedToast';
-import { NavItem, NavBar } from '../components/NavBar';
+} from "../helper";
+import { getPlugins } from "../plugins";
+import PlaygroundButton from "../components/PlaygroundButton";
+import ProjectSavedToast from "../components/ProjectSavedToast";
+import { NavItem, NavBar } from "../components/NavBar";
 import {
   getActivePlaygroundProject,
   getPlaygroundProject,
   savePlaygroundProject,
   type PlaygroundProject,
-} from '../lib/playgroundProjects';
-import { createTemplateThumbnailDataUrl } from '../lib/templateThumbnails';
+} from "../lib/playgroundProjects";
+import { createTemplateThumbnailDataUrl } from "../lib/templateThumbnails";
 import {
   FileWorkspaceTemplateDeletedError,
   FileWorkspaceTemplateInvalidError,
@@ -33,10 +33,10 @@ import {
   setSelectedFileWorkspaceTemplateName,
   subscribeTemplateEntryChanges,
   type FileWorkspaceTemplateEntry,
-} from '../lib/fileWorkspace';
-import { reconcileInputsWithTemplate } from '../lib/templateInputs';
+} from "../lib/fileWorkspace";
+import { reconcileInputsWithTemplate } from "../lib/templateInputs";
 
-type Mode = 'form' | 'viewer';
+type Mode = "form" | "viewer";
 
 function FormAndViewerApp() {
   const [searchParams] = useSearchParams();
@@ -45,20 +45,20 @@ function FormAndViewerApp() {
   const projectRef = useRef<PlaygroundProject | null>(null);
   const fileWorkspaceEntryRef = useRef<FileWorkspaceTemplateEntry | null>(null);
   const diskVersionRef = useRef<string | null>(null);
-  const fileWorkspaceStatusRef = useRef<'deleted' | 'invalid' | null>(null);
+  const fileWorkspaceStatusRef = useRef<"deleted" | "invalid" | null>(null);
   const buildIdRef = useRef(0);
   const currentSourceKeyRef = useRef<string | null>(null);
   const currentTemplateRef = useRef<Template | null>(null);
   const currentInputsRef = useRef<Record<string, string>[] | null>(null);
 
-  const [mode, setMode] = useState<Mode>((localStorage.getItem('mode') as Mode) ?? 'form');
+  const [mode, setMode] = useState<Mode>((localStorage.getItem("mode") as Mode) ?? "form");
   const [fileWorkspaceEntry, setFileWorkspaceEntry] = useState<FileWorkspaceTemplateEntry | null>(
     null,
   );
-  const [fileWorkspaceStatus, setFileWorkspaceStatus] = useState<'deleted' | 'invalid' | null>(
+  const [fileWorkspaceStatus, setFileWorkspaceStatus] = useState<"deleted" | "invalid" | null>(
     null,
   );
-  const [projectTitle, setProjectTitle] = useState('Untitled Template');
+  const [projectTitle, setProjectTitle] = useState("Untitled Template");
 
   const snapshotCurrentUi = useCallback(() => {
     if (!ui.current) return;
@@ -84,16 +84,16 @@ function FormAndViewerApp() {
         let template: Template = getBlankTemplate();
         let project: PlaygroundProject | null = null;
         let inputs: Record<string, string>[] | null = null;
-        const templateIdFromQuery = searchParams.get('template');
-        const projectIdFromQuery = searchParams.get('project');
-        const workspaceTemplateName = searchParams.get('workspace');
+        const templateIdFromQuery = searchParams.get("template");
+        const projectIdFromQuery = searchParams.get("project");
+        const workspaceTemplateName = searchParams.get("workspace");
         const sourceKey = projectIdFromQuery
           ? `project:${projectIdFromQuery}`
           : workspaceTemplateName
             ? `workspace:${workspaceTemplateName}`
             : templateIdFromQuery
               ? `template:${templateIdFromQuery}`
-              : 'current-or-default';
+              : "current-or-default";
 
         if (currentSourceKeyRef.current === sourceKey && currentTemplateRef.current) {
           template = currentTemplateRef.current;
@@ -101,8 +101,8 @@ function FormAndViewerApp() {
           project = projectRef.current;
         } else if (workspaceTemplateName) {
           const restored = await restorePersistedTemplateCollection();
-          if (restored.status !== 'mounted') {
-            throw new Error('Mounted folder is not available. Reopen it from Templates.');
+          if (restored.status !== "mounted") {
+            throw new Error("Mounted folder is not available. Reopen it from Templates.");
           }
 
           const entry = findTemplateEntry(restored.collection, workspaceTemplateName);
@@ -126,7 +126,7 @@ function FormAndViewerApp() {
           setFileWorkspaceEntry(null);
           setFileWorkspaceStatus(null);
           project = getPlaygroundProject(projectIdFromQuery);
-          if (!project) throw new Error('Project not found');
+          if (!project) throw new Error("Project not found");
           template = project.template;
           inputs = project.inputs;
         } else if (templateIdFromQuery) {
@@ -171,17 +171,17 @@ function FormAndViewerApp() {
         currentInputsRef.current = resolvedInputs;
         if (project) setProjectTitle(project.title);
 
-        ui.current = new (mode === 'form' ? Form : Viewer)({
+        ui.current = new (mode === "form" ? Form : Viewer)({
           domContainer: uiRef.current,
           template,
           inputs: resolvedInputs,
           options: {
             font: getFontsData(),
-            lang: 'en',
-            labels: { 'signature.clear': 'Clear' },
+            lang: "en",
+            labels: { "signature.clear": "Clear" },
             theme: {
               token: {
-                colorPrimary: '#25c2a0',
+                colorPrimary: "#25c2a0",
               },
             },
           },
@@ -204,20 +204,20 @@ function FormAndViewerApp() {
 
   const updateMode = (value: Mode) => {
     setMode(value);
-    localStorage.setItem('mode', value);
+    localStorage.setItem("mode", value);
   };
 
   const onGetInputs = () => {
     if (ui.current) {
       const inputs = ui.current.getInputs();
-      toast.info('Dumped as console.log');
+      toast.info("Dumped as console.log");
       console.log(inputs);
     }
   };
 
   const onSetInputs = () => {
     if (ui.current) {
-      const prompt = window.prompt('Enter Inputs JSONString') || '';
+      const prompt = window.prompt("Enter Inputs JSONString") || "";
       try {
         const json = isJsonString(prompt) ? JSON.parse(prompt) : [{}];
         ui.current.setInputs(json);
@@ -233,10 +233,10 @@ function FormAndViewerApp() {
     const currentProject = projectRef.current;
     const nextInputs = ui.current.getInputs();
     const nextTemplate = ui.current.getTemplate();
-    const currentTitle = (currentProject?.title ?? projectTitle) || 'Untitled Template';
+    const currentTitle = (currentProject?.title ?? projectTitle) || "Untitled Template";
     const title = saveAs
-      ? (window.prompt('Save as', `${currentTitle} Copy`) ?? '')
-      : (currentProject?.title ?? window.prompt('Project name', currentTitle) ?? '');
+      ? (window.prompt("Save as", `${currentTitle} Copy`) ?? "")
+      : (currentProject?.title ?? window.prompt("Project name", currentTitle) ?? "");
     if (!title.trim()) return;
 
     const thumbnail = await createTemplateThumbnailDataUrl(nextTemplate, nextInputs).catch(
@@ -245,7 +245,7 @@ function FormAndViewerApp() {
     const savedProject = savePlaygroundProject({
       id: saveAs ? undefined : currentProject?.id,
       inputs: nextInputs,
-      kind: currentProject?.kind ?? 'template',
+      kind: currentProject?.kind ?? "template",
       source: currentProject?.source,
       template: nextTemplate,
       thumbnail,
@@ -324,12 +324,12 @@ function FormAndViewerApp() {
       {
         onError: (error) => {
           if (error instanceof FileWorkspaceTemplateDeletedError) {
-            setFileWorkspaceStatus('deleted');
+            setFileWorkspaceStatus("deleted");
             return;
           }
 
           if (error instanceof FileWorkspaceTemplateInvalidError) {
-            setFileWorkspaceStatus('invalid');
+            setFileWorkspaceStatus("invalid");
             return;
           }
 
@@ -341,7 +341,7 @@ function FormAndViewerApp() {
 
   const navItems: NavItem[] = [
     {
-      label: 'Lang',
+      label: "Lang",
       content: (
         <select
           className="w-full border rounded px-2 py-1 border-gray-300"
@@ -358,49 +358,49 @@ function FormAndViewerApp() {
       ),
     },
     {
-      label: 'Mode',
+      label: "Mode",
       content: (
         <div className="flex gap-1">
-          {(['form', 'viewer'] as const).map((item) => (
+          {(["form", "viewer"] as const).map((item) => (
             <PlaygroundButton
               key={item}
-              variant={mode === item ? 'primary' : 'secondary'}
+              variant={mode === item ? "primary" : "secondary"}
               onClick={() => updateMode(item)}
             >
-              {item === 'form' ? 'Form' : 'Viewer'}
+              {item === "form" ? "Form" : "Viewer"}
             </PlaygroundButton>
           ))}
         </div>
       ),
     },
     {
-      label: 'Inputs',
+      label: "Inputs",
       content: (
         <div className="flex gap-1">
           <PlaygroundButton onClick={onGetInputs}>Get</PlaygroundButton>
           <PlaygroundButton onClick={onSetInputs}>Set</PlaygroundButton>
           <PlaygroundButton onClick={() => void onSaveInputs()}>
-            {fileWorkspaceEntry ? 'Save Local Copy' : 'Save'}
+            {fileWorkspaceEntry ? "Save Local Copy" : "Save"}
           </PlaygroundButton>
           <PlaygroundButton onClick={() => void onSaveInputs(true)}>
-            {fileWorkspaceEntry ? 'Save As Local Copy' : 'Save As'}
+            {fileWorkspaceEntry ? "Save As Local Copy" : "Save As"}
           </PlaygroundButton>
           <PlaygroundButton onClick={onResetInputs}>Reset</PlaygroundButton>
         </div>
       ),
     },
     {
-      label: 'Output',
+      label: "Output",
       content: (
         <PlaygroundButton
           id="generate-pdf"
           onClick={async (e) => {
-            const output = e.altKey ? 'form' : 'pdf';
+            const output = e.altKey ? "form" : "pdf";
             const startTimer = performance.now();
             await generatePDF(ui.current, output);
             const endTimer = performance.now();
             toast.info(
-              `Generated ${output === 'form' ? 'Form' : 'PDF'} in ${Math.round(
+              `Generated ${output === "form" ? "Form" : "PDF"} in ${Math.round(
                 endTimer - startTimer,
               )}ms ⚡️`,
             );
@@ -417,9 +417,9 @@ function FormAndViewerApp() {
       <NavBar items={navItems} />
       {fileWorkspaceEntry && fileWorkspaceStatus && (
         <div className="border-b border-yellow-200 bg-yellow-50 px-3 py-2 text-sm text-yellow-900">
-          {fileWorkspaceStatus === 'invalid' &&
+          {fileWorkspaceStatus === "invalid" &&
             `${fileWorkspaceEntry.path} is currently invalid on disk. The viewer is keeping the last valid template.`}
-          {fileWorkspaceStatus === 'deleted' &&
+          {fileWorkspaceStatus === "deleted" &&
             `${fileWorkspaceEntry.path} was deleted on disk. The viewer is keeping the last loaded template.`}
         </div>
       )}

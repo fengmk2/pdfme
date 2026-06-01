@@ -11,7 +11,7 @@ pdfmeはデフォルトで[Roboto Regular 400](https://fonts.google.com/specimen
 以下のように`@pdfme/common`からインポートできます。
 
 ```ts
-import type { Font } from '@pdfme/common';
+import type { Font } from "@pdfme/common";
 ```
 
 フォントの型は以下の通りです。
@@ -25,6 +25,7 @@ type Font = {
   };
 };
 ```
+
 - `data`: `http`で始まる`string`を登録すると、自動的にフェッチされます。または、`Uint8Array | ArrayBuffer`のようなバイナリデータを直接設定します。
 - \*`fallback`: trueに設定すると、`fontName`が設定されていない場合に使用するフォントになります。**フォントオブジェクトのうち1つだけをtrueに設定する必要があります。**
 - \*`subset`: デフォルトはtrueですが、フォント埋め込みをサブセットにしないようにfalseに設定できます。（この設定は、特定のフォントをサブセットで埋め込む際のfontkitのバグに対応するためのものです。）
@@ -32,11 +33,11 @@ type Font = {
 ```ts
 const font: Font = {
   serif: {
-    data: 'https://example.com/fonts/serif.ttf',
+    data: "https://example.com/fonts/serif.ttf",
     fallback: true,
   },
   sans_serif: {
-    data: 'https://example.com/fonts/sans_serif.ttf',
+    data: "https://example.com/fonts/sans_serif.ttf",
   },
 };
 ```
@@ -50,16 +51,16 @@ const font: Font = {
 [generate](/docs/getting-started#generator)関数のオプションとしてフォントを設定します。
 
 ```ts
-import { Template, BLANK_PDF, Font } from '@pdfme/common';
-import { generate } from '@pdfme/generator';
+import { Template, BLANK_PDF, Font } from "@pdfme/common";
+import { generate } from "@pdfme/generator";
 
 const font: Font = {
   serif: {
-    data: 'https://example.com/fonts/serif.ttf',
+    data: "https://example.com/fonts/serif.ttf",
     fallback: true,
   },
   sans_serif: {
-    data: 'https://example.com/fonts/sans_serif.ttf',
+    data: "https://example.com/fonts/sans_serif.ttf",
   },
 };
 const template: Template = {
@@ -67,25 +68,25 @@ const template: Template = {
   schemas: [
     [
       {
-        name: 'a',
-        type: 'text',
-        fontName: 'serif',
+        name: "a",
+        type: "text",
+        fontName: "serif",
         position: { x: 0, y: 0 },
         width: 10,
         height: 10,
       },
       {
-        name: 'b',
-        type: 'text',
-        fontName: 'sans_serif',
+        name: "b",
+        type: "text",
+        fontName: "sans_serif",
         position: { x: 10, y: 10 },
         width: 10,
         height: 10,
       },
       {
         // <- フォールバックフォントを使用（serif）
-        name: 'c',
-        type: 'text',
+        name: "c",
+        type: "text",
         position: { x: 20, y: 20 },
         width: 10,
         height: 10,
@@ -93,7 +94,7 @@ const template: Template = {
     ],
   ],
 };
-const inputs = [{ a: 'a1', b: 'b1', c: 'c1' }];
+const inputs = [{ a: "a1", b: "b1", c: "c1" }];
 
 generate({ template, inputs, options: { font } }).then((pdf) => {
   console.log(pdf);
@@ -115,19 +116,19 @@ UIでフォントを設定する方法は2つあります。インスタンス�
 #### インスタンス初期化時にフォントを設定
 
 ```ts
-import { Designer } from '@pdfme/ui';
+import { Designer } from "@pdfme/ui";
 
-const domContainer = document.getElementById('container');
+const domContainer = document.getElementById("container");
 const template = {
   // 省略...
 };
 const font = {
   serif: {
-    data: 'https://example.com/fonts/serif.ttf',
+    data: "https://example.com/fonts/serif.ttf",
     fallback: true,
   },
   sans_serif: {
-    data: 'https://example.com/fonts/sans_serif.ttf',
+    data: "https://example.com/fonts/sans_serif.ttf",
   },
 };
 
@@ -139,10 +140,10 @@ const designer = new Designer({ domContainer, template, options: { font } });
 ```ts
 const font = {
   serif: {
-    data: 'https://example.com/fonts/serif.ttf',
+    data: "https://example.com/fonts/serif.ttf",
   },
   sans_serif: {
-    data: 'https://example.com/fonts/sans_serif.ttf',
+    data: "https://example.com/fonts/sans_serif.ttf",
     fallback: true,
   },
 };

@@ -11,14 +11,16 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
 ## テンプレート追加の手順
 
 ### 1. テンプレートを作成する
+
 [playground Designer](https://playground.pdfme.com/designer)でテンプレートをデザインし、`Template JSON`ボタンを使って`template.json`をダウンロードします
 
 ### 2. リポジトリを準備する
+
 1. **[フォークを作成]**  
    [pdfmeリポジトリ](https://github.com/pdfme/pdfme)の右上にある`Fork`ボタンをクリックして、あなたのGitHubアカウントにコピーします
-   
 2. **[ローカルにクローン]**  
    ターミナルで実行します（`YOUR-GITHUB-USERNAME`をあなたのGitHubユーザー名に置き換えてください）：
+
    ```bash
    git clone git@github.com:YOUR-GITHUB-USERNAME/pdfme.git
    cd pdfme
@@ -31,16 +33,20 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
    ```
 
 ### 3. テンプレートファイルを追加する
+
 1. **[ディレクトリを作成]**  
    kebab-caseで新しいディレクトリを作成します（例：`my-new-template`）：
+
    ```bash
    mkdir -p playground/public/template-assets/my-new-template
    ```
+
    - ディレクトリ名は[playground のテンプレートギャラリー](https://playground.pdfme.com/)で`My New Template`として表示されます
 
 2. **[ファイルを配置]**  
    ダウンロードした`template.json`を新しいディレクトリに配置します  
    （オプション）クレジットのために`author`フィールドを追加します：
+
    ```json
    {
      "author": "YOUR-GITHUB-USERNAME",
@@ -50,6 +56,7 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
 
 3. **[メタデータを追加]**
    同じディレクトリに`metadata.json`を追加します。このメタデータはテンプレートギャラリーのカードや絞り込みに使われます。
+
    ```json
    {
      "description": "このテンプレートの用途を短く説明します。",
@@ -66,6 +73,7 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
 
 4. **[ギャラリー用メタデータを再生成]**
    次を実行します：
+
    ```bash
    npm --prefix playground run generate-template-assets
    ```
@@ -73,8 +81,10 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
    playground と CLI が使う生成済み manifest が更新されます。
 
 ### 4. 変更をコミットする
+
 1. **[変更を記録]**  
    ターミナルで実行します：
+
    ```bash
    git add .
    git commit -m "feat: Add My New Template"
@@ -87,14 +97,15 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
    ```
 
 ### 5. プルリクエストを作成する
+
 1. **GitHubでPRを作成**  
    あなたのリポジトリページに移動 → `Pull requests` → `New pull request`
 
-2. **ブランチを選択**  
+2. **ブランチを選択**
    - `base repository`：pdfme/pdfme（mainブランチ）
    - `head repository`：YOUR-GITHUB-USERNAME/pdfme（add-my-new-templateブランチ）
 
-3. **情報を入力**  
+3. **情報を入力**
    - タイトル：`Add [My New Template] template`
    - テンプレートの特徴とユースケースの簡単な説明を含める
 
@@ -102,6 +113,7 @@ OSSへの貢献が初めてでも、このガイドに従うことで簡単に�
    `Create pull request`をクリックして完了！
 
 ### 6. マージを待つ
+
 メンテナーのレビュー後、あなたのテンプレートがマージされ、正式に掲載されます 🎉  
 （修正が必要な場合は、GitHubでコメントを受け取ります）
 

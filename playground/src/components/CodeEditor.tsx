@@ -1,18 +1,18 @@
-import Editor, { loader, type BeforeMount, type OnMount } from '@monaco-editor/react';
-import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution.js';
-import 'monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution.js';
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-import 'monaco-editor/esm/vs/language/json/monaco.contribution.js';
-import 'monaco-editor/esm/vs/language/typescript/monaco.contribution.js';
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+import Editor, { loader, type BeforeMount, type OnMount } from "@monaco-editor/react";
+import "monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution.js";
+import "monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution.js";
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
+import "monaco-editor/esm/vs/language/json/monaco.contribution.js";
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution.js";
+import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 
 type CodeEditorProps = {
   ariaLabel: string;
   value: string;
   onChange: (value: string) => void;
-  language: 'json' | 'markdown' | 'typescript';
+  language: "json" | "markdown" | "typescript";
   path?: string;
   inferLanguageFromPath?: boolean;
   readOnly?: boolean;
@@ -24,7 +24,7 @@ type CodeEditorProps = {
 let isMonacoConfigured = false;
 
 const configureMonaco = () => {
-  if (isMonacoConfigured || typeof globalThis === 'undefined') return;
+  if (isMonacoConfigured || typeof globalThis === "undefined") return;
 
   const globalScope = globalThis as typeof globalThis & {
     MonacoEnvironment?: {
@@ -34,8 +34,8 @@ const configureMonaco = () => {
 
   globalScope.MonacoEnvironment = {
     getWorker: (_workerId, label) => {
-      if (label === 'json') return new jsonWorker();
-      if (label === 'typescript' || label === 'javascript') return new tsWorker();
+      if (label === "json") return new jsonWorker();
+      if (label === "typescript" || label === "javascript") return new tsWorker();
       return new editorWorker();
     },
   };
@@ -55,7 +55,7 @@ export default function CodeEditor({
   inferLanguageFromPath = false,
   readOnly = false,
   autoFocus = false,
-  className = 'min-h-0 flex-1',
+  className = "min-h-0 flex-1",
   beforeMount,
 }: CodeEditorProps) {
   const handleMount: OnMount = (editor) => {
@@ -69,7 +69,7 @@ export default function CodeEditor({
         defaultLanguage={inferLanguageFromPath ? undefined : language}
         defaultPath={path}
         language={inferLanguageFromPath ? undefined : language}
-        onChange={(nextValue) => onChange(nextValue ?? '')}
+        onChange={(nextValue) => onChange(nextValue ?? "")}
         onMount={handleMount}
         options={{
           ariaLabel,
@@ -82,11 +82,11 @@ export default function CodeEditor({
           readOnly,
           scrollBeyondLastLine: false,
           tabSize: 2,
-          wordWrap: 'on',
+          wordWrap: "on",
         }}
         path={path}
         value={value}
-        wrapperProps={{ 'aria-label': ariaLabel }}
+        wrapperProps={{ "aria-label": ariaLabel }}
       />
     </div>
   );

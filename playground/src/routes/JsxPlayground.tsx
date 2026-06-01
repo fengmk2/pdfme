@@ -1,32 +1,32 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { checkTemplate, type Template } from '@pdfme/common';
-import type { RenderResult } from '@pdfme/jsx';
-import { Viewer } from '@pdfme/ui';
-import { Copy, Download, ExternalLink, PencilRuler, Save } from 'lucide-react';
-import { toast } from 'react-toastify';
-import CodeEditor from '../components/CodeEditor';
-import PlaygroundButton from '../components/PlaygroundButton';
-import ProjectSavedToast from '../components/ProjectSavedToast';
-import { downloadJsonFile, generatePDF, getFontsData } from '../helper';
-import { getPlugins } from '../plugins';
-import JsxPlaygroundWorker from './jsxPlaygroundWorker?worker';
-import { useRefreshCollapsedPreview } from './useRefreshCollapsedPreview';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { checkTemplate, type Template } from "@pdfme/common";
+import type { RenderResult } from "@pdfme/jsx";
+import { Viewer } from "@pdfme/ui";
+import { Copy, Download, ExternalLink, PencilRuler, Save } from "lucide-react";
+import { toast } from "react-toastify";
+import CodeEditor from "../components/CodeEditor";
+import PlaygroundButton from "../components/PlaygroundButton";
+import ProjectSavedToast from "../components/ProjectSavedToast";
+import { downloadJsonFile, generatePDF, getFontsData } from "../helper";
+import { getPlugins } from "../plugins";
+import JsxPlaygroundWorker from "./jsxPlaygroundWorker?worker";
+import { useRefreshCollapsedPreview } from "./useRefreshCollapsedPreview";
 import {
   loadAuthoringStarters,
   loadAuthoringStarterSource,
   type AuthoringStarter,
-} from '../lib/authoringStarters';
-import { getErrorMessage } from '../lib/errors';
+} from "../lib/authoringStarters";
+import { getErrorMessage } from "../lib/errors";
 import {
   getPlaygroundProject,
   savePlaygroundProject,
   type PlaygroundProject,
-} from '../lib/playgroundProjects';
-import { createTemplateThumbnailDataUrl } from '../lib/templateThumbnails';
+} from "../lib/playgroundProjects";
+import { createTemplateThumbnailDataUrl } from "../lib/templateThumbnails";
 
-const JSX_DOCS_URL = 'https://pdfme.com/docs/jsx#jsx-playground-beta';
-const JSX_EDITOR_PATH = 'file:///jsx-playground.tsx';
+const JSX_DOCS_URL = "https://pdfme.com/docs/jsx#jsx-playground-beta";
+const JSX_EDITOR_PATH = "file:///jsx-playground.tsx";
 const RENDER_TIMEOUT_MS = 15_000;
 const FALLBACK_JSX_SOURCE = `return (
   <Page>
@@ -53,16 +53,16 @@ type PendingRender = {
   timeoutId: number;
 };
 
-const configureJsxEditor: Parameters<typeof CodeEditor>[0]['beforeMount'] = (monaco) => {
+const configureJsxEditor: Parameters<typeof CodeEditor>[0]["beforeMount"] = (monaco) => {
   const typeScriptLanguage = monaco.languages.typescript;
   if (!typeScriptLanguage) return;
 
   typeScriptLanguage.typescriptDefaults.setCompilerOptions({
     allowNonTsExtensions: true,
     jsx: typeScriptLanguage.JsxEmit.React,
-    jsxFactory: 'createElement',
-    jsxFragmentFactory: 'Fragment',
-    lib: ['es2020'],
+    jsxFactory: "createElement",
+    jsxFragmentFactory: "Fragment",
+    lib: ["es2020"],
     moduleResolution: typeScriptLanguage.ModuleResolutionKind.NodeJs,
     target: typeScriptLanguage.ScriptTarget.ES2020,
   });
@@ -90,7 +90,7 @@ declare function List(props: Record<string, unknown>): unknown;
 declare function Table(props: Record<string, unknown>): unknown;
 declare function PageBreak(props?: Record<string, unknown>): unknown;
 `,
-    'file:///pdfme-jsx-playground.d.ts',
+    "file:///pdfme-jsx-playground.d.ts",
   );
 };
 
@@ -111,7 +111,7 @@ export default function JsxPlayground() {
   const pendingRenderRef = useRef<PendingRender | null>(null);
   const nextRenderRequestIdRef = useRef(0);
   const [presets, setPresets] = useState<AuthoringStarter[]>([]);
-  const [selectedPresetId, setSelectedPresetId] = useState('');
+  const [selectedPresetId, setSelectedPresetId] = useState("");
   const [source, setSource] = useState(FALLBACK_JSX_SOURCE);
   const [template, setTemplate] = useState<Template | null>(null);
   const [inputs, setInputs] = useState<Record<string, string>[]>([{}]);
@@ -121,11 +121,11 @@ export default function JsxPlayground() {
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [previewRefreshKey, setPreviewRefreshKey] = useState(0);
   const selectedPreset = presets.find((preset) => preset.id === selectedPresetId);
-  const sourceTitle = projectRef.current?.title ?? selectedPreset?.label ?? 'Custom JSX';
+  const sourceTitle = projectRef.current?.title ?? selectedPreset?.label ?? "Custom JSX";
 
   useEffect(() => {
     let cancelled = false;
-    void loadAuthoringStarters('jsx')
+    void loadAuthoringStarters("jsx")
       .then((starters) => {
         if (cancelled) return;
         setPresets(starters);
@@ -141,8 +141,8 @@ export default function JsxPlayground() {
   }, []);
 
   useEffect(() => {
-    const projectId = searchParams.get('project');
-    const presetId = searchParams.get('preset');
+    const projectId = searchParams.get("project");
+    const presetId = searchParams.get("preset");
     if (!projectId && !presetId && didLoadInitialStarterRef.current) return;
     if (presets.length === 0 && !projectId) return;
 
@@ -150,8 +150,8 @@ export default function JsxPlayground() {
 
     const consumeQuery = () => {
       const nextSearchParams = new URLSearchParams(searchParams);
-      nextSearchParams.delete('project');
-      nextSearchParams.delete('preset');
+      nextSearchParams.delete("project");
+      nextSearchParams.delete("preset");
       setSearchParams(nextSearchParams, { replace: true });
     };
 
@@ -171,8 +171,8 @@ export default function JsxPlayground() {
 
     if (projectId) {
       const project = getPlaygroundProject(projectId);
-      if (!project || project.kind !== 'jsx' || !project.source) {
-        toast.error('JSX project not found');
+      if (!project || project.kind !== "jsx" || !project.source) {
+        toast.error("JSX project not found");
         return;
       }
 
@@ -182,7 +182,7 @@ export default function JsxPlayground() {
         inputs: project.inputs,
         source: project.source.content,
       };
-      setSelectedPresetId(project.source.presetId ?? '');
+      setSelectedPresetId(project.source.presetId ?? "");
       setSource(project.source.content);
       setTemplate(project.template);
       setInputs(project.inputs);
@@ -195,7 +195,7 @@ export default function JsxPlayground() {
       ? presets.find((item) => item.id === presetId || item.assetName === presetId)
       : presets[0];
     if (!preset) {
-      if (presetId) toast.error('JSX starter not found');
+      if (presetId) toast.error("JSX starter not found");
       return;
     }
 
@@ -242,7 +242,7 @@ export default function JsxPlayground() {
       const pendingRender = pendingRenderRef.current;
       clearPendingRender();
       terminateRenderWorker();
-      pendingRender?.reject(new Error(event.message || 'JSX render worker failed.'));
+      pendingRender?.reject(new Error(event.message || "JSX render worker failed."));
     };
     renderWorkerRef.current = worker;
     return worker;
@@ -252,7 +252,7 @@ export default function JsxPlayground() {
     (nextSource: string) =>
       new Promise<RenderResult>((resolve, reject) => {
         if (pendingRenderRef.current) {
-          clearPendingRender(new Error('JSX render cancelled.'));
+          clearPendingRender(new Error("JSX render cancelled."));
           terminateRenderWorker();
         }
 
@@ -262,7 +262,7 @@ export default function JsxPlayground() {
           const pendingRender = pendingRenderRef.current;
           if (!pendingRender || pendingRender.id !== id) return;
 
-          clearPendingRender(new Error('JSX render timed out.'));
+          clearPendingRender(new Error("JSX render timed out."));
           terminateRenderWorker();
         }, RENDER_TIMEOUT_MS);
 
@@ -318,10 +318,10 @@ export default function JsxPlayground() {
           inputs: currentInputs,
           options: {
             font: getFontsData(),
-            lang: 'en',
+            lang: "en",
             theme: {
               token: {
-                colorPrimary: '#25c2a0',
+                colorPrimary: "#25c2a0",
               },
             },
           },
@@ -352,7 +352,7 @@ export default function JsxPlayground() {
 
   useEffect(() => {
     return () => {
-      clearPendingRender(new Error('JSX render cancelled.'));
+      clearPendingRender(new Error("JSX render cancelled."));
       terminateRenderWorker();
       previewRef.current?.destroy();
       previewRef.current = null;
@@ -378,7 +378,7 @@ export default function JsxPlayground() {
 
   const onDownloadTemplate = () => {
     if (!template) return;
-    downloadJsonFile(template, 'jsx-template');
+    downloadJsonFile(template, "jsx-template");
   };
 
   const saveCurrentProject = async (title?: string, saveAs = false) => {
@@ -388,9 +388,9 @@ export default function JsxPlayground() {
     const projectTitle =
       title ??
       (saveAs
-        ? window.prompt('Save as', `${currentTitle} Copy`)
-        : (projectRef.current?.title ?? window.prompt('Project name', currentTitle))) ??
-      '';
+        ? window.prompt("Save as", `${currentTitle} Copy`)
+        : (projectRef.current?.title ?? window.prompt("Project name", currentTitle))) ??
+      "";
     if (!projectTitle.trim()) return null;
 
     const thumbnail = await createTemplateThumbnailDataUrl(template, inputsRef.current).catch(
@@ -399,12 +399,12 @@ export default function JsxPlayground() {
     const savedProject = savePlaygroundProject({
       id: saveAs ? undefined : projectRef.current?.id,
       inputs: inputsRef.current,
-      kind: 'jsx',
+      kind: "jsx",
       source: {
         content: source,
-        language: 'jsx',
+        language: "jsx",
         presetId: selectedPresetId,
-        route: '/jsx',
+        route: "/jsx",
       },
       template,
       thumbnail,
@@ -475,7 +475,7 @@ export default function JsxPlayground() {
           </div>
           <p className="mt-1 break-words text-xs text-gray-500">
             {sourceTitle}
-            {selectedPreset?.description ? ` - ${selectedPreset.description}` : ''}
+            {selectedPreset?.description ? ` - ${selectedPreset.description}` : ""}
           </p>
           <p className="mt-1 break-words text-xs text-gray-500">
             Write a JSX function body that returns a pdfme Document or Page nodes. Imports are
@@ -512,7 +512,7 @@ export default function JsxPlayground() {
             disabled={!template || Boolean(error) || isGeneratingPdf}
             onClick={onGeneratePdf}
           >
-            {isGeneratingPdf ? 'Generating...' : 'Generate PDF'}
+            {isGeneratingPdf ? "Generating..." : "Generate PDF"}
           </PlaygroundButton>
         </div>
       </div>

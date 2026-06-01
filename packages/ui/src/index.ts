@@ -1,6 +1,6 @@
-import Designer from './Designer.js';
-import Form from './Form.js';
-import Viewer from './Viewer.js';
+import Designer from "./Designer.js";
+import Form from "./Form.js";
+import Viewer from "./Viewer.js";
 
 export { Designer, Viewer, Form };
 export type {
@@ -11,4 +11,4 @@ export type {
   DesignerSelection,
   DesignerSelectionBounds,
   DesignerSelectionChangeCallback,
-} from './designerSelection.js';
+} from "./designerSelection.js";

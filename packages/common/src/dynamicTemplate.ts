@@ -6,9 +6,9 @@ import {
   CommonOptions,
   DynamicLayoutCallbackResult,
   DynamicLayoutResult,
-} from './types.js';
-import { cloneDeep, isBlankPdf } from './helper.js';
-import { replacePlaceholders } from './expression.js';
+} from "./types.js";
+import { cloneDeep, isBlankPdf } from "./helper.js";
+import { replacePlaceholders } from "./expression.js";
 
 /** Floating point tolerance for comparisons */
 const EPSILON = 0.01;
@@ -47,15 +47,15 @@ const getSchemaValue = (
   schemas: Schema[][],
 ): string => {
   if (!schema.readOnly) {
-    return input?.[schema.name] || '';
+    return input?.[schema.name] || "";
   }
 
-  if (schema.type !== 'text' && schema.type !== 'multiVariableText') {
-    return schema.content || '';
+  if (schema.type !== "text" && schema.type !== "multiVariableText") {
+    return schema.content || "";
   }
 
   return replacePlaceholders({
-    content: schema.content || '',
+    content: schema.content || "",
     variables: input,
     schemas,
   });

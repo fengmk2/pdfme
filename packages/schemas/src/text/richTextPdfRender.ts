@@ -1,7 +1,7 @@
-import type { PDFFont, Rotation } from '@pdfme/pdf-lib';
-import type { ColorType, Font, PDFRenderProps } from '@pdfme/common';
-import { getInternalLinkTarget, registerInternalLinkAnnotation } from '@pdfme/common';
-import type { Font as FontKitFont } from 'fontkit';
+import type { PDFFont, Rotation } from "@pdfme/pdf-lib";
+import type { ColorType, Font, PDFRenderProps } from "@pdfme/common";
+import { getInternalLinkTarget, registerInternalLinkAnnotation } from "@pdfme/common";
+import type { Font as FontKitFont } from "fontkit";
 import {
   CODE_BACKGROUND_COLOR,
   CODE_HORIZONTAL_PADDING,
@@ -11,20 +11,20 @@ import {
   VERTICAL_ALIGN_BOTTOM,
   VERTICAL_ALIGN_MIDDLE,
   VERTICAL_ALIGN_TOP,
-} from './constants.js';
-import { getFontDescentInPt, heightOfFontAtSize, widthOfTextAtSize } from './helper.js';
-import { addUriLinkAnnotation, type LinkAnnotationRect } from './linkAnnotation.js';
-import { parseInlineMarkdown } from './inlineMarkdown.js';
-import { applyTextLineRange } from './measure.js';
+} from "./constants.js";
+import { getFontDescentInPt, heightOfFontAtSize, widthOfTextAtSize } from "./helper.js";
+import { addUriLinkAnnotation, type LinkAnnotationRect } from "./linkAnnotation.js";
+import { parseInlineMarkdown } from "./inlineMarkdown.js";
+import { applyTextLineRange } from "./measure.js";
 import {
   countRichTextLineGraphemes,
   layoutRichTextLines,
   resolveRichTextRuns,
   type RichTextLineRun,
-} from './richText.js';
-import type { TextSchema } from './types.js';
-import { hex2PrintingColor, rotatePoint } from '../utils.js';
-import { getTextLineRange } from '../splitRange.js';
+} from "./richText.js";
+import type { TextSchema } from "./types.js";
+import { hex2PrintingColor, rotatePoint } from "../utils.js";
+import { getTextLineRange } from "../splitRange.js";
 
 type TextColor = ReturnType<typeof hex2PrintingColor>;
 
@@ -63,7 +63,7 @@ const embedFontsForRuns = async (
 };
 
 const drawDecorationLine = (arg: {
-  page: PDFRenderProps<TextSchema>['page'];
+  page: PDFRenderProps<TextSchema>["page"];
   x: number;
   y: number;
   width: number;
@@ -141,8 +141,8 @@ const getLinkAnnotationRect = (arg: {
 };
 
 const drawRun = (arg: {
-  page: PDFRenderProps<TextSchema>['page'];
-  pdfLib: PDFRenderProps<TextSchema>['pdfLib'];
+  page: PDFRenderProps<TextSchema>["page"];
+  pdfLib: PDFRenderProps<TextSchema>["pdfLib"];
   run: RichTextLineRun;
   pdfFont: PDFFont;
   x: number;
@@ -259,9 +259,9 @@ export const renderInlineMarkdownText = async (arg: {
   font: Font;
   embedPdfFont: (fontName: string) => Promise<PDFFont>;
   fontKitFont: FontKitFont;
-  pdfDoc: PDFRenderProps<TextSchema>['pdfDoc'];
-  page: PDFRenderProps<TextSchema>['page'];
-  pdfLib: PDFRenderProps<TextSchema>['pdfLib'];
+  pdfDoc: PDFRenderProps<TextSchema>["pdfDoc"];
+  page: PDFRenderProps<TextSchema>["page"];
+  pdfLib: PDFRenderProps<TextSchema>["pdfLib"];
   _cache: Map<string | number, unknown>;
   colorType: ColorType;
   fontSize: number;
@@ -343,7 +343,7 @@ export const renderInlineMarkdownText = async (arg: {
     let textWidth = line.width;
     let spacing = characterSpacing;
     const shouldJustify =
-      alignment === 'justify' && !line.hardBreak && lineRangeStart + rowIndex < allLines.length - 1;
+      alignment === "justify" && !line.hardBreak && lineRangeStart + rowIndex < allLines.length - 1;
 
     if (shouldJustify) {
       const graphemeCount = countRichTextLineGraphemes(line);
@@ -354,9 +354,9 @@ export const renderInlineMarkdownText = async (arg: {
     }
 
     let xLine = x;
-    if (alignment === 'center') {
+    if (alignment === "center") {
       xLine += (width - textWidth) / 2;
-    } else if (alignment === 'right') {
+    } else if (alignment === "right") {
       xLine += width - textWidth;
     }
 

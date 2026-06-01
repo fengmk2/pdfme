@@ -1,12 +1,12 @@
-import type { Font } from '@pdfme/common';
+import type { Font } from "@pdfme/common";
 
 export const OFFICIAL_EXAMPLE_FONT_URLS = {
   NotoSansJP:
-    'https://fonts.gstatic.com/s/notosansjp/v53/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEj75vY0rw-oME.ttf',
+    "https://fonts.gstatic.com/s/notosansjp/v53/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEj75vY0rw-oME.ttf",
   NotoSerifJP:
-    'https://fonts.gstatic.com/s/notoserifjp/v30/xn71YHs72GKoTvER4Gn3b5eMRtWGkp6o7MjQ2bwxOubAILO5wBCU.ttf',
-  'PinyonScript-Regular':
-    'https://fonts.gstatic.com/s/pinyonscript/v22/6xKpdSJbL9-e9LuoeQiDRQR8aOLQO4bhiDY.ttf',
+    "https://fonts.gstatic.com/s/notoserifjp/v30/xn71YHs72GKoTvER4Gn3b5eMRtWGkp6o7MjQ2bwxOubAILO5wBCU.ttf",
+  "PinyonScript-Regular":
+    "https://fonts.gstatic.com/s/pinyonscript/v22/6xKpdSJbL9-e9LuoeQiDRQR8aOLQO4bhiDY.ttf",
 } as const;
 
 export function collectTemplateFontNames(template: Record<string, unknown>): string[] {
@@ -19,15 +19,15 @@ export function collectTemplateFontNames(template: Record<string, unknown>): str
   for (const page of schemas) {
     const pageSchemas = Array.isArray(page)
       ? page
-      : typeof page === 'object' && page !== null
+      : typeof page === "object" && page !== null
         ? Object.values(page)
         : [];
 
     for (const schema of pageSchemas) {
-      if (typeof schema !== 'object' || schema === null) continue;
+      if (typeof schema !== "object" || schema === null) continue;
 
       const fontName = (schema as Record<string, unknown>).fontName;
-      if (typeof fontName === 'string' && fontName.length > 0) {
+      if (typeof fontName === "string" && fontName.length > 0) {
         fontNames.add(fontName);
       }
     }

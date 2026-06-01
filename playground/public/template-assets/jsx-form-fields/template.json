@@ -2,12 +2,7 @@
   "basePdf": {
     "width": 210,
     "height": 297,
-    "padding": [
-      18,
-      18,
-      18,
-      18
-    ],
+    "padding": [18, 18, 18, 18],
     "staticSchema": [
       {
         "name": "text_1",
@@ -341,11 +336,7 @@
         "strikethrough": false,
         "underline": false,
         "text": "Hello {firstName},\nYour plan is {plan}.\nStatus: {status}",
-        "variables": [
-          "firstName",
-          "plan",
-          "status"
-        ],
+        "variables": ["firstName", "plan", "status"],
         "borderColor": "#cbd5e1",
         "borderWidth": {
           "top": 0.3,

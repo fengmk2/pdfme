@@ -1,5 +1,5 @@
-import * as pdfLib from '@pdfme/pdf-lib';
-import type { GenerateProps, Schema, PDFRenderProps, Template } from '@pdfme/common';
+import * as pdfLib from "@pdfme/pdf-lib";
+import type { GenerateProps, Schema, PDFRenderProps, Template } from "@pdfme/common";
 import {
   checkGenerateProps,
   applyInternalLinkAnnotations,
@@ -11,15 +11,15 @@ import {
   mm2pt,
   registerInternalLinkAnchor,
   resetInternalLinkAnnotations,
-} from '@pdfme/common';
-import { getDynamicLayoutForSchema, isDynamicLayoutSchema } from '@pdfme/schemas/dynamicLayout';
+} from "@pdfme/common";
+import { getDynamicLayoutForSchema, isDynamicLayoutSchema } from "@pdfme/schemas/dynamicLayout";
 import {
   insertPage,
   preprocessing,
   postProcessing,
   getEmbedPdfPages,
   validateRequiredFields,
-} from './helper.js';
+} from "./helper.js";
 
 type SchemaRenderInfo = {
   schemaNames: string[];
@@ -109,7 +109,7 @@ const generate = async (props: GenerateProps): Promise<Uint8Array<ArrayBuffer>> 
 
   if (inputs.length === 0) {
     throw new Error(
-      '[@pdfme/generator] inputs should not be empty, pass at least an empty object in the array',
+      "[@pdfme/generator] inputs should not be empty, pass at least an empty object in the array",
     );
   }
 
@@ -175,11 +175,11 @@ const generate = async (props: GenerateProps): Promise<Uint8Array<ArrayBuffer>> 
           }
           const value = staticSchema.readOnly
             ? replacePlaceholders({
-                content: staticSchema.content || '',
+                content: staticSchema.content || "",
                 variables,
                 schemas,
               })
-            : staticSchema.content || '';
+            : staticSchema.content || "";
 
           const adjustedStaticSchema = getAdjustedSchema(
             staticSchema,
@@ -220,11 +220,11 @@ const generate = async (props: GenerateProps): Promise<Uint8Array<ArrayBuffer>> 
         }
         const value: string = schema.readOnly
           ? replacePlaceholders({
-              content: schema.content || '',
+              content: schema.content || "",
               variables,
               schemas,
             })
-          : ((input[name] || '') as string);
+          : ((input[name] || "") as string);
 
         const adjustedSchema = getAdjustedSchema(schema, boundingBoxLeft, boundingBoxBottom);
         registerSchemaAnchor(_cache, adjustedSchema, page);

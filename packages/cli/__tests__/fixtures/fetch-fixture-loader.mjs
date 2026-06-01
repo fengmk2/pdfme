@@ -1,35 +1,37 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 const ASSETS_DIR = process.env.PDFME_TEST_ASSETS_DIR;
 const FONT_FIXTURES_DIR = process.env.PDFME_TEST_FONT_FIXTURES_DIR;
-const BASE_URL = (process.env.PDFME_EXAMPLES_BASE_URL ?? 'https://fixtures.example.com/template-assets').replace(
-  /\/$/,
-  '',
-);
+const BASE_URL = (
+  process.env.PDFME_EXAMPLES_BASE_URL ?? "https://fixtures.example.com/template-assets"
+).replace(/\/$/, "");
 const AUTO_NOTO_SANS_JP_URL =
-  'https://github.com/google/fonts/raw/main/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf';
+  "https://github.com/google/fonts/raw/main/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf";
 
 if (!ASSETS_DIR || !FONT_FIXTURES_DIR) {
-  throw new Error('Fixture fetch shim requires PDFME_TEST_ASSETS_DIR and PDFME_TEST_FONT_FIXTURES_DIR.');
+  throw new Error(
+    "Fixture fetch shim requires PDFME_TEST_ASSETS_DIR and PDFME_TEST_FONT_FIXTURES_DIR.",
+  );
 }
 
 const fontFixtures = {
-  'https://fonts.gstatic.com/s/notosansjp/v53/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEj75vY0rw-oME.ttf':
-    join(FONT_FIXTURES_DIR, 'NotoSansJP-Regular.ttf'),
-  'https://fonts.gstatic.com/s/notoserifjp/v30/xn71YHs72GKoTvER4Gn3b5eMRtWGkp6o7MjQ2bwxOubAILO5wBCU.ttf':
-    join(FONT_FIXTURES_DIR, 'NotoSerifJP-Regular.ttf'),
-  'https://fonts.gstatic.com/s/pinyonscript/v22/6xKpdSJbL9-e9LuoeQiDRQR8aOLQO4bhiDY.ttf':
-    join(FONT_FIXTURES_DIR, 'PinyonScript-Regular.ttf'),
-  'https://fonts.example.com/pinyonscript':
-    join(FONT_FIXTURES_DIR, 'PinyonScript-Regular.ttf'),
-  [AUTO_NOTO_SANS_JP_URL]: join(FONT_FIXTURES_DIR, 'NotoSansJP-Regular.ttf'),
+  "https://fonts.gstatic.com/s/notosansjp/v53/-F6jfjtqLzI2JPCgQBnw7HFyzSD-AsregP8VFBEj75vY0rw-oME.ttf":
+    join(FONT_FIXTURES_DIR, "NotoSansJP-Regular.ttf"),
+  "https://fonts.gstatic.com/s/notoserifjp/v30/xn71YHs72GKoTvER4Gn3b5eMRtWGkp6o7MjQ2bwxOubAILO5wBCU.ttf":
+    join(FONT_FIXTURES_DIR, "NotoSerifJP-Regular.ttf"),
+  "https://fonts.gstatic.com/s/pinyonscript/v22/6xKpdSJbL9-e9LuoeQiDRQR8aOLQO4bhiDY.ttf": join(
+    FONT_FIXTURES_DIR,
+    "PinyonScript-Regular.ttf",
+  ),
+  "https://fonts.example.com/pinyonscript": join(FONT_FIXTURES_DIR, "PinyonScript-Regular.ttf"),
+  [AUTO_NOTO_SANS_JP_URL]: join(FONT_FIXTURES_DIR, "NotoSansJP-Regular.ttf"),
 };
 
 const originalFetch = globalThis.fetch.bind(globalThis);
 
 function getUrl(input) {
-  if (typeof input === 'string') {
+  if (typeof input === "string") {
     return input;
   }
 
@@ -41,10 +43,10 @@ function getUrl(input) {
 }
 
 function buildResponse(filePath) {
-  const contentType = filePath.endsWith('.json') ? 'application/json' : 'application/octet-stream';
+  const contentType = filePath.endsWith(".json") ? "application/json" : "application/octet-stream";
   return new Response(readFileSync(filePath), {
     status: 200,
-    headers: { 'content-type': contentType },
+    headers: { "content-type": contentType },
   });
 }
 
@@ -58,7 +60,7 @@ globalThis.fetch = async (input, init) => {
     }
     return new Response(readFileSync(fontFixturePath), {
       status: 200,
-      headers: { 'content-type': 'font/ttf' },
+      headers: { "content-type": "font/ttf" },
     });
   }
 
