@@ -1,11 +1,5 @@
 import fs from 'fs';
-import {
-  PDFDocument,
-  PDFName,
-  PDFArray,
-  PDFHexString,
-  AnnotationFlags,
-} from '../../../src/index';
+import { PDFDocument, PDFName, PDFArray, PDFHexString, AnnotationFlags } from '../../../src/index';
 
 const fancyFieldsPdfBytes = fs.readFileSync('assets/pdfs/fancy_fields.pdf');
 
@@ -83,16 +77,9 @@ describe(`PDFRadioGroup`, () => {
 
     expect(radioGroup.getOptions()).toEqual(['foo', 'bar', 'foo', 'qux']);
 
-    const onValues = radioGroup.acroField
-      .getWidgets()
-      .map((w) => w.getOnValue());
+    const onValues = radioGroup.acroField.getWidgets().map((w) => w.getOnValue());
 
-    expect(onValues).toEqual([
-      PDFName.of('0'),
-      PDFName.of('1'),
-      PDFName.of('2'),
-      PDFName.of('3'),
-    ]);
+    expect(onValues).toEqual([PDFName.of('0'), PDFName.of('1'), PDFName.of('2'), PDFName.of('3')]);
 
     const opt = radioGroup.acroField.Opt() as PDFArray;
     expect(opt).toBeInstanceOf(PDFArray);
@@ -129,16 +116,9 @@ describe(`PDFRadioGroup`, () => {
 
     expect(radioGroup.getOptions()).toEqual(['foo', 'bar', 'foo', 'qux']);
 
-    const onValues = radioGroup.acroField
-      .getWidgets()
-      .map((w) => w.getOnValue());
+    const onValues = radioGroup.acroField.getWidgets().map((w) => w.getOnValue());
 
-    expect(onValues).toEqual([
-      PDFName.of('0'),
-      PDFName.of('1'),
-      PDFName.of('0'),
-      PDFName.of('3'),
-    ]);
+    expect(onValues).toEqual([PDFName.of('0'), PDFName.of('1'), PDFName.of('0'), PDFName.of('3')]);
 
     const opt = radioGroup.acroField.Opt() as PDFArray;
     expect(opt).toBeInstanceOf(PDFArray);

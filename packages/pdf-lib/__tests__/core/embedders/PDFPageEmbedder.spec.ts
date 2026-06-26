@@ -1,11 +1,6 @@
 import fs from 'fs';
 import { PDFDocument } from '../../../src/api';
-import {
-  PDFContext,
-  PDFPageEmbedder,
-  PDFRawStream,
-  PDFRef,
-} from '../../../src/core';
+import { PDFContext, PDFPageEmbedder, PDFRawStream, PDFRef } from '../../../src/core';
 
 const examplePdf = fs.readFileSync('./assets/pdfs/normal.pdf');
 

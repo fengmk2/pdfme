@@ -36,7 +36,7 @@ describe('generate integration test(segmenter)', () => {
           expect(execSeconds).toBeLessThan(PERFORMANCE_THRESHOLD);
         } else if (execSeconds >= PERFORMANCE_THRESHOLD) {
           console.warn(
-            `Warning: Execution time for ${key} is ${execSeconds} seconds, which is above the threshold of ${PERFORMANCE_THRESHOLD} seconds.`
+            `Warning: Execution time for ${key} is ${execSeconds} seconds, which is above the threshold of ${PERFORMANCE_THRESHOLD} seconds.`,
           );
         }
 

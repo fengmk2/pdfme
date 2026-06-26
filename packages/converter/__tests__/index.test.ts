@@ -7,11 +7,7 @@ import { createCanvas, loadImage } from '@napi-rs/canvas';
 import { PAGE_SIZE_PRESETS } from '@pdfme/common';
 import { line, list, table, text } from '@pdfme/schemas';
 import { md2pdf } from '../src/md2pdf.js';
-import {
-  pdf2img as nodePdf2Img,
-  pdf2size as nodePdf2Size,
-  img2pdf,
-} from '../src/index.node.js';
+import { pdf2img as nodePdf2Img, pdf2size as nodePdf2Size, img2pdf } from '../src/index.node.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const notoSansJPData = readFileSync(
@@ -424,7 +420,9 @@ const value = 1;
   });
 
   test('lets generator dynamic layout split long markdown without pre-splitting the template', async () => {
-    const markdown = Array.from({ length: 70 }, (_, index) => `Paragraph ${index + 1}`).join('\n\n');
+    const markdown = Array.from({ length: 70 }, (_, index) => `Paragraph ${index + 1}`).join(
+      '\n\n',
+    );
     const { template, inputs } = await md2pdf(markdown);
 
     expect(template.schemas.length).toBe(1);
@@ -491,9 +489,7 @@ Visit [pdfme](https://pdfme.com).
     });
 
     expect(template.schemas[0]).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ type: 'text', fontName: 'NotoSansJP' }),
-      ]),
+      expect.arrayContaining([expect.objectContaining({ type: 'text', fontName: 'NotoSansJP' })]),
     );
 
     const pdf = await generate({

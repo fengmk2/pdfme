@@ -30,7 +30,13 @@ const getLatestGitTag = () => {
   try {
     return execFileSync(
       'git',
-      ['for-each-ref', '--sort=-creatordate', '--format=%(refname:short)', '--count=1', 'refs/tags'],
+      [
+        'for-each-ref',
+        '--sort=-creatordate',
+        '--format=%(refname:short)',
+        '--count=1',
+        'refs/tags',
+      ],
       {
         encoding: 'utf8',
         stdio: ['ignore', 'pipe', 'ignore'],

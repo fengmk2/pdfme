@@ -42,8 +42,12 @@ return (
               borderWidth={0.3}
             >
               <Stack gap={2}>
-                <Text size={7} color="#64748b">{label}</Text>
-                <Text size={18} color="#0f172a">{value}</Text>
+                <Text size={7} color="#64748b">
+                  {label}
+                </Text>
+                <Text size={18} color="#0f172a">
+                  {value}
+                </Text>
               </Stack>
             </Box>
           ))}
@@ -55,7 +59,9 @@ return (
               Notes
             </Text>
             <Text size={9} lineHeight={1.35} overflow="expand">
-              The JSX authoring layer is useful when a document has repeated visual patterns but still needs to become a normal pdfme template. This example uses boxes, rows, static footer content, and simple visual bars.
+              The JSX authoring layer is useful when a document has repeated visual patterns but
+              still needs to become a normal pdfme template. This example uses boxes, rows, static
+              footer content, and simple visual bars.
             </Text>
             <List
               size={8}

@@ -1,13 +1,7 @@
 import fs from 'fs';
-import {
-  PDFContext,
-  PDFRawStream,
-  PDFXRefStreamParser,
-  ReparseError,
-} from '../../../src/index';
+import { PDFContext, PDFRawStream, PDFXRefStreamParser, ReparseError } from '../../../src/index';
 
-const readData = (file: string) =>
-  new Uint8Array(fs.readFileSync(`${__dirname}/data/${file}`));
+const readData = (file: string) => new Uint8Array(fs.readFileSync(`${__dirname}/data/${file}`));
 
 describe(`PDFXRefStreamParser`, () => {
   it(`can parse XRef streams (1)`, () => {
@@ -23,9 +17,7 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
+    const normal = entries.filter((entry) => !entry.deleted && !entry.inObjectStream);
     const deleted = entries.filter((entry) => entry.deleted);
     const inObjectStream = entries.filter((entry) => entry.inObjectStream);
 
@@ -73,9 +65,7 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
+    const normal = entries.filter((entry) => !entry.deleted && !entry.inObjectStream);
     const deleted = entries.filter((entry) => entry.deleted);
     const inObjectStream = entries.filter((entry) => entry.inObjectStream);
 
@@ -99,9 +89,7 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
+    const normal = entries.filter((entry) => !entry.deleted && !entry.inObjectStream);
     const deleted = entries.filter((entry) => entry.deleted);
     const inObjectStream = entries.filter((entry) => entry.inObjectStream);
 
@@ -124,9 +112,7 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
+    const normal = entries.filter((entry) => !entry.deleted && !entry.inObjectStream);
     const deleted = entries.filter((entry) => entry.deleted);
     const inObjectStream = entries.filter((entry) => entry.inObjectStream);
 

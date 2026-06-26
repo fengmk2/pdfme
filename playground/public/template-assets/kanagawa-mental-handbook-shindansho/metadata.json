@@ -3,19 +3,12 @@
   "status": "draft",
   "description": "神奈川県の精神障害者保健福祉手帳診断書をPDF-backed pdfme templateとして編集できるサンプル。",
   "sourceKind": "designer",
-  "tags": [
-    "Government",
-    "Healthcare",
-    "CJK",
-    "Form"
-  ],
+  "tags": ["Government", "Healthcare", "CJK", "Form"],
   "publisher": "神奈川県",
   "sourceLabel": "精神障害者保健福祉手帳診断書 PDF",
   "sourceUrl": "https://www.pref.kanagawa.jp/documents/11542/techosindansyo2209.pdf",
   "pdfmeAgent": {
-    "domainRuleSkillIds": [
-      "medical-form-rules"
-    ],
+    "domainRuleSkillIds": ["medical-form-rules"],
     "domainRuleSource": "auto",
     "domainRuleUpdatedAt": "2026-06-11T05:57:00Z",
     "domainRuleEvidence": [

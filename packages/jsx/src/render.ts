@@ -1351,7 +1351,7 @@ const STATIC_BLOCK_KINDS = new Set(['header', 'footer', 'static']);
 
 const validatePageBreakPlacement = (
   node: PdfJsxChild | PdfJsxChild[],
-  parentKind: string | undefined = undefined,
+  parentKind?: string | undefined,
   canBreak = false,
 ) => {
   for (const child of flattenForSplitting(node)) {
@@ -1374,7 +1374,7 @@ const validatePageBreakPlacement = (
 
 const validateAbsolutePlacement = (
   node: PdfJsxChild | PdfJsxChild[],
-  parentKind: string | undefined = undefined,
+  parentKind?: string | undefined,
 ) => {
   for (const child of flattenForSplitting(node)) {
     if (!isPdfJsxElement(child)) continue;

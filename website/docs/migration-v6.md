@@ -4,20 +4,20 @@ This document tracks the breaking changes planned for the next major release and
 
 ## Breaking Changes
 
-| Change                            | Affected users                                                 | Required action                        |
-| --------------------------------- | -------------------------------------------------------------- | -------------------------------------- |
-| `ESM-only` packages               | Anyone using `require('@pdfme/...')`                           | Move to `import` / `export` syntax     |
-| `Node 20+` minimum runtime        | Node 16 / 18 users                                             | Upgrade to Node 20 LTS or newer        |
-| Internal `dist/*` imports removed | Anyone importing `@pdfme/*/dist/...` or `@pdfme/*/cjs/src/...` | Import only from package root exports  |
-| Text-only default plugin registry | Anyone relying on implicit non-text schema support             | Import non-text plugins explicitly     |
+| Change                            | Affected users                                                 | Required action                       |
+| --------------------------------- | -------------------------------------------------------------- | ------------------------------------- |
+| `ESM-only` packages               | Anyone using `require('@pdfme/...')`                           | Move to `import` / `export` syntax    |
+| `Node 20+` minimum runtime        | Node 16 / 18 users                                             | Upgrade to Node 20 LTS or newer       |
+| Internal `dist/*` imports removed | Anyone importing `@pdfme/*/dist/...` or `@pdfme/*/cjs/src/...` | Import only from package root exports |
+| Text-only default plugin registry | Anyone relying on implicit non-text schema support             | Import non-text plugins explicitly    |
 
 ## Support Policy
 
-| Item             | Policy     |
-| ---------------- | ---------- |
-| Runtime          | Node 20+   |
-| Browser target   | `es2020`   |
-| Module format    | `ESM-only` |
+| Item           | Policy     |
+| -------------- | ---------- |
+| Runtime        | Node 20+   |
+| Browser target | `es2020`   |
+| Module format  | `ESM-only` |
 
 ## Migrations
 

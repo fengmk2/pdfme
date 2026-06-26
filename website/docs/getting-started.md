@@ -83,7 +83,6 @@ The **basePdf** property accepts PDF data as a `string` (base64 encoded), an `Ar
 basePdf: { "width": 210, "height": 297, "padding": [10, 10, 10, 10] }
 ```
 
-
 **schemas** can only utilize text by default. The default plugin registry used by `generate`, `Designer`, `Form`, and `Viewer` intentionally includes only the `text` schema.  
 For images, signatures, tables, barcodes such as QR codes, or any other schema type, import those plugins explicitly from the `@pdfme/schemas` package and pass them through the `plugins` option.  
 Additionally, you can create your own schemas, allowing you to render types other than the ones mentioned above. Check detail about [Custom Schemas](/docs/custom-schemas) and the [v6 migration guide](/docs/migration-v6#text-only-default-plugin-registry) if you are upgrading existing code.
@@ -261,10 +260,10 @@ const template: Template = {
 };
 
 // configure some or all of the UI state (optional, defaults shown below)
- const options = {
-   zoomLevel: 1,
-   sidebarOpen: true
- };
+const options = {
+  zoomLevel: 1,
+  sidebarOpen: true,
+};
 
 const designer = new Designer({ domContainer, template, options });
 ```

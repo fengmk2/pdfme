@@ -23,10 +23,7 @@ const getUriLinkAnnotations = async (pdf: Uint8Array<ArrayBuffer>) => {
 };
 
 const getAnnotationUri = (annotation: PDFDict) =>
-  annotation
-    .lookup(PDFName.of('A'), PDFDict)
-    .lookup(PDFName.of('URI'), PDFString)
-    .decodeText();
+  annotation.lookup(PDFName.of('A'), PDFDict).lookup(PDFName.of('URI'), PDFString).decodeText();
 
 const getAnnotationRect = (annotation: PDFDict) => annotation.lookup(PDFName.of('Rect'), PDFArray);
 

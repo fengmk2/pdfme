@@ -15,8 +15,7 @@ import {
   ReparseError,
 } from '../../../src/index';
 
-const readData = (file: string) =>
-  new Uint8Array(fs.readFileSync(`${__dirname}/data/${file}`));
+const readData = (file: string) => new Uint8Array(fs.readFileSync(`${__dirname}/data/${file}`));
 
 describe(`PDFObjectStreamParser`, () => {
   it(`parses simple object streams`, () => {
@@ -120,9 +119,7 @@ describe(`PDFObjectStreamParser`, () => {
     const contents = readData('object-stream4');
     const stream = PDFRawStream.of(dict, contents);
 
-    expect(() =>
-      PDFObjectStreamParser.forStream(stream).parseIntoContext(),
-    ).toThrow();
+    expect(() => PDFObjectStreamParser.forStream(stream).parseIntoContext()).toThrow();
   });
 
   it(`throws an error for invalid object streams`, async () => {
@@ -134,9 +131,7 @@ describe(`PDFObjectStreamParser`, () => {
     const contents = readData('object-stream-invalid');
     const stream = PDFRawStream.of(dict, contents);
 
-    await expect(
-      PDFObjectStreamParser.forStream(stream).parseIntoContext(),
-    ).rejects.toThrow();
+    await expect(PDFObjectStreamParser.forStream(stream).parseIntoContext()).rejects.toThrow();
   });
 
   it(`prevents reparsing`, async () => {

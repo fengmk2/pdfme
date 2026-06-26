@@ -1,11 +1,4 @@
-import {
-  PDFArray,
-  PDFDict,
-  PDFDocument,
-  PDFName,
-  PDFString,
-  rgb,
-} from '@pdfme/pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFName, PDFString, rgb } from '@pdfme/pdf-lib';
 import type { Template } from '@pdfme/common';
 import { text } from '@pdfme/schemas';
 import generate from '../src/generate.js';
@@ -114,10 +107,7 @@ const getUriLinkAnnotations = async (pdf: Uint8Array<ArrayBuffer>) => {
 };
 
 const getAnnotationUri = (annotation: PDFDict) =>
-  annotation
-    .lookup(PDFName.of('A'), PDFDict)
-    .lookup(PDFName.of('URI'), PDFString)
-    .decodeText();
+  annotation.lookup(PDFName.of('A'), PDFDict).lookup(PDFName.of('URI'), PDFString).decodeText();
 
 const getAnnotationRect = (annotation: PDFDict) => annotation.lookup(PDFName.of('Rect'), PDFArray);
 

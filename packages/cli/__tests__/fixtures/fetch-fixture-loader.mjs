@@ -14,10 +14,11 @@ const fontFixtures = {
     join(FONT_FIXTURES_DIR, 'NotoSansJP-Regular.ttf'),
   'https://fonts.gstatic.com/s/notoserifjp/v30/xn71YHs72GKoTvER4Gn3b5eMRtWGkp6o7MjQ2bwxOubAILO5wBCU.ttf':
     join(FONT_FIXTURES_DIR, 'NotoSerifJP-Regular.ttf'),
-  'https://fonts.gstatic.com/s/pinyonscript/v22/6xKpdSJbL9-e9LuoeQiDRQR8aOLQO4bhiDY.ttf':
-    join(FONT_FIXTURES_DIR, 'PinyonScript-Regular.ttf'),
-  'https://fonts.example.com/pinyonscript':
-    join(FONT_FIXTURES_DIR, 'PinyonScript-Regular.ttf'),
+  'https://fonts.gstatic.com/s/pinyonscript/v22/6xKpdSJbL9-e9LuoeQiDRQR8aOLQO4bhiDY.ttf': join(
+    FONT_FIXTURES_DIR,
+    'PinyonScript-Regular.ttf',
+  ),
+  'https://fonts.example.com/pinyonscript': join(FONT_FIXTURES_DIR, 'PinyonScript-Regular.ttf'),
   [AUTO_NOTO_SANS_JP_URL]: join(FONT_FIXTURES_DIR, 'NotoSansJP-Regular.ttf'),
 };
 

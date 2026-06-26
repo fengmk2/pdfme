@@ -17,7 +17,9 @@ return (
 
         <Box padding={5} background="#f8fafc" borderColor="#cbd5e1" borderWidth={0.4}>
           <Text size={10} lineHeight={1.45} overflow="expand">
-            pdfme の JSX authoring は、通常の pdfme Template と inputs を生成するための薄いレイヤーです。日本語を扱う場合は、Viewer や generator の options.font に NotoSansJP などのフォントを登録してください。
+            pdfme の JSX authoring は、通常の pdfme Template と inputs
+            を生成するための薄いレイヤーです。日本語を扱う場合は、Viewer や generator の
+            options.font に NotoSansJP などのフォントを登録してください。
           </Text>
         </Box>
 

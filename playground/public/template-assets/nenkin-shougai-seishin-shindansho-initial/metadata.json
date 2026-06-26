@@ -3,19 +3,12 @@
   "status": "draft",
   "description": "日本年金機構の障害年金 診断書 精神の障害用（初回）をPDF-backed pdfme templateとして編集できるサンプル。",
   "sourceKind": "designer",
-  "tags": [
-    "Government",
-    "Healthcare",
-    "CJK",
-    "Form"
-  ],
+  "tags": ["Government", "Healthcare", "CJK", "Form"],
   "publisher": "日本年金機構",
   "sourceLabel": "障害年金 診断書 精神の障害用（初回） PDF",
   "sourceUrl": "https://www.nenkin.go.jp/shinsei/jukyu/shougai/shindansho/20140421-23.files/04-1.pdf",
   "pdfmeAgent": {
-    "domainRuleSkillIds": [
-      "medical-form-rules"
-    ],
+    "domainRuleSkillIds": ["medical-form-rules"],
     "domainRuleSource": "auto",
     "domainRuleUpdatedAt": "2026-06-11T05:57:00Z",
     "domainRuleEvidence": [

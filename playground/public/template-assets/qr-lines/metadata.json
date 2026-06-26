@@ -2,9 +2,6 @@
   "title": "QR Lines",
   "description": "A QR code template with line-based metadata and compact supporting text.",
   "sourceKind": "designer",
-  "tags": [
-    "QR",
-    "Label"
-  ],
+  "tags": ["QR", "Label"],
   "order": 140
 }

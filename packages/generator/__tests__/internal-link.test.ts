@@ -1,10 +1,4 @@
-import {
-  PDFArray,
-  PDFDict,
-  PDFDocument,
-  PDFName,
-  PDFNumber,
-} from '@pdfme/pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber } from '@pdfme/pdf-lib';
 import type { Schema, Template } from '@pdfme/common';
 import { mm2pt } from '@pdfme/common';
 import { text } from '@pdfme/schemas';

@@ -22,7 +22,10 @@ const TemplateDesign = () => {
   }, [redirectUrl]);
 
   return (
-    <Layout title="Template Design" description='Design your PDF template with the playground editor.'>
+    <Layout
+      title="Template Design"
+      description="Design your PDF template with the playground editor."
+    >
       <Head>
         <link rel="canonical" href={redirectUrl} />
         <meta httpEquiv="refresh" content={`0; url=${redirectUrl}`} />

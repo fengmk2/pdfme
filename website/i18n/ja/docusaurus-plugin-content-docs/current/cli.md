@@ -71,23 +71,23 @@ pdfme generate job.json -o out.pdf --image --json
 
 主なオプション:
 
-| オプション | デフォルト | 説明 |
-| --- | --- | --- |
-| `[file]` | - | `{ template, inputs, options? }` を含む unified job file |
-| `-t, --template` | - | Template JSON file |
-| `-i, --inputs` | - | Input JSON file |
-| `-o, --output` | `output.pdf` | 出力 PDF パス |
-| `--force` | `false` | 暗黙の `output.pdf` 上書きを許可する |
-| `--image` | `false` | 生成した各ページの画像も書き出す |
-| `--imageFormat` | `png` | `png` または `jpeg` |
-| `--scale` | `1` | 画像レンダリングの scale |
-| `--grid` | `false` | 生成画像にグリッド線と schema 境界を描画する |
-| `--gridSize` | `10` | グリッド間隔(mm) |
-| `--font` | - | `Name=path.ttf` 形式のローカル custom font。複数指定時はカンマ区切り |
-| `--basePdf` | - | `template.basePdf` を PDF file path で上書きする |
-| `--noAutoFont` | `false` | CJK 文字向けの `NotoSansJP` 自動解決を無効化する |
-| `-v, --verbose` | `false` | 入出力や描画条件を stderr に出す |
-| `--json` | `false` | stdout に JSON のみを出す |
+| オプション       | デフォルト   | 説明                                                                 |
+| ---------------- | ------------ | -------------------------------------------------------------------- |
+| `[file]`         | -            | `{ template, inputs, options? }` を含む unified job file             |
+| `-t, --template` | -            | Template JSON file                                                   |
+| `-i, --inputs`   | -            | Input JSON file                                                      |
+| `-o, --output`   | `output.pdf` | 出力 PDF パス                                                        |
+| `--force`        | `false`      | 暗黙の `output.pdf` 上書きを許可する                                 |
+| `--image`        | `false`      | 生成した各ページの画像も書き出す                                     |
+| `--imageFormat`  | `png`        | `png` または `jpeg`                                                  |
+| `--scale`        | `1`          | 画像レンダリングの scale                                             |
+| `--grid`         | `false`      | 生成画像にグリッド線と schema 境界を描画する                         |
+| `--gridSize`     | `10`         | グリッド間隔(mm)                                                     |
+| `--font`         | -            | `Name=path.ttf` 形式のローカル custom font。複数指定時はカンマ区切り |
+| `--basePdf`      | -            | `template.basePdf` を PDF file path で上書きする                     |
+| `--noAutoFont`   | `false`      | CJK 文字向けの `NotoSansJP` 自動解決を無効化する                     |
+| `-v, --verbose`  | `false`      | 入出力や描画条件を stderr に出す                                     |
+| `--json`         | `false`      | stdout に JSON のみを出す                                            |
 
 注意点:
 
@@ -120,9 +120,7 @@ Unified job の例:
       ]
     ]
   },
-  "inputs": [
-    { "customerName": "John Doe" }
-  ],
+  "inputs": [{ "customerName": "John Doe" }],
   "options": {
     "font": {
       "NotoSansJP": {
@@ -263,9 +261,7 @@ pdfme pdf2size invoice.pdf --json
   "ok": true,
   "command": "pdf2size",
   "pageCount": 1,
-  "pages": [
-    { "pageNumber": 1, "width": 210, "height": 297 }
-  ]
+  "pages": [{ "pageNumber": 1, "width": 210, "height": 297 }]
 }
 ```
 
@@ -303,12 +299,12 @@ CJK 向けの自動 `NotoSansJP` 解決は、明示的な font source がない�
 
 現行の exit code 区分:
 
-| コード | 意味 |
-| --- | --- |
-| `0` | 成功 |
-| `1` | argument / validation / unsupported input failure |
-| `2` | runtime / font-resolution failure |
-| `3` | file I/O failure |
+| コード | 意味                                              |
+| ------ | ------------------------------------------------- |
+| `0`    | 成功                                              |
+| `1`    | argument / validation / unsupported input failure |
+| `2`    | runtime / font-resolution failure                 |
+| `3`    | file I/O failure                                  |
 
 ## 典型的な使い方
 

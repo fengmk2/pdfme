@@ -1,8 +1,8 @@
-name: "[website] Template request"
-description: "Request to create a template for https://pdfme.com/templates"
-title: "[Template request]: "
+name: '[website] Template request'
+description: 'Request to create a template for https://pdfme.com/templates'
+title: '[Template request]: '
 labels:
-  - "template request"
+  - 'template request'
 body:
   - type: markdown
     attributes:
@@ -22,9 +22,9 @@ body:
   - type: textarea
     id: background
     attributes:
-      label: "Request Background"
+      label: 'Request Background'
       description: "Provide details on how the template will be used, why it's needed, etc."
-      placeholder: "Describe the context, purpose, and goals of your request"
+      placeholder: 'Describe the context, purpose, and goals of your request'
     validations:
       required: true
 
@@ -37,8 +37,8 @@ body:
   - type: textarea
     id: requirements
     attributes:
-      label: "Template Requirements"
-      description: "List relevant input fields, design constraints, or any other points to consider."
+      label: 'Template Requirements'
+      description: 'List relevant input fields, design constraints, or any other points to consider.'
       placeholder: |
         - Mandatory input fields (e.g. Name, Address, etc.)
         - Design constraints (e.g. Font, Size)
@@ -56,9 +56,9 @@ body:
   - type: textarea
     id: attachments
     attributes:
-      label: "Attachments"
+      label: 'Attachments'
       description: |
         Attach any BasePdf or sample PDF here to help clarify your request. image files are also accepted.
-      placeholder: "Attach a sample PDF or reference file"
+      placeholder: 'Attach a sample PDF or reference file'
     validations:
       required: false

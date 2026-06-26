@@ -1,6 +1,6 @@
 # Converter
 
-`@pdfme/converter` can be used in both Node.js and in the browser.  
+`@pdfme/converter` can be used in both Node.js and in the browser.
 
 Its primary purpose is to convert PDFs into other formats (like images) or to convert various data formats (like Markdown) into PDFs.
 
@@ -12,6 +12,7 @@ Although it's still under development, you can already use the following feature
 - **Markdown to PDF**: `md2pdf`
 
 Planned conversion features include:
+
 - **PDF to Markdown**: `pdf2md`
 
 ## Installation
@@ -25,6 +26,7 @@ npm install @pdfme/converter
 ## Features
 
 ### pdf2img
+
 Converts PDF pages into PNG images.
 
 ```ts
@@ -38,6 +40,7 @@ const images = await pdf2img(pdf, {
 ```
 
 ### pdf2size
+
 Retrieves the width and height of each page in a PDF.
 
 ```ts
@@ -51,6 +54,7 @@ const sizes = await pdf2size(pdf, {
 ```
 
 ### img2pdf
+
 Converts one or more images (JPEG or PNG) into a single PDF file.
 
 ```ts
@@ -66,6 +70,7 @@ const pdf = await img2pdf([image1, image2], {
 ```
 
 ### md2pdf (beta)
+
 Converts GitHub Flavored Markdown into a pdfme `Template` and `inputs` pair.
 
 ```ts
@@ -113,6 +118,7 @@ const pdf = await generate({
 ```
 
 #### Japanese and CJK text
+
 The default pdfme font is Roboto, which does not include Japanese/CJK glyphs. For Japanese Markdown, set a CJK-capable `fontName` during conversion and pass the same font to the generator or UI options.
 
 ```ts
@@ -141,6 +147,7 @@ const pdf = await generate({
 If you pass `basePdf`, `md2pdf` uses it directly instead of creating a blank PDF from `page` options. The value is the same `BlankPdf` object used by pdfme templates, so it can include `staticSchema`.
 
 #### Current limitations
+
 `md2pdf` covers practical GFM blocks, but it is not a complete GitHub Markdown renderer yet.
 
 - Paragraphs, headings, lists, tables, code blocks, blockquotes, horizontal rules, links, and PNG/JPEG data URI images are supported.
@@ -183,11 +190,18 @@ interface Pdf2SizeOptions {
 
 interface Img2PdfOptions {
   scale?: number;
-  size?: { height: number, width: number }; // in millimeters
+  size?: { height: number; width: number }; // in millimeters
   margin?: [number, number, number, number]; // in millimeters [top, right, bottom, left]
 }
 
-type BoxSides = { top?: number, right?: number, bottom?: number, left?: number, x?: number, y?: number };
+type BoxSides = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  x?: number;
+  y?: number;
+};
 type MarkdownMargin = number | [number, number, number, number] | BoxSides;
 
 interface Md2PdfOptions {

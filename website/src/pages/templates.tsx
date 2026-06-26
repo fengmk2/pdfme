@@ -9,7 +9,10 @@ const TemplatesPage = () => {
   }, []);
 
   return (
-    <Layout title="Sample Templates" description="Explore sample templates with our interactive playground.">
+    <Layout
+      title="Sample Templates"
+      description="Explore sample templates with our interactive playground."
+    >
       <Head>
         <link rel="canonical" href={playgroundUrl} />
         <meta httpEquiv="refresh" content={`0; url=${playgroundUrl}`} />

@@ -435,7 +435,7 @@ ERROR MESSAGE: Too small: expected array to have >=1 items
     } catch (e: any) {
       expect(e.message).toEqual(
         `[@pdfme/common] fallback flag is not found in font. true fallback flag must be only one.
-Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
+Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`,
       );
     }
   });
@@ -466,7 +466,7 @@ Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
     } catch (e: any) {
       expect(e.message).toEqual(
         `[@pdfme/common] 2 fallback flags found in font. true fallback flag must be only one.
-Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
+Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`,
       );
     }
   });
@@ -502,7 +502,7 @@ Check this document: https://pdfme.com/docs/custom-fonts#about-font-type`
     } catch (e: any) {
       expect(e.message).toEqual(
         `[@pdfme/common] DUMMY_FONT of template.schemas is not found in font.
-Check this document: https://pdfme.com/docs/custom-fonts`
+Check this document: https://pdfme.com/docs/custom-fonts`,
       );
     }
   });

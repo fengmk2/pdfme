@@ -25,6 +25,7 @@ type Font = {
   };
 };
 ```
+
 - `data`: If you register a `string` starting with `http`, it will be automatically fetched.Or set binary data directly like `Uint8Array | ArrayBuffer`
 - \*`fallback`: Setting it to true makes it the font to use if not set to a `fontName`. **Only one of the font objects must be set to true.**
 - \*`subset`: The default is true, but it can be set to false to set the font embedding to not subset. (This setting is for a bug in fontkit when embedding certain fonts with subsetting.)

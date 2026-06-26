@@ -27,7 +27,14 @@ return (
               <Text size={7} color="#6b7280">
                 Customer name
               </Text>
-              <Text name="customerName" height={9} size={11} padding={1.5} borderColor="#cbd5e1" borderWidth={0.3}>
+              <Text
+                name="customerName"
+                height={9}
+                size={11}
+                padding={1.5}
+                borderColor="#cbd5e1"
+                borderWidth={0.3}
+              >
                 Mina Carter
               </Text>
             </Stack>
@@ -37,7 +44,14 @@ return (
               <Text size={7} color="#6b7280">
                 Email
               </Text>
-              <Text name="email" height={9} size={11} padding={1.5} borderColor="#cbd5e1" borderWidth={0.3}>
+              <Text
+                name="email"
+                height={9}
+                size={11}
+                padding={1.5}
+                borderColor="#cbd5e1"
+                borderWidth={0.3}
+              >
                 mina@example.com
               </Text>
             </Stack>
@@ -74,7 +88,8 @@ return (
           </Box>
           <Box flex={1} padding={4} background="#ecfeff" borderColor="#06b6d4" borderWidth={0.4}>
             <Text size={9} lineHeight={1.35}>
-              Editable fields usually keep explicit heights for predictable input boxes. Read-only text can usually omit height and let JSX measure it.
+              Editable fields usually keep explicit heights for predictable input boxes. Read-only
+              text can usually omit height and let JSX measure it.
             </Text>
           </Box>
         </Row>

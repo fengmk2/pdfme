@@ -11,11 +11,11 @@ This preset is useful for checking how md2pdf handles headings, task lists, tabl
 
 ## Changes
 
-| Area | Change | Notes |
-| --- | --- | --- |
-| Playground | Added presets | Selector is intentionally simple |
-| JSX | Viewer and Form preview | Input-backed fields can be edited |
-| Markdown | Partial GFM support | Complex nested blocks are simplified |
+| Area       | Change                  | Notes                                |
+| ---------- | ----------------------- | ------------------------------------ |
+| Playground | Added presets           | Selector is intentionally simple     |
+| JSX        | Viewer and Form preview | Input-backed fields can be edited    |
+| Markdown   | Partial GFM support     | Complex nested blocks are simplified |
 
 ## Notes
 

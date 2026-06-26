@@ -1,7 +1,7 @@
 import { builtinModules } from 'node:module';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { defineConfig } from 'vite';
+import { defineConfig, lazyPlugins } from 'vite-plus';
 import react from '@vitejs/plugin-react';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
   return {
     base: './',
     define: { 'process.env.NODE_ENV': JSON.stringify(mode) },
-    plugins: [react(), cssInjectedByJsPlugin()],
+    plugins: lazyPlugins(() => [react(), cssInjectedByJsPlugin()]),
     build: {
       lib: {
         entry: resolve(__dirname, 'src/index.ts'),

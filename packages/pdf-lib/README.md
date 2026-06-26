@@ -1062,11 +1062,7 @@ const pdfBytes = await pdfDoc.save()
 Below is the [**create document**](#create-document) example modified for Deno:
 
 ```js
-import {
-  PDFDocument,
-  StandardFonts,
-  rgb,
-} from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?dts';
+import { PDFDocument, StandardFonts, rgb } from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?dts';
 
 const pdfDoc = await PDFDocument.create();
 const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
