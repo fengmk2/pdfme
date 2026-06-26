@@ -3,19 +3,12 @@
   "status": "draft",
   "description": "厚生労働省の介護保険 主治医意見書をPDF-backed pdfme templateとして編集できるサンプル。",
   "sourceKind": "designer",
-  "tags": [
-    "Government",
-    "Healthcare",
-    "CJK",
-    "Form"
-  ],
+  "tags": ["Government", "Healthcare", "CJK", "Form"],
   "publisher": "厚生労働省",
   "sourceLabel": "介護保険 主治医意見書 PDF",
   "sourceUrl": "https://www.mhlw.go.jp/content/12301000/000331631.pdf",
   "pdfmeAgent": {
-    "domainRuleSkillIds": [
-      "medical-form-rules"
-    ],
+    "domainRuleSkillIds": ["medical-form-rules"],
     "domainRuleSource": "auto",
     "domainRuleUpdatedAt": "2026-06-11T05:40:05.295Z",
     "domainRuleEvidence": [

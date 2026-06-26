@@ -26,8 +26,8 @@ return (
         <Box background="#f3f4f6" borderColor="#9ca3af" borderWidth={0.2} padding={4}>
           <Text size={9} lineHeight={1.5} color="#374151">
             Abstract — This preset mirrors a paper-style document and intentionally omits height on
-            most Text nodes. JSX measures each block while rendering, and the parent Box grows around
-            the abstract without manual geometry.
+            most Text nodes. JSX measures each block while rendering, and the parent Box grows
+            around the abstract without manual geometry.
           </Text>
         </Box>
 

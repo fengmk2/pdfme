@@ -88,13 +88,13 @@ const designer = new Designer({
   template,
   options: {
     zoomLevel: 1.5,
-    sidebarOpen: false,  // （Designerのみ）
-  }
+    sidebarOpen: false, // （Designerのみ）
+  },
 });
 
 // 初期化後に状態を更新:
 designer.updateOptions({
   zoomLevel: 2,
-  sidebarOpen: true
+  sidebarOpen: true,
 });
 ```

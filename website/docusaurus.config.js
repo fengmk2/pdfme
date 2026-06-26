@@ -70,142 +70,142 @@ const config = {
           },
           {
             to: playgroundUrl,
-            from: '/demo'
+            from: '/demo',
           },
           {
             to: playgroundUrl,
-            from: '/demo/address-label-maker'
+            from: '/demo/address-label-maker',
           },
           {
             to: playgroundUrl,
-            from: '/demo/barcode-qrcode-generator'
+            from: '/demo/barcode-qrcode-generator',
           },
           {
             to: playgroundUrl,
-            from: '/demo/free-invoice-generator'
+            from: '/demo/free-invoice-generator',
           },
           {
             to: playgroundUrl,
-            from: '/demo/online-certificate-maker'
-          }
+            from: '/demo/online-certificate-maker',
+          },
         ],
       },
-    ]
+    ],
   ],
   themeConfig:
-  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-  {
-    announcementBar: {
-      id: 'github_star_cta',
-      content: `⭐ &nbsp; pdfme is open source. If it saves you time, please <a target="_blank" rel="noopener noreferrer" href="https://github.com/pdfme/pdfme" style="color: #ffffff; font-weight: 700; text-decoration: underline; text-underline-offset: 2px;">star us on GitHub</a> to help more developers discover it. &nbsp; ⭐`,
-      backgroundColor: '#24292f',
-      textColor: '#ffffff',
-    },
-    image: 'img/ogimage.png',
-    docs: {
-      sidebar: {
-        hideable: false,
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    {
+      announcementBar: {
+        id: 'github_star_cta',
+        content: `⭐ &nbsp; pdfme is open source. If it saves you time, please <a target="_blank" rel="noopener noreferrer" href="https://github.com/pdfme/pdfme" style="color: #ffffff; font-weight: 700; text-decoration: underline; text-underline-offset: 2px;">star us on GitHub</a> to help more developers discover it. &nbsp; ⭐`,
+        backgroundColor: '#24292f',
+        textColor: '#ffffff',
+      },
+      image: 'img/ogimage.png',
+      docs: {
+        sidebar: {
+          hideable: false,
+        },
+      },
+      hideOnScroll: true,
+      navbar: {
+        title: 'pdfme',
+        items: [
+          {
+            type: 'doc',
+            docId: 'getting-started',
+            position: 'right',
+            label: 'Docs',
+          },
+          {
+            href: playgroundUrl,
+            position: 'right',
+            label: 'Demo',
+            target: '_blank',
+          },
+          {
+            href: 'https://github.com/pdfme/pdfme',
+            label: 'GitHub',
+            position: 'right',
+          },
+          {
+            href: 'https://discord.gg/xWPTJbmgNV',
+            label: 'Discord',
+            position: 'right',
+          },
+          {
+            href: 'https://app.pdfme.com?utm_source=website&utm_content=navbar',
+            label: 'Try pdfme Cloud',
+            position: 'right',
+          },
+          {
+            href: 'https://app.pdfme.com/contact?utm_source=website&utm_content=navbar',
+            label: 'Contact',
+            position: 'right',
+          },
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
+        ],
+      },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Documentation',
+            items: [
+              {
+                label: 'Getting Started',
+                to: '/docs/getting-started',
+              },
+              {
+                label: 'Supported Features',
+                to: '/docs/supported-features',
+              },
+            ],
+          },
+          {
+            title: 'More',
+            items: [
+              {
+                label: 'Examples',
+                href: playgroundUrl,
+                target: '_blank',
+              },
+              {
+                label: 'Template Design',
+                href: `${playgroundUrl}/designer`,
+                target: '_blank',
+              },
+              {
+                label: 'Try pdfme Cloud',
+                href: 'https://app.pdfme.com?utm_source=website&utm_content=footer',
+              },
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              {
+                label: 'Github',
+                href: 'https://github.com/pdfme/pdfme',
+              },
+              {
+                label: 'Discord',
+                href: 'https://discord.gg/xWPTJbmgNV',
+              },
+            ],
+          },
+        ],
+        copyright: `Copyright © ${new Date().getFullYear()} pdfme`,
+      },
+      algolia: {
+        appId: 'V6YWG1D4SV',
+        apiKey: '873346e96f9110d660c39fd1edd7eb17',
+        indexName: 'pdfme',
       },
     },
-    hideOnScroll: true,
-    navbar: {
-      title: 'pdfme',
-      items: [
-        {
-          type: 'doc',
-          docId: 'getting-started',
-          position: 'right',
-          label: 'Docs',
-        },
-        {
-          href: playgroundUrl,
-          position: 'right',
-          label: 'Demo',
-          target: '_blank',
-        },
-        {
-          href: 'https://github.com/pdfme/pdfme',
-          label: 'GitHub',
-          position: 'right',
-        },
-        {
-          href: 'https://discord.gg/xWPTJbmgNV',
-          label: 'Discord',
-          position: 'right',
-        },
-        {
-          href: 'https://app.pdfme.com?utm_source=website&utm_content=navbar',
-          label: 'Try pdfme Cloud',
-          position: 'right',
-        },
-        {
-          href: 'https://app.pdfme.com/contact?utm_source=website&utm_content=navbar',
-          label: 'Contact',
-          position: 'right',
-        },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        }
-      ],
-    },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Documentation',
-          items: [
-            {
-              label: 'Getting Started',
-              to: '/docs/getting-started',
-            },
-            {
-              label: 'Supported Features',
-              to: '/docs/supported-features',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Examples',
-              href: playgroundUrl,
-              target: '_blank',
-            },
-            {
-              label: 'Template Design',
-              href: `${playgroundUrl}/designer`,
-              target: '_blank',
-            },
-            {
-              label: 'Try pdfme Cloud',
-              href: 'https://app.pdfme.com?utm_source=website&utm_content=footer',
-            }
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Github',
-              href: 'https://github.com/pdfme/pdfme',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discord.gg/xWPTJbmgNV',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} pdfme`,
-    },
-    algolia: {
-      appId: 'V6YWG1D4SV',
-      apiKey: '873346e96f9110d660c39fd1edd7eb17',
-      indexName: 'pdfme',
-    },
-  },
   scripts: [
     {
       src: 'https://media.ethicalads.io/media/client/ethicalads.min.js',

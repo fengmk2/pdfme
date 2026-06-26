@@ -203,11 +203,7 @@ type ContextMenuProps = {
 };
 const ContextMenu = ({ items, style }: ContextMenuProps) => (
   <Dropdown menu={{ items }} placement="top" arrow trigger={['click']}>
-    <Button
-      className={UI_CLASSNAME + 'context-menu'}
-      type="text"
-      style={getControlButtonStyle()}
-    >
+    <Button className={UI_CLASSNAME + 'context-menu'} type="text" style={getControlButtonStyle()}>
       <Ellipsis size={16} color={style.textStyle.color} />
     </Button>
   </Dropdown>

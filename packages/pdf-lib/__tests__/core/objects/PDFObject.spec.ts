@@ -4,9 +4,7 @@ describe(`PDFObject`, () => {
   const pdfObject = new PDFObject();
 
   it(`does not implement clone()`, () => {
-    expect(() => pdfObject.clone()).toThrow(
-      new MethodNotImplementedError(PDFObject.name, 'clone'),
-    );
+    expect(() => pdfObject.clone()).toThrow(new MethodNotImplementedError(PDFObject.name, 'clone'));
   });
 
   it(`does not implement toString()`, () => {

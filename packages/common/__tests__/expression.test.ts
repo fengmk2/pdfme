@@ -27,10 +27,10 @@ describe('replacePlaceholders', () => {
     const date = new Date();
     const padZero = (num: number) => String(num).padStart(2, '0');
     const formattedDate = `${date.getFullYear()}/${padZero(date.getMonth() + 1)}/${padZero(
-      date.getDate()
+      date.getDate(),
     )}`;
     const formattedDateTime = `${formattedDate} ${padZero(date.getHours())}:${padZero(
-      date.getMinutes()
+      date.getMinutes(),
     )}`;
     expect(result).toBe(`Today is ${formattedDate} and now is ${formattedDateTime}.`);
   });
@@ -266,7 +266,7 @@ describe('replacePlaceholders - Security Tests', () => {
     const date = new Date();
     const padZero = (num: number) => String(num).padStart(2, '0');
     const dateFmt = `${date.getFullYear()}/${padZero(date.getMonth() + 1)}/${padZero(
-      date.getDate()
+      date.getDate(),
     )}`;
     expect(result).toBe(`Override: {date = "Hacked"} ${dateFmt}`);
   });
@@ -373,14 +373,16 @@ describe('replacePlaceholders - Comparison Operators Tests', () => {
 
 describe('replacePlaceholders - XSS Vulnerability Prevention Tests', () => {
   it('should prevent XSS via Object.getOwnPropertyDescriptor and Object.getPrototypeOf (CVE payload 1)', () => {
-    const content = '{ ((f, g) => f(g(Object), "constructor").value)(Object.getOwnPropertyDescriptor, Object.getPrototypeOf)("alert(location)")() }';
+    const content =
+      '{ ((f, g) => f(g(Object), "constructor").value)(Object.getOwnPropertyDescriptor, Object.getPrototypeOf)("alert(location)")() }';
     const result = replacePlaceholders({ content, variables: {}, schemas: [] });
     // The dangerous expression should not be evaluated and should return as-is
     expect(result).toBe(content);
   });
 
   it('should prevent XSS via object property assignment (CVE payload 2)', () => {
-    const content = '{ { f: Object.getOwnPropertyDescriptor }.f({ g: Object.getPrototypeOf }.g(Object), "constructor").value("alert(location)")() }';
+    const content =
+      '{ { f: Object.getOwnPropertyDescriptor }.f({ g: Object.getPrototypeOf }.g(Object), "constructor").value("alert(location)")() }';
     const result = replacePlaceholders({ content, variables: {}, schemas: [] });
     // The dangerous expression should not be evaluated and should return as-is
     expect(result).toBe(content);
@@ -443,17 +445,29 @@ describe('replacePlaceholders - XSS Vulnerability Prevention Tests', () => {
 
     // Test Object.values
     const valuesContent = '{ Object.values({ a: 1, b: 2 }) }';
-    const valuesResult = replacePlaceholders({ content: valuesContent, variables: {}, schemas: [] });
+    const valuesResult = replacePlaceholders({
+      content: valuesContent,
+      variables: {},
+      schemas: [],
+    });
     expect(valuesResult).toBe('1,2');
 
     // Test Object.entries
     const entriesContent = '{ Object.entries({ a: 1 })[0] }';
-    const entriesResult = replacePlaceholders({ content: entriesContent, variables: {}, schemas: [] });
+    const entriesResult = replacePlaceholders({
+      content: entriesContent,
+      variables: {},
+      schemas: [],
+    });
     expect(entriesResult).toBe('a,1');
 
     // Test safe Object.assign
     const assignContent = '{ Object.assign({}, { a: 1 }, { b: 2 }).a }';
-    const assignResult = replacePlaceholders({ content: assignContent, variables: {}, schemas: [] });
+    const assignResult = replacePlaceholders({
+      content: assignContent,
+      variables: {},
+      schemas: [],
+    });
     expect(assignResult).toBe('1'); // Safe assign should work
   });
 
@@ -472,7 +486,8 @@ describe('replacePlaceholders - XSS Vulnerability Prevention Tests', () => {
   });
 
   it('should prevent prototype pollution via Object.assign and __lookupGetter__', () => {
-    const content = '{ { assign: Object.assign }.assign({ f: {}.__lookupGetter__("__proto__") }.f(), { polluted: "yes" }) }';
+    const content =
+      '{ { assign: Object.assign }.assign({ f: {}.__lookupGetter__("__proto__") }.f(), { polluted: "yes" }) }';
     const result = replacePlaceholders({ content, variables: {}, schemas: [] });
     // The dangerous expression should not be evaluated due to __lookupGetter__ being blocked
     expect(result).toBe(content);
@@ -517,10 +532,14 @@ describe('replacePlaceholders - XSS Vulnerability Prevention Tests', () => {
     // Should execute but not pollute prototype
     expect(result).toBe('[object Object]');
     expect(({} as any).polluted).toBeUndefined();
-    
+
     // Test with constructor
     const constructorContent = '{ Object.assign({}, { "constructor": { polluted: "yes" } }) }';
-    const result2 = replacePlaceholders({ content: constructorContent, variables: {}, schemas: [] });
+    const result2 = replacePlaceholders({
+      content: constructorContent,
+      variables: {},
+      schemas: [],
+    });
     expect(result2).toBe('[object Object]');
     expect(({} as any).constructor.polluted).toBeUndefined();
   });

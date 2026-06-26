@@ -8,12 +8,7 @@ describe(`PDFDropdown`, () => {
     const pdfDoc = await PDFDocument.load(fancyFieldsPdfBytes);
     const form = pdfDoc.getForm();
     const gundams = form.getDropdown('Choose A Gundam 🤖');
-    expect(gundams.getOptions()).toEqual([
-      'Exia',
-      'Kyrios',
-      'Virtue',
-      'Dynames',
-    ]);
+    expect(gundams.getOptions()).toEqual(['Exia', 'Kyrios', 'Virtue', 'Dynames']);
   });
 
   it(`can read its selected value`, async () => {

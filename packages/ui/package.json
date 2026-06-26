@@ -40,12 +40,12 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "dev": "vp build --watch",
+    "build": "vp build && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "lint": "vp lint -c ../../.oxlintrc.json src",
     "fmt": "vp fmt -c ../../.oxfmtrc.json src --write",
-    "test": "vitest run --config ../../vitest.config.ts"
+    "test": "vp test run --config ../../vitest.config.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -73,8 +73,9 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "csstype": "^3.2.3",
-    "vite": "^8.0.14",
+    "vite": "https://pkg.pr.new/voidzero-dev/vite-plus/@voidzero-dev/vite-plus-core@dca39038de6ca46e523bf64dc09bf100b636eea9",
     "vite-plugin-css-injected-by-js": "^5.0.1",
+    "vite-plus": "https://pkg.pr.new/voidzero-dev/vite-plus@dca39038de6ca46e523bf64dc09bf100b636eea9",
     "vite-tsconfig-paths": "^6.1.1"
   },
   "peerDependencies": {

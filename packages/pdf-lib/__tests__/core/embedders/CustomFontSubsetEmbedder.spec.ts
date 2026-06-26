@@ -1,12 +1,7 @@
 import fontkit from '@pdf-lib/fontkit';
 import fs from 'fs';
 
-import {
-  CustomFontSubsetEmbedder,
-  PDFContext,
-  PDFDict,
-  PDFHexString,
-} from '../../../src/index';
+import { CustomFontSubsetEmbedder, PDFContext, PDFDict, PDFHexString } from '../../../src/index';
 
 const ubuntuFont = fs.readFileSync('./assets/fonts/ubuntu/Ubuntu-R.ttf');
 
@@ -18,10 +13,7 @@ describe(`CustomFontSubsetEmbedder`, () => {
 
   it(`can embed standard font dictionaries into PDFContexts`, async () => {
     const context = PDFContext.create();
-    const embedder = await CustomFontSubsetEmbedder.for(
-      fontkit,
-      new Uint8Array(ubuntuFont),
-    );
+    const embedder = await CustomFontSubsetEmbedder.for(fontkit, new Uint8Array(ubuntuFont));
 
     expect(context.enumerateIndirectObjects().length).toBe(0);
     const ref = await embedder.embedIntoContext(context);
@@ -31,14 +23,11 @@ describe(`CustomFontSubsetEmbedder`, () => {
 
   it(`can encode text strings into PDFHexString objects`, async () => {
     const text = 'Stuff and thingz!';
-    const hexCodes =
-      '00010002000300040005000600070008000500020009000A0007000B000C000D';
+    const hexCodes = '00010002000300040005000600070008000500020009000A0007000B000C000D';
     const embedder = await CustomFontSubsetEmbedder.for(fontkit, ubuntuFont);
 
     expect(embedder.encodeText(text)).toBeInstanceOf(PDFHexString);
-    expect(String(embedder.encodeText(text))).toBe(
-      String(PDFHexString.of(hexCodes)),
-    );
+    expect(String(embedder.encodeText(text))).toBe(String(PDFHexString.of(hexCodes)));
   });
 
   it(`can measure the width of text strings at the given font size`, async () => {

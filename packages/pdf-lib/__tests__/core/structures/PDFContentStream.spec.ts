@@ -29,21 +29,14 @@ describe(`PDFContentStream`, () => {
   ];
 
   it(`can be constructed from PDFContentStream.of(...)`, () => {
-    expect(PDFContentStream.of(dict, operators, false)).toBeInstanceOf(
-      PDFContentStream,
-    );
+    expect(PDFContentStream.of(dict, operators, false)).toBeInstanceOf(PDFContentStream);
   });
 
   it(`allows operators to be pushed to the end of the stream`, () => {
     const stream = PDFContentStream.of(dict, [pushGraphicsState()], false);
     stream.push(moveText(21, 99), popGraphicsState());
     expect(String(stream)).toEqual(
-      '<<\n/Length 13\n>>\n' +
-        'stream\n' +
-        'q\n' +
-        '21 99 Td\n' +
-        'Q\n' +
-        '\nendstream',
+      '<<\n/Length 13\n>>\n' + 'stream\n' + 'q\n' + '21 99 Td\n' + 'Q\n' + '\nendstream',
     );
   });
 
@@ -73,9 +66,7 @@ describe(`PDFContentStream`, () => {
 
   it(`can be serialized`, () => {
     const stream = PDFContentStream.of(dict, operators, false);
-    const buffer = new Uint8Array(stream.sizeInBytes() + 3).fill(
-      toCharCode(' '),
-    );
+    const buffer = new Uint8Array(stream.sizeInBytes() + 3).fill(toCharCode(' '));
     expect(stream.copyBytesInto(buffer, 2)).toBe(89);
     expect(buffer).toEqual(
       typedArrayFor(
@@ -93,17 +84,11 @@ describe(`PDFContentStream`, () => {
 
   it(`can be serialized when encoded`, () => {
     const contents =
-      'BT\n' +
-      '/F1 24 Tf\n' +
-      '100 100 Td\n' +
-      '(Hello World and stuff!) Tj\n' +
-      'ET\n';
+      'BT\n' + '/F1 24 Tf\n' + '100 100 Td\n' + '(Hello World and stuff!) Tj\n' + 'ET\n';
     const encodedContents = pako.deflate(contents);
 
     const stream = PDFContentStream.of(dict, operators, true);
-    const buffer = new Uint8Array(stream.sizeInBytes() + 3).fill(
-      toCharCode(' '),
-    );
+    const buffer = new Uint8Array(stream.sizeInBytes() + 3).fill(toCharCode(' '));
     expect(stream.copyBytesInto(buffer, 2)).toBe(115);
     expect(buffer).toEqual(
       mergeIntoTypedArray(

@@ -43,8 +43,7 @@ const getApRefs = (widget: PDFWidgetAnnotation) => {
   ].filter(Boolean);
 };
 
-const flatten = <T>(arr: T[][]): T[] =>
-  arr.reduce((curr, acc) => [...acc, ...curr], []);
+const flatten = <T>(arr: T[][]): T[] => arr.reduce((curr, acc) => [...acc, ...curr], []);
 
 const fancyFieldsPdfBytes = fs.readFileSync('assets/pdfs/fancy_fields.pdf');
 // const sampleFormPdfBytes = fs.readFileSync('assets/pdfs/sample_form.pdf');
@@ -290,12 +289,10 @@ describe(`PDFForm`, () => {
 
     expect(() => form.updateFieldAppearances()).not.toThrow();
 
-    expect(
-      pdfDoc.save({ updateFieldAppearances: true }),
-    ).resolves.toBeInstanceOf(Uint8Array);
+    expect(pdfDoc.save({ updateFieldAppearances: true })).resolves.toBeInstanceOf(Uint8Array);
   });
 
-  it(`it cleans references of removed fields and their widgets`, async () => {
+  it(`cleans references of removed fields and their widgets`, async () => {
     const pdfDoc = await PDFDocument.load(fancyFieldsPdfBytes);
     const form = pdfDoc.getForm();
 
@@ -328,7 +325,7 @@ describe(`PDFForm`, () => {
     rgWidgetRefs.forEach((ref) => expect(refs2).not.toContain(ref));
   });
 
-  it(`it cleans references of removed fields and their widgets when created with pdf-lib`, async () => {
+  it(`cleans references of removed fields and their widgets when created with pdf-lib`, async () => {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage();
     const form = pdfDoc.getForm();

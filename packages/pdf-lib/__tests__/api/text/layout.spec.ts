@@ -17,8 +17,7 @@ describe(`layoutMultilineText`, () => {
     for (let fontSize = MIN_FONT_SIZE; fontSize <= MAX_FONT_SIZE; fontSize++) {
       const height = font.heightAtSize(fontSize) - (borderWidth + padding) * 2;
 
-      const width =
-        font.widthOfTextAtSize(text, fontSize) - (borderWidth + padding) * 2;
+      const width = font.widthOfTextAtSize(text, fontSize) - (borderWidth + padding) * 2;
 
       const bounds = {
         x: borderWidth + padding,
@@ -48,9 +47,7 @@ describe(`layoutMultilineText`, () => {
     const height = font.heightAtSize(fontSize) - (borderWidth + padding) * 2;
 
     // Bounds width twice that of the text
-    const width =
-      (font.widthOfTextAtSize(text, fontSize) - (borderWidth + padding) * 2) *
-      2;
+    const width = (font.widthOfTextAtSize(text, fontSize) - (borderWidth + padding) * 2) * 2;
 
     const bounds = {
       x: borderWidth + padding,
@@ -78,13 +75,10 @@ describe(`layoutMultilineText`, () => {
 
     for (let fontSize = MIN_FONT_SIZE; fontSize <= MAX_FONT_SIZE; fontSize++) {
       // Height twice that of the text
-      const height =
-        (font.heightAtSize(fontSize) - (borderWidth + padding) * 2) * 2;
+      const height = (font.heightAtSize(fontSize) - (borderWidth + padding) * 2) * 2;
 
       // Width half that of the text
-      const width =
-        (font.widthOfTextAtSize(text, fontSize) - (borderWidth + padding) * 2) /
-        2;
+      const width = (font.widthOfTextAtSize(text, fontSize) - (borderWidth + padding) * 2) / 2;
 
       const bounds = {
         x: borderWidth + padding,
@@ -143,9 +137,7 @@ describe(`layoutMultilineText`, () => {
     for (let fontSize = MIN_FONT_SIZE; fontSize <= MAX_FONT_SIZE; fontSize++) {
       const height = font.heightAtSize(fontSize) - (borderWidth + padding) * 2;
 
-      const width =
-        font.widthOfTextAtSize(lines[0], fontSize) -
-        (borderWidth + padding) * 2;
+      const width = font.widthOfTextAtSize(lines[0], fontSize) - (borderWidth + padding) * 2;
 
       const bounds = {
         x: borderWidth + padding,

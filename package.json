@@ -48,7 +48,8 @@
     "test:packages": "vp run --filter '@pdfme/*' --filter '!@pdfme/cli' test",
     "test:cli": "npm run test:run -w packages/cli --",
     "lint": "vp run --filter '@pdfme/*' lint && npm --prefix playground run lint",
-    "lint:fix": "vp lint -c .oxlintrc.json packages/cli/src packages/common/src packages/converter/src packages/generator/src packages/jsx/src packages/manipulator/src packages/pdf-lib/src packages/schemas/src packages/ui/src --fix && npm --prefix playground run lint -- --fix"
+    "lint:fix": "vp lint -c .oxlintrc.json packages/cli/src packages/common/src packages/converter/src packages/generator/src packages/jsx/src packages/manipulator/src packages/pdf-lib/src packages/schemas/src packages/ui/src --fix && npm --prefix playground run lint -- --fix",
+    "prepare": "vp config"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
@@ -61,10 +62,14 @@
     "react-dom": "^19.2.7",
     "rimraf": "^6.1.3",
     "typescript": "^6.0.3",
-    "vite": "^8.0.14",
-    "vite-plus": "^0.1.23",
-    "vitest": "^4.1.7",
+    "vite": "https://pkg.pr.new/voidzero-dev/vite-plus/@voidzero-dev/vite-plus-core@dca39038de6ca46e523bf64dc09bf100b636eea9",
+    "vite-plus": "https://pkg.pr.new/voidzero-dev/vite-plus@dca39038de6ca46e523bf64dc09bf100b636eea9",
+    "vitest": "4.1.9",
     "vitest-image-snapshot": "^0.6.51"
+  },
+  "overrides": {
+    "vite": "https://pkg.pr.new/voidzero-dev/vite-plus/@voidzero-dev/vite-plus-core@dca39038de6ca46e523bf64dc09bf100b636eea9",
+    "vitest": "4.1.9"
   },
   "packageManager": "npm@11.12.1"
 }

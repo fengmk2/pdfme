@@ -1,6 +1,12 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
-import { BLANK_PDF, pluginRegistry, type Plugin, type Schema, type SchemaForUI } from '@pdfme/common';
+import {
+  BLANK_PDF,
+  pluginRegistry,
+  type Plugin,
+  type Schema,
+  type SchemaForUI,
+} from '@pdfme/common';
 import Renderer from '../../src/components/Renderer';
 import { PluginsRegistry } from '../../src/contexts';
 
@@ -35,7 +41,14 @@ test('Renderer dispatches beforeRemove before rerender and unmount cleanup', asy
 
   const { container, rerender, unmount } = render(
     <PluginsRegistry.Provider value={pluginRegistry({ cleanupTest: cleanupPlugin })}>
-      <Renderer basePdf={BLANK_PDF} schema={schema} value="first" outline="" mode="viewer" scale={1} />
+      <Renderer
+        basePdf={BLANK_PDF}
+        schema={schema}
+        value="first"
+        outline=""
+        mode="viewer"
+        scale={1}
+      />
     </PluginsRegistry.Provider>,
   );
 

@@ -2,8 +2,5 @@
   "title": "Address Label 10",
   "description": "A 10-label address sheet for shipping and mailing workflows.",
   "sourceKind": "designer",
-  "tags": [
-    "Labels",
-    "Shipping"
-  ]
+  "tags": ["Labels", "Shipping"]
 }

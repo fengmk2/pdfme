@@ -29,24 +29,17 @@ const oldEncryptedPdfBytes1 = fs.readFileSync('assets/pdfs/encrypted_old.pdf');
 // const oldEncryptedPdfBytes2 = fs.readFileSync('pdf_specification.pdf');
 
 const newEncryptedPdfBytes = fs.readFileSync('assets/pdfs/encrypted_new.pdf');
-const invalidObjectsPdfBytes = fs.readFileSync(
-  'assets/pdfs/with_invalid_objects.pdf',
-);
+const invalidObjectsPdfBytes = fs.readFileSync('assets/pdfs/with_invalid_objects.pdf');
 const justMetadataPdfbytes = fs.readFileSync('assets/pdfs/just_metadata.pdf');
 const normalPdfBytes = fs.readFileSync('assets/pdfs/normal.pdf');
-const withViewerPrefsPdfBytes = fs.readFileSync(
-  'assets/pdfs/with_viewer_prefs.pdf',
-);
+const withViewerPrefsPdfBytes = fs.readFileSync('assets/pdfs/with_viewer_prefs.pdf');
 
 describe(`PDFDocument`, () => {
   describe(`load() method`, () => {
     const origConsoleWarn = console.warn;
 
     beforeAll(() => {
-      const ignoredWarnings = [
-        'Trying to parse invalid object:',
-        'Invalid object ref:',
-      ];
+      const ignoredWarnings = ['Trying to parse invalid object:', 'Invalid object ref:'];
       console.warn = vi.fn((...args) => {
         const isIgnored = ignoredWarnings.find((iw) => args[0].includes(iw));
         if (!isIgnored) origConsoleWarn(...args);
@@ -229,12 +222,8 @@ describe(`PDFDocument`, () => {
       expect(pdfDoc.getTitle()).toBeUndefined();
       expect(pdfDoc.getAuthor()).toBeUndefined();
       expect(pdfDoc.getSubject()).toBeUndefined();
-      expect(pdfDoc.getProducer()).toBe(
-        'pdf-lib (https://github.com/Hopding/pdf-lib)',
-      );
-      expect(pdfDoc.getCreator()).toBe(
-        'pdf-lib (https://github.com/Hopding/pdf-lib)',
-      );
+      expect(pdfDoc.getProducer()).toBe('pdf-lib (https://github.com/Hopding/pdf-lib)');
+      expect(pdfDoc.getCreator()).toBe('pdf-lib (https://github.com/Hopding/pdf-lib)');
       expect(pdfDoc.getKeywords()).toBeUndefined();
       // Dates can not be tested since they have the current time as value.
 
@@ -280,9 +269,7 @@ describe(`PDFDocument`, () => {
       expect(pdfDoc.getSubject()).toBe(
         'Subject metadata (StringType=LiteralString, Encoding=UTF-16BE) with some chinese 你怎么敢',
       );
-      expect(pdfDoc.getProducer()).toBe(
-        'pdf-lib (https://github.com/Hopding/pdf-lib)',
-      );
+      expect(pdfDoc.getProducer()).toBe('pdf-lib (https://github.com/Hopding/pdf-lib)');
       expect(pdfDoc.getKeywords()).toBe(
         'Keywords metadata (StringType=LiteralString, Encoding=PDFDocEncoding) with  some weird  chars ˘•€',
       );
@@ -293,12 +280,8 @@ describe(`PDFDocument`, () => {
         updateMetadata: false,
       });
 
-      expect(pdfDoc.getCreationDate()).toEqual(
-        new Date('2018-01-04T01:05:06.000Z'),
-      );
-      expect(pdfDoc.getModificationDate()).toEqual(
-        new Date('2018-01-04T01:05:06.000Z'),
-      );
+      expect(pdfDoc.getCreationDate()).toEqual(new Date('2018-01-04T01:05:06.000Z'));
+      expect(pdfDoc.getModificationDate()).toEqual(new Date('2018-01-04T01:05:06.000Z'));
     });
   });
 
@@ -306,9 +289,7 @@ describe(`PDFDocument`, () => {
     it(`defaults to an undefined ViewerPreferences dict`, async () => {
       const pdfDoc = await PDFDocument.create();
 
-      expect(
-        pdfDoc.catalog.lookupMaybe(PDFName.of('ViewerPreferences'), PDFDict),
-      ).toBeUndefined();
+      expect(pdfDoc.catalog.lookupMaybe(PDFName.of('ViewerPreferences'), PDFDict)).toBeUndefined();
     });
 
     it(`can get/set HideToolbar, HideMenubar, HideWindowUI, FitWindow, CenterWindow, DisplayDocTitle, NonFullScreenPageMode, Direction, PrintScaling, Duplex, PickTrayByPDFSize, PrintPageRange, NumCopies from a new document`, async () => {
@@ -322,9 +303,7 @@ describe(`PDFDocument`, () => {
       expect(viewerPrefs.getFitWindow()).toBe(false);
       expect(viewerPrefs.getCenterWindow()).toBe(false);
       expect(viewerPrefs.getDisplayDocTitle()).toBe(false);
-      expect(viewerPrefs.getNonFullScreenPageMode()).toBe(
-        NonFullScreenPageMode.UseNone,
-      );
+      expect(viewerPrefs.getNonFullScreenPageMode()).toBe(NonFullScreenPageMode.UseNone);
       expect(viewerPrefs.getReadingDirection()).toBe(ReadingDirection.L2R);
       expect(viewerPrefs.getPrintScaling()).toBe(PrintScaling.AppDefault);
       expect(viewerPrefs.getDuplex()).toBeUndefined();
@@ -358,9 +337,7 @@ describe(`PDFDocument`, () => {
       expect(viewerPrefs.getFitWindow()).toBe(true);
       expect(viewerPrefs.getCenterWindow()).toBe(true);
       expect(viewerPrefs.getDisplayDocTitle()).toBe(true);
-      expect(viewerPrefs.getNonFullScreenPageMode()).toBe(
-        NonFullScreenPageMode.UseOutlines,
-      );
+      expect(viewerPrefs.getNonFullScreenPageMode()).toBe(NonFullScreenPageMode.UseOutlines);
       expect(viewerPrefs.getReadingDirection()).toBe(ReadingDirection.R2L);
       expect(viewerPrefs.getPrintScaling()).toBe(PrintScaling.None);
       expect(viewerPrefs.getDuplex()).toBe(Duplex.DuplexFlipLongEdge);
@@ -415,9 +392,7 @@ describe(`PDFDocument`, () => {
 
       pdfDoc.setTitle('Testing setTitle Title');
 
-      expect(
-        pdfDoc.catalog.lookupMaybe(PDFName.of('ViewerPreferences'), PDFDict),
-      ).toBeUndefined();
+      expect(pdfDoc.catalog.lookupMaybe(PDFName.of('ViewerPreferences'), PDFDict)).toBeUndefined();
 
       expect(pdfDoc.getTitle()).toBe('Testing setTitle Title');
     });
@@ -429,19 +404,14 @@ describe(`PDFDocument`, () => {
         showInWindowTitleBar: true,
       });
 
-      expect(
-        pdfDoc.catalog.lookupMaybe(PDFName.of('ViewerPreferences'), PDFDict),
-      );
+      expect(pdfDoc.catalog.lookupMaybe(PDFName.of('ViewerPreferences'), PDFDict));
     });
   });
 
   describe(`addJavaScript() method`, () => {
     it(`adds the script to the catalog`, async () => {
       const pdfDoc = await PDFDocument.create();
-      pdfDoc.addJavaScript(
-        'main',
-        'console.show(); console.println("Hello World");',
-      );
+      pdfDoc.addJavaScript('main', 'console.show(); console.println("Hello World");');
       await pdfDoc.flush();
 
       expect(pdfDoc.catalog.has(PDFName.of('Names')));
@@ -455,14 +425,8 @@ describe(`PDFDocument`, () => {
 
     it(`does not overwrite scripts`, async () => {
       const pdfDoc = await PDFDocument.create();
-      pdfDoc.addJavaScript(
-        'first',
-        'console.show(); console.println("First");',
-      );
-      pdfDoc.addJavaScript(
-        'second',
-        'console.show(); console.println("Second");',
-      );
+      pdfDoc.addJavaScript('first', 'console.show(); console.println("First");');
+      pdfDoc.addJavaScript('second', 'console.show(); console.println("Second");');
       await pdfDoc.flush();
 
       const Names = pdfDoc.catalog.lookup(PDFName.of('Names'), PDFDict);
@@ -564,9 +528,7 @@ describe(`PDFDocument`, () => {
       expect(pdfDoc.getAuthor()).toBe(srcDoc.getAuthor());
       expect(pdfDoc.getCreationDate()).toStrictEqual(srcDoc.getCreationDate());
       expect(pdfDoc.getCreator()).toBe(srcDoc.getCreator());
-      expect(pdfDoc.getModificationDate()).toStrictEqual(
-        srcDoc.getModificationDate(),
-      );
+      expect(pdfDoc.getModificationDate()).toStrictEqual(srcDoc.getModificationDate());
       expect(pdfDoc.getProducer()).toBe(srcDoc.getProducer());
       expect(pdfDoc.getSubject()).toBe(srcDoc.getSubject());
       expect(pdfDoc.getTitle()).toBe(srcDoc.getTitle());

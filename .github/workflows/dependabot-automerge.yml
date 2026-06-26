@@ -43,7 +43,7 @@ jobs:
         id: release-age
         if: steps.check-update.outputs.should-merge == 'true' && steps.dependabot-metadata.outputs.package-ecosystem == 'npm'
         env:
-          MINIMUM_RELEASE_AGE_DAYS: "3"
+          MINIMUM_RELEASE_AGE_DAYS: '3'
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}

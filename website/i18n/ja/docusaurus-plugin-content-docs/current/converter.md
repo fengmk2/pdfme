@@ -12,6 +12,7 @@
 - **MarkdownからPDF**: `md2pdf`
 
 計画されている変換機能には以下が含まれます：
+
 - **PDFからMarkdown**: `pdf2md`
 
 ## インストール
@@ -25,6 +26,7 @@ Node.js で `pdf2img` を使うために追加の install は不要です。PDFi
 ## 機能
 
 ### pdf2img
+
 PDFページをPNG画像に変換します。
 
 ```ts
@@ -38,6 +40,7 @@ const images = await pdf2img(pdf, {
 ```
 
 ### pdf2size
+
 PDFの各ページの幅と高さを取得します。
 
 ```ts
@@ -51,6 +54,7 @@ const sizes = await pdf2size(pdf, {
 ```
 
 ### img2pdf
+
 1つまたは複数の画像（JPEGまたはPNG）を1つのPDFファイルに変換します。
 
 ```ts
@@ -66,6 +70,7 @@ const pdf = await img2pdf([image1, image2], {
 ```
 
 ### md2pdf (beta)
+
 GitHub Flavored Markdown を pdfme の `Template` と `inputs` の組に変換します。
 
 ```ts
@@ -113,6 +118,7 @@ const pdf = await generate({
 ```
 
 #### 日本語とCJKテキスト
+
 pdfme のデフォルトフォントは Roboto で、日本語/CJK glyph を含みません。日本語 Markdown を扱う場合は、変換時に CJK 対応の `fontName` を指定し、generator または UI options に同じフォントを渡してください。
 
 ```ts
@@ -141,6 +147,7 @@ const pdf = await generate({
 `basePdf` を渡した場合、`md2pdf` は `page` options から blank PDF を作らず、その値をそのまま使います。これは pdfme template と同じ `BlankPdf` object なので、`staticSchema` も含められます。
 
 #### 現在の制限
+
 `md2pdf` は実用的な GFM block を扱えますが、GitHub Markdown renderer の完全互換ではありません。
 
 - paragraph、heading、list、table、code block、blockquote、horizontal rule、link、PNG/JPEG data URI image に対応しています。
@@ -183,11 +190,18 @@ interface Pdf2SizeOptions {
 
 interface Img2PdfOptions {
   scale?: number;
-  size?: { height: number, width: number }; // ミリメートル単位
+  size?: { height: number; width: number }; // ミリメートル単位
   margin?: [number, number, number, number]; // ミリメートル単位 [上, 右, 下, 左]
 }
 
-type BoxSides = { top?: number, right?: number, bottom?: number, left?: number, x?: number, y?: number };
+type BoxSides = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  x?: number;
+  y?: number;
+};
 type MarkdownMargin = number | [number, number, number, number] | BoxSides;
 
 interface Md2PdfOptions {

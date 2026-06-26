@@ -5,9 +5,9 @@ export const normalizeElementIdsForSnapshot = (container: HTMLElement) => {
       .filter(Boolean)
       .filter(
         (token) =>
-          !token.startsWith('css-dev-only-do-not-override-')
-          && token !== 'css-var-root'
-          && token !== 'ant-divider-rail',
+          !token.startsWith('css-dev-only-do-not-override-') &&
+          token !== 'css-var-root' &&
+          token !== 'ant-divider-rail',
       )
       .join(' ');
 

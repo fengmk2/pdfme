@@ -1,9 +1,4 @@
-import {
-  PDFAcroTerminal,
-  PDFContext,
-  PDFString,
-  PDFHexString,
-} from '../../../src/index';
+import { PDFAcroTerminal, PDFContext, PDFString, PDFHexString } from '../../../src/index';
 
 describe(`PDFAcroField`, () => {
   it(`returns undefined for missing (DAs)`, () => {
@@ -77,9 +72,7 @@ describe(`PDFAcroField`, () => {
       const field = PDFAcroTerminal.fromDict(dict, dictRef);
       field.setFontSize(8);
 
-      expect(field.getDefaultAppearance()).toBe(
-        '/ZaDb 10 Tf\n0 g\n /AbCd 8 Tf \n2 j',
-      );
+      expect(field.getDefaultAppearance()).toBe('/ZaDb 10 Tf\n0 g\n /AbCd 8 Tf \n2 j');
     });
 
     it(`tolerates invalid Tfs with missing font sizes`, () => {

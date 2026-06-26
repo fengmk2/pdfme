@@ -11,9 +11,7 @@ import {
   PDFDocument,
 } from '../../../src/index';
 
-const withNullEntryPdfBytes = fs.readFileSync(
-  'assets/pdfs/with_null_parent_entry.pdf',
-);
+const withNullEntryPdfBytes = fs.readFileSync('assets/pdfs/with_null_parent_entry.pdf');
 
 const pageUtils = () => {
   const context = PDFContext.create();

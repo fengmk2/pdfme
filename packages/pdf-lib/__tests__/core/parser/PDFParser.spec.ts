@@ -120,11 +120,7 @@ describe(`PDFParser`, () => {
     %PDF-1.7
     22 0 obj <</Type/Outlines/First ## 0 R/Last ** 0 R/Count 2>> endobj
   `;
-    const parser = PDFParser.forBytesWithOptions(
-      typedArrayFor(input),
-      100,
-      true,
-    );
+    const parser = PDFParser.forBytesWithOptions(typedArrayFor(input), 100, true);
     await expect(parser.parseDocument()).rejects.toBeInstanceOf(Error);
   });
 
@@ -151,9 +147,7 @@ describe(`PDFParser`, () => {
   });
 
   it(`can parse PDF files with comments and stuff preceding the header`, async () => {
-    const pdfBytes = fs.readFileSync(
-      './assets/pdfs/pdf20examples/PDF 2.0 with offset start.pdf',
-    );
+    const pdfBytes = fs.readFileSync('./assets/pdfs/pdf20examples/PDF 2.0 with offset start.pdf');
 
     const parser = PDFParser.forBytesWithOptions(pdfBytes);
     const context = await parser.parseDocument();
@@ -164,9 +158,7 @@ describe(`PDFParser`, () => {
   });
 
   it(`can parse PDF files with comments stuff following the header`, async () => {
-    const pdfBytes = fs.readFileSync(
-      './assets/pdfs/stuff_following_header.pdf',
-    );
+    const pdfBytes = fs.readFileSync('./assets/pdfs/stuff_following_header.pdf');
 
     const parser = PDFParser.forBytesWithOptions(pdfBytes);
     const context = await parser.parseDocument();
@@ -177,9 +169,7 @@ describe(`PDFParser`, () => {
   });
 
   it(`can parse PDF files with missing xref table, trailer dict, and trailer`, async () => {
-    const pdfBytes = fs.readFileSync(
-      './assets/pdfs/missing_xref_trailer_dict.pdf',
-    );
+    const pdfBytes = fs.readFileSync('./assets/pdfs/missing_xref_trailer_dict.pdf');
 
     const parser = PDFParser.forBytesWithOptions(pdfBytes);
     const context = await parser.parseDocument();
@@ -257,9 +247,7 @@ describe(`PDFParser`, () => {
   });
 
   it(`can parse files containing indirect objects missing their 'endobj' keyword`, async () => {
-    const pdfBytes = fs.readFileSync(
-      './assets/pdfs/missing_endobj_keyword.pdf',
-    );
+    const pdfBytes = fs.readFileSync('./assets/pdfs/missing_endobj_keyword.pdf');
 
     const parser = PDFParser.forBytesWithOptions(pdfBytes);
     const context = await parser.parseDocument();
@@ -280,15 +268,11 @@ describe(`PDFParser`, () => {
 
     const objects = context.enumerateIndirectObjects();
     expect(objects.length).toBe(26079);
-    expect(
-      objects.filter(([_ref, obj]) => obj instanceof PDFPageLeaf).length,
-    ).toBe(176);
+    expect(objects.filter(([_ref, obj]) => obj instanceof PDFPageLeaf).length).toBe(176);
   });
 
   it(`can parse files with invalid stream EOLs: "stream \r\n`, async () => {
-    const pdfBytes = fs.readFileSync(
-      './assets/pdfs/with_invalid_stream_EOL.pdf',
-    );
+    const pdfBytes = fs.readFileSync('./assets/pdfs/with_invalid_stream_EOL.pdf');
 
     const parser = PDFParser.forBytesWithOptions(pdfBytes);
     const context = await parser.parseDocument();
@@ -298,9 +282,7 @@ describe(`PDFParser`, () => {
 
     const objects = context.enumerateIndirectObjects();
     expect(objects.length).toBe(11);
-    expect(
-      objects.filter(([_ref, obj]) => obj instanceof PDFPageLeaf).length,
-    ).toBe(2);
+    expect(objects.filter(([_ref, obj]) => obj instanceof PDFPageLeaf).length).toBe(2);
   });
 
   it(`handles updated PDFs missing newline after %%EOF marker`, async () => {

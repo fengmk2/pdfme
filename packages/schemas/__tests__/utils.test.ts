@@ -218,11 +218,11 @@ describe('createSvgStr', () => {
   });
 
   it('should merge custom attributes with SVG element', () => {
-    const icon = createSvgStr(SquareCheck, { 
-      stroke: 'red', 
+    const icon = createSvgStr(SquareCheck, {
+      stroke: 'red',
       fill: 'blue',
       width: '24',
-      height: '24'
+      height: '24',
     });
     expect(icon).toContain('stroke="red"');
     expect(icon).toContain('fill="blue"');
@@ -234,7 +234,7 @@ describe('createSvgStr', () => {
     // SquareCheck likely has default stroke attribute
     const defaultIcon = createSvgStr(SquareCheck);
     const customIcon = createSvgStr(SquareCheck, { stroke: 'purple' });
-    
+
     expect(customIcon).toContain('stroke="purple"');
     // The custom stroke should replace the default one
     expect(customIcon).not.toBe(defaultIcon);
@@ -243,7 +243,7 @@ describe('createSvgStr', () => {
   it('should handle different icons', () => {
     // Test with a different icon from lucide
     const icon1 = createSvgStr(SquareCheck);
-    
+
     expect(icon1).toBeTruthy();
     expect(icon1).toContain('<svg');
     expect(icon1).toContain('</svg>');
@@ -251,14 +251,14 @@ describe('createSvgStr', () => {
 
   it('should produce valid SVG output', () => {
     const svgStr = createSvgStr(SquareCheck);
-    
+
     // Check that the output is a valid SVG string
     expect(svgStr).toContain('<svg');
     expect(svgStr).toContain('</svg>');
-    
+
     // Check that attributes are properly formatted
     expect(svgStr.includes('="')).toBeTruthy();
-    
+
     // Check that tags are properly closed
     const openTags = svgStr.match(/<[^/][^>]*>/g) || [];
     const closeTags = svgStr.match(/<\/[^>]+>/g) || [];
@@ -274,11 +274,11 @@ describe('createSvgStr', () => {
       stroke: 'blue',
       'stroke-width': '1.5',
       'stroke-linecap': 'round',
-      'stroke-linejoin': 'round'
+      'stroke-linejoin': 'round',
     };
-    
+
     const svgStr = createSvgStr(SquareCheck, customAttrs);
-    
+
     // Check that all custom attributes are included
     Object.entries(customAttrs).forEach(([key, value]) => {
       expect(svgStr).toContain(`${key}="${value}"`);
@@ -297,8 +297,8 @@ describe('createSvgStr', () => {
   });
 
   it('should reject unsupported SVG tags', () => {
-    expect(() =>
-      createSvgStr([['script', { d: 'M0 0' }]] as unknown as IconNode),
-    ).toThrow('Invalid SVG tag name: script');
+    expect(() => createSvgStr([['script', { d: 'M0 0' }]] as unknown as IconNode)).toThrow(
+      'Invalid SVG tag name: script',
+    );
   });
 });

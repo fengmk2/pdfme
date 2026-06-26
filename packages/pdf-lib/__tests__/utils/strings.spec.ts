@@ -9,8 +9,7 @@ const font = StandardFontEmbedder.for(FontNames.Helvetica);
 
 const textSize = 24;
 
-const computeTextWidth = (text: string) =>
-  font.widthOfTextAtSize(text, textSize);
+const computeTextWidth = (text: string) => font.widthOfTextAtSize(text, textSize);
 
 describe(`breakTextIntoLines`, () => {
   it(`handles empty wordBreaks arrays`, () => {
@@ -42,8 +41,7 @@ describe(`breakTextIntoLines`, () => {
   });
 
   it(`breaks at the last possible 'wordBreak' before exceeding 'maxWidth' (1)`, () => {
-    const input =
-      'Lorem Test ipsum dolor sit amet, consectetur adipiscing\nelit';
+    const input = 'Lorem Test ipsum dolor sit amet, consectetur adipiscing\nelit';
     const expected = [
       'Lorem T',
       'est ipsu',
@@ -54,12 +52,7 @@ describe(`breakTextIntoLines`, () => {
       'cing',
       'elit',
     ];
-    const actual = breakTextIntoLines(
-      input,
-      ['', 'Test'],
-      100,
-      computeTextWidth,
-    );
+    const actual = breakTextIntoLines(input, ['', 'Test'], 100, computeTextWidth);
     expect(actual).toEqual(expected);
   });
 
@@ -74,13 +67,9 @@ describe(`breakTextIntoLines`, () => {
     const sourceHansBytes = fs.readFileSync(
       'assets/fonts/source_hans_jp/SourceHanSerifJP-Regular.otf',
     );
-    const sourceHansFont = await CustomFontEmbedder.for(
-      fontkit,
-      sourceHansBytes,
-    );
+    const sourceHansFont = await CustomFontEmbedder.for(fontkit, sourceHansBytes);
 
-    const input =
-      '遅未亮惑職界転藤柔索名午納，問通桑転加料演載満経信回込町者訟窃。';
+    const input = '遅未亮惑職界転藤柔索名午納，問通桑転加料演載満経信回込町者訟窃。';
     const expected = [
       '遅未亮惑職',
       '界転藤柔索',

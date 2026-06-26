@@ -107,8 +107,12 @@ it provides its own `jsx-runtime` and `jsx-dev-runtime`.
 
 ```tsx
 <Row width={120}>
-  <Text width={20} flex={1}>A</Text>
-  <Text width={20} flex={3}>B</Text>
+  <Text width={20} flex={1}>
+    A
+  </Text>
+  <Text width={20} flex={3}>
+    B
+  </Text>
 </Row>
 // A width: 40, B width: 80
 ```

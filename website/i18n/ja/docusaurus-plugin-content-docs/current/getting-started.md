@@ -83,7 +83,6 @@ pdfmeライブラリの中核はテンプレートです。
 basePdf: { "width": 210, "height": 297, "padding": [10, 10, 10, 10] }
 ```
 
-
 **schemas**はデフォルトではテキストのみ使用できます。`generate`、`Designer`、`Form`、`Viewer` が使うデフォルトのプラグインレジストリには、意図的に `text` スキーマだけが含まれています。  
 画像、署名、テーブル、QRコードなどのバーコード、その他のスキーマタイプを使う場合は、`@pdfme/schemas` から対象プラグインを明示的に import し、`plugins` オプションで渡してください。  
 さらに、独自のスキーマを作成することで、上記以外の種類をレンダリングすることも可能です。詳細は[カスタムスキーマ](/docs/custom-schemas)と、既存コードを更新する場合の [v6 migration guide](/docs/migration-v6) をご覧ください。
@@ -283,7 +282,7 @@ UIの状態は `options` で制御できます（省略時は下記のデフォ�
 // UIの状態を一部またはすべて設定（省略時のデフォルト値を例示）
 const options = {
   zoomLevel: 1,
-  sidebarOpen: true
+  sidebarOpen: true,
 };
 
 const designer = new Designer({ domContainer, template, options });

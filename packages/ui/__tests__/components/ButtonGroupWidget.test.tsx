@@ -3,7 +3,8 @@ import { fireEvent, render } from '@testing-library/react';
 import { BLANK_PDF, type PropPanelWidgetProps, type SchemaForUI } from '@pdfme/common';
 import ButtonGroupWidget from '../../src/components/Designer/RightSidebar/DetailView/ButtonGroupWidget';
 
-const icon = '<svg xmlns="http://www.w3.org/2000/svg"><path stroke="currentColor" d="M1 1h10" /></svg>';
+const icon =
+  '<svg xmlns="http://www.w3.org/2000/svg"><path stroke="currentColor" d="M1 1h10" /></svg>';
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {

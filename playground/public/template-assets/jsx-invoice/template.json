@@ -2,12 +2,7 @@
   "basePdf": {
     "width": 210,
     "height": 297,
-    "padding": [
-      18,
-      16,
-      18,
-      16
-    ],
+    "padding": [18, 16, 18, 16],
     "staticSchema": [
       {
         "name": "text_1",
@@ -300,11 +295,7 @@
         "strikethrough": false,
         "underline": false,
         "text": "{company}\n{name}\n{email}",
-        "variables": [
-          "company",
-          "name",
-          "email"
-        ]
+        "variables": ["company", "name", "email"]
       },
       {
         "name": "box_2",
@@ -390,16 +381,8 @@
         "readOnly": true,
         "showHead": true,
         "repeatHead": false,
-        "head": [
-          "Item",
-          "Qty",
-          "Price"
-        ],
-        "headWidthPercentages": [
-          55.00000000000001,
-          15,
-          30
-        ],
+        "head": ["Item", "Qty", "Price"],
+        "headWidthPercentages": [55.00000000000001, 15, 30],
         "tableStyles": {
           "borderColor": "#000000",
           "borderWidth": 0.3

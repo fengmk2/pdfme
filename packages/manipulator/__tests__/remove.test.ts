@@ -11,7 +11,7 @@ describe('remove', () => {
   test('throws error when no pages provided', async () => {
     const pdf = await createTestPDF(3);
     await expect(remove(pdf, [])).rejects.toThrow(
-      '[@pdfme/manipulator] At least one page number is required'
+      '[@pdfme/manipulator] At least one page number is required',
     );
   });
 
